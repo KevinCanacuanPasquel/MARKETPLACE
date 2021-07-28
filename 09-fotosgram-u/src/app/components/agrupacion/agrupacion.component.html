@@ -1,0 +1,54 @@
+
+<div class= "agrupacion">
+
+  <ion-item lines="none">
+
+    <ion-avatar slot="start">
+      <!--img src="/assets/avatars/{{ agrupacion.usuario.foto }}" /-->
+      <img src="/assets/avatars/av-1.png" />
+    </ion-avatar>
+
+    <ion-label>
+      <h3>{{ agrupacion.nombre }}</h3>
+      <h5>{{ agrupacion.usuario.nombres }} - {{ agrupacion.usuario.apellidos }}</h5>
+    </ion-label>
+    
+  </ion-item>
+
+
+  <!-- imagenes -->
+  <ion-slides pager="true">
+    <ion-slide class="image-slide"
+              [style]=" img1 | domSanitizer">
+    </ion-slide>
+
+    <ion-slide class="image-slide"
+                [style]=" img2 | domSanitizer">
+    </ion-slide>
+
+    <ion-slide class="image-slide"
+                [style]=" img3 | domSanitizer">
+    </ion-slide>
+    
+  </ion-slides>
+
+ 
+ 
+  <!-- mapa -->
+
+
+
+  <ion-item lines="none">
+    <ion-icon slot="start" name="heart-outline"></ion-icon>
+    <ion-icon slot="end" name="bookmark"></ion-icon>
+  </ion-item>
+
+
+  <ion-item lines="none">
+    <ion-label text-warp>
+      {{ agrupacion.descripcion }}
+    </ion-label>
+  </ion-item>
+
+  
+</div>
