@@ -5,5 +5,27 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-row>
+    <ion-col size-md="6" offset="3">
+      <ion-card placeholder="Agrupaciones"> 
+        <ion-item>
+        <ion-select [(ngModel)]="agrupacionValue" placeholder ="Mis agrupaciones" >
+          <ion-select-option  *ngFor="let agrupacion of catalogoAgrupaciones" [value]="agrupacion" >
+            {{agrupacion.agrupacion.nombre}}
+          </ion-select-option>
+         
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="registrarServicio()">Crear Servicio </ion-button>
+        <ion-button (click)="editarAgrupacion()">Editar Agrupacion </ion-button>
+        <ion-button (click)="darBajaAgrupacion()">Dar de Baja </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button  [routerLink]="['../registrar']">Crear Agrupacion </ion-button>
+      </ion-item>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+ 
 </ion-content>

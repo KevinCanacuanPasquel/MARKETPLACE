@@ -5,7 +5,7 @@ import { GestionAgrupacionPage } from './gestion-agrupacion.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'gestion',
     component: GestionAgrupacionPage
   }
 ];
