@@ -25,4 +25,5 @@ export interface Usuario {
   correo?: string;
   fecha_nacimiento?: string;
   contrasena?: string;
+  repContrasena? : string;
 }

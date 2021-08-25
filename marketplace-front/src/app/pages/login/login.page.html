@@ -70,32 +70,74 @@
                 <ion-row>
                     <ion-col>
                         
-                        <ion-list>
+                       <ion-card>
                             
                             <ion-item>
                             <ion-label>Correo</ion-label>
                             <ion-input name="correo" 
-                                        type="email"
+                                        type="text"
+                                        email
+                                        required
                                         [(ngModel)]="registroUsuario.correo"
-                                        required></ion-input>
+                                        #correoInput = "ngModel"
+                                        ></ion-input>
                             </ion-item>
+                            <div *ngIf="correoInput.touched && correoInput.dirty">
 
+                              <p *ngIf="correoInput.errors?.required">
+                                Este campo es requerido.
+                              </p>
+                              <p *ngIf="correoInput.errors?.email">
+                                Eso no parece un correo.
+                              </p>
+                            </div>
                             <ion-item>
+                            
                             <ion-label>Nombres</ion-label>
                             <ion-input name="nombres"
                                         type="text"
                                         [(ngModel)]="registroUsuario.nombres"
-                                        required></ion-input>
+                                        required
+                                        minlength="3"
+                                        maxlength="30"
+                                        #nombresInput = "ngModel"></ion-input>
                             </ion-item>
+                            <div *ngIf="nombresInput.touched && nombresInput.dirty">
 
+                              <p *ngIf="nombresInput.errors?.required">
+                                Este campo es requerido.
+                              </p>
+                              <p *ngIf="nombresInput.errors?.minlength">
+                                Minimo 3 caracteres.
+                              </p>
+                              <p *ngIf="nombresInput.errors?.maxlength">
+                                Maximo 30 caracteres.
+                              </p>
+                             
+                            </div>
                             <ion-item>
                               <ion-label>Apellidos</ion-label>
                               <ion-input name="apellidos"
                                           type="text"
                                           [(ngModel)]="registroUsuario.apellidos"
-                                          required></ion-input>
+                                          required
+                                          minlength="3"
+                                          maxlength="30"
+                                          #apellidosInput = "ngModel"></ion-input>
                             </ion-item>
+                            <div *ngIf="apellidosInput.touched && apellidosInput.dirty">
 
+                              <p *ngIf="apellidosInput.errors?.required">
+                                Este campo es requerido.
+                              </p>
+                              <p *ngIf="apellidosInput.errors?.minlength">
+                                Minimo 3 caracteres.
+                              </p>
+                              <p *ngIf="apellidosInput.errors?.maxlength">
+                                Maximo 30 caracteres.
+                              </p>
+                             
+                            </div>
                             <ion-item>
                               <ion-label>Fecha Nacimiento</ion-label>
                               <ion-input name="fecha_nacimiento"
@@ -110,10 +152,33 @@
                             <ion-input name="contrasena"
                                         type="password"
                                         [(ngModel)]="registroUsuario.contrasena"
+                                        minlength="3"
+                                        maxlength="30"
+                                        #contrasenasInput = "ngModel"
                                         required></ion-input>
                             </ion-item>
+                            <div *ngIf="contrasenasInput.touched && contrasenasInput.dirty">
 
-                        </ion-list>
+                              <p *ngIf="contrasenasInput.errors?.required">
+                                Este campo es requerido.
+                              </p>
+                            </div>
+                            <ion-item>
+                              <ion-label>Contraseña</ion-label>
+                              <ion-input name="repContrasena"
+                                          type="password"
+                                          [(ngModel)]="registroUsuario.repContrasena"
+                                          (keyup)="validarPasswordsIguales()"
+                                          #repContrasenaInput = "ngModel"
+                                          required></ion-input>
+                              </ion-item>
+                              <div *ngIf="repContrasenaInput.touched && repContrasenaInput.dirty">
+
+                                <p *ngIf="validarPasswordsIguales()== true">
+                                  Las contraseñas no son las mismas.
+                                </p>
+                              </div>
+                          </ion-card>
                     </ion-col>
                 </ion-row>
                 
@@ -167,10 +232,10 @@
           Registrarme
         </ion-button>
       </ion-col>
-
+      
     </ion-row>
 
-
+    
 
   </ion-toolbar>
 </ion-footer>

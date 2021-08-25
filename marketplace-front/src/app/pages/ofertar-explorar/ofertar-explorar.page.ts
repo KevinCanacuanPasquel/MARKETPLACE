@@ -11,5 +11,7 @@ export class OfertarExplorarPage implements OnInit {
 
   ngOnInit() {
   }
-
+  mostrarLogin(){
+    
+  }
 }
