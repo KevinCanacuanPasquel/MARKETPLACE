@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario.service';
 import { UiServiceService } from '../../services/ui-service.service';
@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
   registroUsuario: Usuario = {
     correo: 'diego',
     contrasena: '123456',
+    repContrasena: '123456',
     nombres: 'Diego',
     apellidos: 'Serrano',
     fecha_nacimiento: '2020-01-01'
@@ -30,7 +31,8 @@ export class LoginPage implements OnInit {
 
   constructor( private UsuarioService: UsuarioService,
                private navCtrl: NavController ,
-               private uiService: UiServiceService ) { }
+               private uiService: UiServiceService
+               ) { }
 
   ngOnInit() {
 
@@ -91,8 +93,17 @@ export class LoginPage implements OnInit {
     this.slides.lockSwipes(true);
   }
 
+
+  validarPasswordsIguales(): boolean {
+    if (this.registroUsuario.contrasena === this.registroUsuario.repContrasena) {
+      console.log()
+        return false;
+    } else {
+        return true;
+       
+    }
 }
 
 
 
-
+}
