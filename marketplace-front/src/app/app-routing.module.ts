@@ -22,10 +22,7 @@ const routes: Routes = [
     path: 'ofertar-explorar',
     loadChildren: () => import('./pages/ofertar-explorar/ofertar-explorar.module').then( m => m.OfertarExplorarPageModule)
   },
-  {
-    path: 'gestion-agrupacion',
-    loadChildren: () => import('./gestion-agrupacion/gestion-agrupacion.module').then( m => m.GestionAgrupacionPageModule)
-  },
+ 
   {
     path: 'gestion-agrupacion',
     loadChildren: () => import('./pages/gestion-agrupacion/gestion-agrupacion.module').then( m => m.GestionAgrupacionPageModule)
