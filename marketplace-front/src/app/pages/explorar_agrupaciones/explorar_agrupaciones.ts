@@ -3,11 +3,11 @@ import { AgrupacionesService } from '../../services/agrupaciones.service';
 import { Agrupacion } from '../../interfaces/interfaces';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-explorar_agrupaciones',
+  templateUrl: 'explorar_agrupaciones.page.html',
+  styleUrls: ['explorar_agrupaciones.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class ExplorarAgrupacionesPage implements OnInit {
 
   agrupaciones: Agrupacion[] = [];
 
