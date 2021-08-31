@@ -22,6 +22,7 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'login'
   },
+ 
   {
     path: 'gestion-agrupacion',
     loadChildren: () => import('./pages/gestion-agrupacion/gestion-agrupacion.module').then( m => m.GestionAgrupacionPageModule)
