@@ -8,8 +8,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'explorar_agrupaciones',
+        loadChildren: () => import('../explorar_agrupaciones/explorar_agrupaciones.module').then(m => m.ExplorarAgrupacionesModule)
       },
       {
         path: 'tab2',
@@ -20,19 +20,15 @@ const routes: Routes = [
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
-        path: 'ofertar-explorar',
-        loadChildren: () => import('../ofertar-explorar/ofertar-explorar.module').then(m => m.OfertarExplorarPageModule)
-      },
-      {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/explorar_agrupaciones',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/explorar_agrupaciones',
     pathMatch: 'full'
   }
 ];

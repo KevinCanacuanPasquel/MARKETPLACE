@@ -2,10 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { ExplorarAgrupacionesPage } from './explorar_agrupaciones';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { ExplorarAgrupacionesRoutingModule } from './explorar_agrupaciones-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule,
+    ExplorarAgrupacionesRoutingModule,
     ComponentsModule
   ],
-  declarations: [Tab1Page]
+  declarations: [ExplorarAgrupacionesPage]
 })
-export class Tab1PageModule {}
+export class ExplorarAgrupacionesModule {}
