@@ -34,6 +34,24 @@ agrupacionRoutes.get('/agrupaciones',  async (req:any, res:Response) => {
     });
 });
 
+//AGRUPACIONES - Obtener agrupaciones por usuario
+///
+agrupacionRoutes.get('/agrupacionesByUsuario',  async (req:any, res:Response) => {
+    const userId = req.query.userId;
+    console.log(req.query.userId)
+    var query = {usuario : userId};
+    
+    const agrupaciones = await Agrupacion.find(query)                      
+                                        .exec();
+
+    res.json({
+        ok: true,
+        agrupaciones
+    });
+});
+
+
+
 
 //AGRUPACION - Crear
 agrupacionRoutes.post('/crearAgrupacion', [verificaToken],  (req:any, res:Response) => {
