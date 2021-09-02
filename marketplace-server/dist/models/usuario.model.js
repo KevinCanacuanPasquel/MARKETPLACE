@@ -44,4 +44,4 @@ usuarioSchema.method('compararContrasena', function (contrasena = '') {
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Usuario = mongoose_1.model('Usuario', usuarioSchema);
+exports.Usuario = (0, mongoose_1.model)('Usuario', usuarioSchema);

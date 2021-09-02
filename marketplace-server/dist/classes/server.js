@@ -9,7 +9,7 @@ class Server {
     constructor() {
         this.port = 3000;
         // Iniciar al APP
-        this.app = express_1.default();
+        this.app = (0, express_1.default)();
     }
     start(callback) {
         this.app.listen(this.port, callback);
