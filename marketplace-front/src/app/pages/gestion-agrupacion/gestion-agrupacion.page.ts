@@ -23,7 +23,7 @@ export class GestionAgrupacionPage implements OnInit {
  
   getAgrupaciones(){
     this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
-      console.log(data);
+      console.log(data.usuario);
     })
   }
 
