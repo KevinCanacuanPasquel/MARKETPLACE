@@ -5,9 +5,26 @@ import { GestionAgrupacionPage } from './gestion-agrupacion.page';
 
 const routes: Routes = [
   {
-    path: 'gestion',
-    component: GestionAgrupacionPage
-  }
+    //path: '/gestion-agrupacion',
+    path: '',
+    component: GestionAgrupacionPage,
+    /*children: [
+      {
+        path: 'crear-agrupacion',
+        loadChildren: () => import('../crear-agrupacion/crear-agrupacion.module').then(m => m.CrearAgrupacionPageModule)
+      },
+      {
+        path: '',
+        redirectTo: '/ofertar-explorar',
+        pathMatch: 'full'
+      }
+    ]
+  */},
+  /*{
+    path: '',
+    redirectTo: '/ofertar-explorar',
+    pathMatch: 'full'
+  }*/
 ];
 
 @NgModule({
@@ -15,3 +32,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class GestionAgrupacionPageRoutingModule {}
+
