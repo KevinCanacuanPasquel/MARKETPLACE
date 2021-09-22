@@ -15,7 +15,7 @@ import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
     AgrupacionesComponent,
     AvatarSelectorComponent,
     OpcionesMasComponent,
-    NgModule
+    
   ],
   exports: [
     AgrupacionesComponent,
@@ -26,7 +26,7 @@ import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
     CommonModule,
     IonicModule,
     PipesModule,
-    NgModule
+    
   ]
 })
 export class ComponentsModule { }
