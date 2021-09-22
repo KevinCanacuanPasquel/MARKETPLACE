@@ -30,4 +30,4 @@ const agrupacionSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Agrupacion = mongoose_1.model('Agrupacion', agrupacionSchema);
+exports.Agrupacion = (0, mongoose_1.model)('Agrupacion', agrupacionSchema);
