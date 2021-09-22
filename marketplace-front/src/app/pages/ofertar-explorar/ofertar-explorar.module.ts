@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { OfertarExplorarPageRoutingModule } from './ofertar-explorar-routing.module';
 
 import { OfertarExplorarPage } from './ofertar-explorar.page';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     OfertarExplorarPageRoutingModule
   ],
   declarations: [OfertarExplorarPage]

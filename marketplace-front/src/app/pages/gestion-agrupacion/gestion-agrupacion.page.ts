@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Usuario } from 'src/app/interfaces/interfaces';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -10,8 +11,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class GestionAgrupacionPage implements OnInit {
 
+  constructor(private navCtrl: NavController ,private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) {
+    
+   }
   usuario: Usuario = {};
-  constructor(private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) { }
 
   ngOnInit() {
      this.usuario = this.usuarioService.getUsuario();
@@ -20,6 +23,11 @@ export class GestionAgrupacionPage implements OnInit {
      this.getAgrupaciones();
   }
 
+  crearAgrupacion() {
+
+   this.navCtrl.navigateRoot( '/crear-agrupacion', { animated: true });
+  
+ }
  
   getAgrupaciones(){
     this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
@@ -27,5 +35,7 @@ export class GestionAgrupacionPage implements OnInit {
     })
   }
 
-  
+ 
 }
+
+

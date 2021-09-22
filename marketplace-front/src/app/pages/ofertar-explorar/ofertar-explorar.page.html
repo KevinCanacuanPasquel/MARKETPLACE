@@ -14,6 +14,8 @@
           </ion-button>
       </ion-col>
 
+    </ion-row>
+    <ion-row>
       <ion-col>
         <ion-button shape="round"
                     expand="full"
@@ -29,8 +31,33 @@
 
 
 
-  
-
 
 </ion-content>
 
+<ion-footer>
+
+  <ion-row>
+    <ion-col>
+      <ion-button hape="round"
+      expand="full"
+      size="small"
+      fill="outline"
+      color="tertiary"
+      (click)="mas( $event)">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col>
+      <ion-button hape="round"
+      expand="full"
+      size="small"
+      fill="outline"
+      color="danger"
+      (click)="logout()">
+        <ion-icon name="exit"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  </ion-footer>

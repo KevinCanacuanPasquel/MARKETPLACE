@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
 
     if( valido ) {
       //Ingresar a la APP
-      this.navCtrl.navigateRoot( '/main/tabs/tab1', { animated: true });
+      this.navCtrl.navigateRoot( '/ofertar-explorar', { animated: true });
     } else {
       //Mostrar alerta de credenciales equivocadas
       this.uiService.alertaInformativa( 'Ese correo electronico ya existe' );
