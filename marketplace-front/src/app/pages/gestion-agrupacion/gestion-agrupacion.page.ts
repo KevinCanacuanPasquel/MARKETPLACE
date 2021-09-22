@@ -10,11 +10,11 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./gestion-agrupacion.page.scss'],
 })
 export class GestionAgrupacionPage implements OnInit {
-  
-  constructor(private navCtrl: NavController ,) { }
-  usuario: Usuario = {};
-  constructor(private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) { }
 
+  constructor(private navCtrl: NavController ,private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) {
+    
+   }
+  usuario: Usuario = {};
 
   ngOnInit() {
      this.usuario = this.usuarioService.getUsuario();
