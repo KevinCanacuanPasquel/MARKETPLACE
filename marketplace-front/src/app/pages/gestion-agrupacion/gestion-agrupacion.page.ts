@@ -16,6 +16,8 @@ export class GestionAgrupacionPage implements OnInit {
     
   }
   usuario: Usuario = {};
+   
+
 
   ngOnInit() {
      this.usuario = this.usuarioService.getUsuario();
@@ -38,6 +40,7 @@ export class GestionAgrupacionPage implements OnInit {
   }
 
   
+ 
 }
 
 
