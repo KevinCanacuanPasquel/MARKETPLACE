@@ -5,6 +5,7 @@ import { AgrupacionesComponent } from './agrupaciones/agrupaciones.component';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.component';
+import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
 
 
 
@@ -12,16 +13,20 @@ import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.compo
   declarations: [
     AgrupacionComponent,
     AgrupacionesComponent,
-    AvatarSelectorComponent
+    AvatarSelectorComponent,
+    OpcionesMasComponent,
+    NgModule
   ],
   exports: [
     AgrupacionesComponent,
-    AvatarSelectorComponent
+    AvatarSelectorComponent,
+    OpcionesMasComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
-    PipesModule
+    PipesModule,
+    NgModule
   ]
 })
 export class ComponentsModule { }

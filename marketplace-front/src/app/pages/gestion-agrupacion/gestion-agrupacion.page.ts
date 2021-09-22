@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-gestion-agrupacion',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gestion-agrupacion.page.scss'],
 })
 export class GestionAgrupacionPage implements OnInit {
+  
 
-  constructor() { }
+  constructor(private navCtrl: NavController ,) { }
 
   ngOnInit() {
   }
 
+  crearAgrupacion() {
+
+   this.navCtrl.navigateRoot( '/crear-agrupacion', { animated: true });
+  
+ }
+
 }
+
+

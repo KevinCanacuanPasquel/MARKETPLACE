@@ -14,6 +14,12 @@ const routes: Routes = [
     canLoad: [ UsuarioGuard ]
   },
   {
+    path: 'explorar_agrupaciones',
+    loadChildren: () => import('./pages/explorar_agrupaciones/explorar_agrupaciones.module').then( m => m.ExplorarAgrupacionesModule),
+    //canActivate: [ UsuarioGuard ]
+    canLoad: [ UsuarioGuard ]
+  },
+  {
     path: 'main',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
   },
@@ -25,7 +31,17 @@ const routes: Routes = [
  
   {
     path: 'gestion-agrupacion',
-    loadChildren: () => import('./pages/gestion-agrupacion/gestion-agrupacion.module').then( m => m.GestionAgrupacionPageModule)
+    loadChildren: () => import('./pages/gestion-agrupacion/gestion-agrupacion.module').then( m => m.GestionAgrupacionPageModule),
+    canLoad: [ UsuarioGuard ]
+  },
+
+  {
+    path: 'crear-agrupacion',
+    loadChildren: () => import('./pages/crear-agrupacion/crear-agrupacion.module').then( m => m.CrearAgrupacionPageModule),
+    canLoad: [ UsuarioGuard ]
+  },  {
+    path: 'actualizar-usuario',
+    loadChildren: () => import('./pages/actualizar-usuario/actualizar-usuario.module').then( m => m.ActualizarUsuarioPageModule)
   }
 
 ];
