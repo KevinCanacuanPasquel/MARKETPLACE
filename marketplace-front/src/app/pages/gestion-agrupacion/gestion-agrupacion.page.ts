@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Usuario } from 'src/app/interfaces/interfaces';
+import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-gestion-agrupacion',
@@ -8,10 +11,16 @@ import { NavController } from '@ionic/angular';
 })
 export class GestionAgrupacionPage implements OnInit {
   
-
   constructor(private navCtrl: NavController ,) { }
+  usuario: Usuario = {};
+  constructor(private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) { }
+
 
   ngOnInit() {
+     this.usuario = this.usuarioService.getUsuario();
+     
+     console.log(this.usuario)
+     this.getAgrupaciones();
   }
 
   crearAgrupacion() {
@@ -19,7 +28,14 @@ export class GestionAgrupacionPage implements OnInit {
    this.navCtrl.navigateRoot( '/crear-agrupacion', { animated: true });
   
  }
+ 
+  getAgrupaciones(){
+    this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
+      console.log(data);
+    })
+  }
 
+ 
 }
 
 

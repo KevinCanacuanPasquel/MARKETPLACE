@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www",
+    "watch": "nodemon --ext *"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +27,9 @@
     "@types/express-fileupload": "^1.1.7",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mongoose": "^5.11.97",
-    "@types/uniqid": "^5.3.1"
+    "@types/uniqid": "^5.3.1",
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.9.3",
+    "nodemon": "^2.0.12"
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { RespuestaAgrupaciones } from '../interfaces/interfaces';
@@ -12,9 +12,14 @@ const URL = environment.url;
 export class AgrupacionesService {
 
   paginaAgrupaciones = 0;
+  headers;
 
   constructor( private http:HttpClient,
-               private usuarioService: UsuarioService ) { }
+               private usuarioService: UsuarioService ) {
+                this.headers = new HttpHeaders({
+                  'x-token': this.usuarioService.token 
+                });
+                }
 
   getAgrupaciones( pull:boolean = false) {
 
@@ -30,15 +35,22 @@ export class AgrupacionesService {
 
   crearAgrupacion( agrupacion ) {
 
-    const headers = new HttpHeaders({
-      'x-token': this.usuarioService.token 
-    });
+    let options = { headers: this.headers};
 
-    this.http.post(`${ URL }/agrupacion/crearAgrupacion`, agrupacion, { headers })
+    this.http.post(`${ URL }/agrupacion/crearAgrupacion`, agrupacion, options)
       .subscribe( resp => {
         console.log(resp);
       });
 
 
   }
+  getAgrupacionesByUsuario(userId){
+    let params = new HttpParams();
+    params = params.set('userId', userId );
+    let options = { headers: this.headers, params: params };
+  
+    return this.http.get<RespuestaAgrupaciones>( URL+ '/agrupacion//agrupacionesByUsuario',options );
+  }
 }
+
+
