@@ -11,7 +11,7 @@
         <ion-item>
         <ion-select [(ngModel)]="agrupacionValue" placeholder ="Mis agrupaciones" >
           <ion-select-option  *ngFor="let agrupacion of catalogoAgrupaciones" [value]="agrupacion" >
-            {{agrupacion.agrupacion.nombre}}
+            {{agrupacion.nombre}}
           </ion-select-option>
          
         </ion-select>

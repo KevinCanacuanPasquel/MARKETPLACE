@@ -141,7 +141,7 @@ export class UsuarioService {
     if ( !this.usuario._id ) {
       this.validaToken();
     }
-
+    console.log("entra aqui")
     return { ...this.usuario };
 
   }

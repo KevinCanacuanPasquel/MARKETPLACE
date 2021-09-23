@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CrearAgrupaciones
+  },
+  {
+    path: '/:idAgrupacion',
+    component: CrearAgrupaciones
   }
 ];
 
