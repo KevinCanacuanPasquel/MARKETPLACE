@@ -15,7 +15,8 @@ export class GestionAgrupacionPage implements OnInit {
     
    }
   usuario: Usuario = {};
-
+  catalogoAgrupaciones
+  agrupacionValue
   ngOnInit() {
      this.usuario = this.usuarioService.getUsuario();
      
@@ -31,8 +32,15 @@ export class GestionAgrupacionPage implements OnInit {
  
   getAgrupaciones(){
     this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
-      console.log(data.usuario);
+      console.log("agrupaciones" ,data.agrupaciones);
+      this.catalogoAgrupaciones = data.agrupaciones
     })
+  }
+
+  editarAgrupacion(){
+    console.log(this.agrupacionValue)
+    this.navCtrl.navigateRoot( '/crear-agrupacion', { state: { item: this.agrupacionValue }});
+
   }
 
  
