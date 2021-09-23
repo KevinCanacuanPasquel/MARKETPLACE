@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
 
 @Component({
@@ -20,8 +21,17 @@ export class CrearAgrupaciones {
     estasuscrito: 1
     
   };
-
-  constructor( private agrupacionService: AgrupacionesService ) {}
+  item
+  constructor( private agrupacionService: AgrupacionesService, private router: Router ) {
+    if (this.router.getCurrentNavigation().extras.state) {
+      this.item = this.router.getCurrentNavigation().extras.state.item;
+      console.log("item", this.item)
+      // this.agrupacion.fotos = this.item.fotos
+      this.agrupacion.nombre = this.item.nombre
+      this.agrupacion.descripcion = this.item.descripcion
+      this.agrupacion.numintegrantes = this.item.numintegrantes
+    }
+  }
 
   crearAgrupacion() {
 
