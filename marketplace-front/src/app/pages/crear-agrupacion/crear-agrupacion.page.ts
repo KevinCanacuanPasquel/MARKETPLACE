@@ -28,6 +28,8 @@ export class CrearAgrupaciones {
       console.log("item", this.item)
       // this.agrupacion.fotos = this.item.fotos
       this.agrupacion.nombre = this.item.nombre
+      this.agrupacion.descripcion = this.item.descripcion
+      this.agrupacion.numintegrantes = this.item.numintegrantes
     }
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Usuario } from 'src/app/interfaces/interfaces';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class GestionAgrupacionPage implements OnInit {
 
-  constructor(private navCtrl: NavController ,private usuarioService: UsuarioService, private agrupacionService : AgrupacionesService) {
+  constructor(private navCtrl: NavController ,private usuarioService: UsuarioService, 
+    private agrupacionService : AgrupacionesService,  private uiService: UiServiceService) {
     
    }
   usuario: Usuario = {};
@@ -39,7 +41,12 @@ export class GestionAgrupacionPage implements OnInit {
 
   editarAgrupacion(){
     console.log(this.agrupacionValue)
-    this.navCtrl.navigateRoot( '/crear-agrupacion', { state: { item: this.agrupacionValue }});
+    if(this.agrupacionValue != null){
+      this.navCtrl.navigateRoot( '/crear-agrupacion', { state: { item: this.agrupacionValue }});
+    }else{
+      this.uiService.alertaActualizacionUsuario(' Debes seleccionar la agrupacion  que deseas editar ');
+    }
+
 
   }
 
