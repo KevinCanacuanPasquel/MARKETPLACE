@@ -65,6 +65,35 @@ agrupacionRoutes.post('/crearAgrupacion', [autenticacion_1.verificaToken], (req,
         res.json(err);
     });
 });
+///ACTUALIZAR
+//USUARIO - Actualizar
+agrupacionRoutes.put('/actualizarAgrupacion', [autenticacion_1.verificaToken], (req, res) => {
+    const agrup = {
+        nombre: req.body.nombre,
+        descripcion: req.body.descripcion,
+        numintegrantes: req.body.numintegrantes,
+        tiempoexistente: req.body.tiempoexistente,
+        estasuscrito: req.body.estasuscrito,
+        _id: req.body.id
+        //   estado: req.body.estado || req.usuario.estado
+    };
+    console.log(agrup);
+    agrupacion_model_1.Agrupacion.findByIdAndUpdate(agrup._id, agrup, { new: true }, (err, agrupacionDB) => {
+        if (err)
+            throw err;
+        if (!agrupacionDB) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existe un agrupacion con ese ID'
+            });
+        }
+        //Token
+        res.json({
+            ok: true,
+            agrupacion: agrupacionDB
+        });
+    });
+});
 //Servicio para subir archivos
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.files) {

@@ -18,9 +18,13 @@ const agrupacionSchema = new Schema({
     estasuscrito: { 
         type: Number
     },
+    estado: { 
+        type: String
+    },
     fotos: [{
         type: String
     }],
+
 
     //Relacion con Usuario
     usuario: {
@@ -41,6 +45,7 @@ interface Iagrupacion extends Document {
     estasuscrito: number;
     fotos: string[];
     usuario:string;
+    estado: string; 
 }
 
 // model -> Ayuda con la interaccion con la Base de Datos

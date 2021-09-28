@@ -5,11 +5,14 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="crearAgrupacion()"
+      <ion-button *ngIf="disableCrearButton | async" (click)="crearAgrupacion()"
                   [disabled] = "agrupacion.nombre.length < 1"
                   color="primary">
         CREAR
       </ion-button>
+      <ion-button *ngIf="disableEditarButton | async" (click)="actualizarAgrupacion()"
+      [disabled] = "agrupacion.nombre.length < 1"
+      color="primary">EDITAR</ion-button>
     </ion-buttons>
 
   </ion-toolbar>
