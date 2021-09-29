@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
 import { Agrupacion } from '../../interfaces/interfaces';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { NavController } from '@ionic/angular';
+import { UiServiceService } from 'src/app/services/ui-service.service';
+import { PopoverController } from '@ionic/angular';
+import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-mas.component';
 
 @Component({
   selector: 'app-explorar_agrupaciones',
@@ -13,7 +18,11 @@ export class ExplorarAgrupacionesPage implements OnInit {
 
   habilitado = true;
 
-  constructor( private agrupacionesService: AgrupacionesService ) {}
+  constructor( private agrupacionesService: AgrupacionesService,
+    private usuarioService: UsuarioService,
+                private navCtrl: NavController ,
+                private uiService: UiServiceService,
+                private popoverCtrl: PopoverController ) {}
 
   ngOnInit() {
 
@@ -47,6 +56,8 @@ export class ExplorarAgrupacionesPage implements OnInit {
     });
 
   }
+
+  
 
 
 }

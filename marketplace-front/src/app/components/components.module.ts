@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.component';
 import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -15,12 +16,14 @@ import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
     AgrupacionesComponent,
     AvatarSelectorComponent,
     OpcionesMasComponent,
+    FooterComponent
     
   ],
   exports: [
     AgrupacionesComponent,
     AvatarSelectorComponent,
-    OpcionesMasComponent
+    OpcionesMasComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
