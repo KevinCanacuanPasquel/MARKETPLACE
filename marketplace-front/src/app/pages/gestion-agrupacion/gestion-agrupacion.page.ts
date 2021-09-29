@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/interfaces';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
@@ -25,11 +26,14 @@ export class GestionAgrupacionPage implements OnInit {
   usuario: Usuario = {};
   catalogoAgrupaciones
   agrupacionValue
+  
+ 
   ngOnInit() {
      this.usuario = this.usuarioService.getUsuario();
      
      console.log(this.usuario)
      this.getAgrupaciones();
+    
   }
 
   crearAgrupacion() {

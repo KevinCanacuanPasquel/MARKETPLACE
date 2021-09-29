@@ -78,6 +78,42 @@ agrupacionRoutes.post('/crearAgrupacion', [verificaToken],  (req:any, res:Respon
 
 });
 
+///ACTUALIZAR
+//USUARIO - Actualizar
+agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: Response) => {
+
+    const agrup = {
+        nombre: req.body.nombre ,
+        descripcion: req.body.descripcion ,
+        numintegrantes: req.body.numintegrantes ,
+        tiempoexistente: req.body.tiempoexistente ,
+        estasuscrito: req.body.estasuscrito ,
+        _id: req.body.id
+     //   estado: req.body.estado || req.usuario.estado
+    }
+    console.log(agrup)
+    Agrupacion.findByIdAndUpdate( agrup._id, agrup, { new: true }, ( err, agrupacionDB ) => {
+
+        if ( err ) throw err;
+
+        if ( !agrupacionDB ) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existe un agrupacion con ese ID'
+            });
+        }
+
+        //Token
+     
+            
+            res.json({
+                ok: true,
+                agrupacion: agrupacionDB
+            });
+
+    });
+
+});
 
 //Servicio para subir archivos
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {

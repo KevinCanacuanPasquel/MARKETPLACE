@@ -36,14 +36,14 @@ export class AgrupacionesService {
   crearAgrupacion( agrupacion ) {
 
     let options = { headers: this.headers};
-
-    this.http.post(`${ URL }/agrupacion/crearAgrupacion`, agrupacion, options)
-      .subscribe( resp => {
-        console.log(resp);
-      });
-
-
+    return this.http.post(URL + '/agrupacion/crearAgrupacion', agrupacion, options) ;
   }
+  actualizarAgrupacion( agrupacion ) {
+
+    let options = { headers: this.headers};
+    return this.http.put(URL + '/agrupacion/actualizarAgrupacion', agrupacion, options) ;
+  }
+
   getAgrupacionesByUsuario(userId){
     let params = new HttpParams();
     params = params.set('userId', userId );

@@ -19,6 +19,9 @@ const agrupacionSchema = new mongoose_1.Schema({
     estasuscrito: {
         type: Number
     },
+    estado: {
+        type: String
+    },
     fotos: [{
             type: String
         }],
