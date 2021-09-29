@@ -11,6 +11,9 @@ import { AgrupacionesService } from '../../services/agrupaciones.service';
 export class CrearAgrupaciones {
 
   tempImages: string[] = [];
+
+  titulo = "Nueva Agrupacion";
+  
   disableEditarButton;
   disableEditar = new BehaviorSubject<boolean>(false);
   disableCrearButton;
@@ -31,6 +34,11 @@ export class CrearAgrupaciones {
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
     if (this.router.getCurrentNavigation().extras.state) {
+
+      let bool = false;
+      this.titulo = "Editar Agrupacion";
+      
+      
       this.item = this.router.getCurrentNavigation().extras.state.item;
       console.log("item", this.item)
       // this.agrupacion.fotos = this.item.fotos
