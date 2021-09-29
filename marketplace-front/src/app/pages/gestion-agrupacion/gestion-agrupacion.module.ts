@@ -7,13 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { GestionAgrupacionPageRoutingModule } from './gestion-agrupacion-routing.module';
 
 import { GestionAgrupacionPage } from './gestion-agrupacion.page';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GestionAgrupacionPageRoutingModule
+    GestionAgrupacionPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [GestionAgrupacionPage]
 })

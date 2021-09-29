@@ -4,6 +4,8 @@ import { Usuario } from 'src/app/interfaces/interfaces';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { PopoverController } from '@ionic/angular';
+import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-mas.component';
 
 @Component({
   selector: 'app-gestion-agrupacion',
@@ -15,7 +17,9 @@ export class GestionAgrupacionPage implements OnInit {
 
 
   constructor(private navCtrl: NavController ,private usuarioService: UsuarioService, 
-    private agrupacionService : AgrupacionesService,  private uiService: UiServiceService) {
+    private agrupacionService : AgrupacionesService,  private uiService: UiServiceService,
+    private agrupacionesService: AgrupacionesService,
+                private popoverCtrl: PopoverController) {
     
    }
   usuario: Usuario = {};
@@ -54,6 +58,7 @@ export class GestionAgrupacionPage implements OnInit {
 
   }
 
+  
  
 }
 

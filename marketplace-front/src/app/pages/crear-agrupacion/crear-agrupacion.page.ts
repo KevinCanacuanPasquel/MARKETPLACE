@@ -11,6 +11,10 @@ export class CrearAgrupaciones {
 
   tempImages: string[] = [];
 
+  titulo = "Nueva Agrupacion";
+  
+
+
   agrupacion = {
 
     fotos: [],
@@ -24,6 +28,11 @@ export class CrearAgrupaciones {
   item
   constructor( private agrupacionService: AgrupacionesService, private router: Router ) {
     if (this.router.getCurrentNavigation().extras.state) {
+
+      let bool = false;
+      this.titulo = "Editar Agrupacion";
+      
+      
       this.item = this.router.getCurrentNavigation().extras.state.item;
       console.log("item", this.item)
       // this.agrupacion.fotos = this.item.fotos

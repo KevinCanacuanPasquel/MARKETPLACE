@@ -35,19 +35,5 @@ export class OfertarExplorarPage implements OnInit {
     this.navCtrl.navigateRoot( '/explorar_agrupaciones', { animated: true });
   }
 
-  logout() {
-
-    this.usuarioService.logout();
-
-  }
-  async mas(ev: any) {
-    const popover = await this.popoverCtrl.create({
-      component: OpcionesMasComponent,
-      event: ev,
-      translucent: true,
-      backdropDismiss: false
-    });
-    await popover.present();
-
-  }
+  
 }

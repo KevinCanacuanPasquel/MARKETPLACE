@@ -1,31 +1,53 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>gestion-agrupacion</ion-title>
+    <ion-title>Gestión Agrupaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-row>
-    <ion-col size-md="6" offset="3">
-      <ion-card placeholder="Agrupaciones"> 
-        <ion-item>
+  
+
+       
         <ion-select [(ngModel)]="agrupacionValue" placeholder ="Mis agrupaciones" >
           <ion-select-option  *ngFor="let agrupacion of catalogoAgrupaciones" [value]="agrupacion" >
             {{agrupacion.nombre}}
           </ion-select-option>
          
         </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-button (click)="registrarServicio()">Crear Servicio </ion-button>
-        <ion-button (click)="editarAgrupacion()">Editar Agrupacion </ion-button>
-        <ion-button (click)="darBajaAgrupacion()">Dar de Baja </ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-button (click)="crearAgrupacion()">Crear Agrupacion </ion-button>
-      </ion-item>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+      
+        
+        
+
+        <div class="centrado">
+          <ion-button (click)="editarAgrupacion()">
+            <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="darBajaAgrupacion()" color="danger">
+            <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+         
+        
+     
+      
+        <div class="centrado">
+          <ion-button (click)="registrarServicio()" color="warning" shape="round">Gestion de Servicios de Agrupacion </ion-button>
+        </div>
+    
+  
+      
+        <div class="centrado">
+          <ion-button (click)="crearAgrupacion()" color="success" shape="round">Crear Agrupacion </ion-button>
+        </div>
+        
+     
+   
+   
  
 </ion-content>
+
+<ion-footer>
+
+  <app-footer></app-footer>
+</ion-footer>
