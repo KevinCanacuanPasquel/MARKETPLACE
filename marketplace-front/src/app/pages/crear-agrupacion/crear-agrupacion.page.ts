@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
 
 @Component({
@@ -22,11 +23,12 @@ export class CrearAgrupaciones {
     descripcion: '',
     numintegrantes: 1,
     tiempoexistente: '',
-    estasuscrito: 1
+    estasuscrito: 1,
+    estado: "ACTIVO"
     
   };
   item
-  constructor( private agrupacionService: AgrupacionesService, private router: Router ) {
+  constructor( private agrupacionService: AgrupacionesService, private router: Router, private uiService: UiServiceService ) {
     this.disableEditarButton   = this.disableEditar.asObservable();
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
@@ -56,12 +58,15 @@ export class CrearAgrupaciones {
       if(data.ok){
         this.router.navigate(['/gestion-agrupacion' ]);
         this.disableCrear.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ', );
       }
+    
     
    
 
     },error =>{
-      
+      this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ');
       console.log("valio madres")
     });
 
@@ -76,11 +81,12 @@ export class CrearAgrupaciones {
       if(data.ok){
         this.router.navigate(['/gestion-agrupacion' ]);
         this.disableEditar.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al actualizar agrupacion ');
       }
-
+ 
     },error =>{
       
-      console.log("valio madres")
     });
 
   }
