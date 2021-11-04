@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PopoverController } from '@ionic/angular';
 import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-mas.component';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-footer',
@@ -11,9 +13,15 @@ import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-m
 export class FooterComponent implements OnInit {
 
   constructor(private usuarioService:UsuarioService,
-              private popoverCtrl:PopoverController) { }
+              private popoverCtrl:PopoverController,
+              private navCtrl: NavController) { }
 
   ngOnInit() {}
+
+  paginaAnterior(){
+    this.navCtrl.back();
+  }
+
 
   logout() {
 

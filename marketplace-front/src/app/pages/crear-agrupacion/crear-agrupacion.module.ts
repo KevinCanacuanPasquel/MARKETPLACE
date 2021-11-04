@@ -9,7 +9,7 @@ import { CrearAgrupacionPageRoutingModule } from './crear-agrupacion-routing.mod
 import { CrearAgrupaciones } from './crear-agrupacion.page';
 import { ExploreContainerComponentModule } from 'src/app/explore-container/explore-container.module';
 import { OpcionesMasComponent } from '../../components/opciones-mas/opciones-mas.component';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     ComponentsModule,
     ExploreContainerComponentModule,
-    CrearAgrupacionPageRoutingModule
+    CrearAgrupacionPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [CrearAgrupaciones]
 })

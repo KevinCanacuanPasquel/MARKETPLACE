@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { SubirArchivoComponent } from 'src/app/components/subir-archivo/subir-archivo.component';
 import { DataUpload } from 'src/app/interfaces/interfaces';
@@ -39,7 +40,8 @@ export class CrearAgrupaciones {
     
   };
   item
-  constructor( private agrupacionService: AgrupacionesService, private router: Router, private uiService: UiServiceService , public dialog: MatDialog ) {
+  constructor( private agrupacionService: AgrupacionesService, private router: Router, private uiService: UiServiceService , public dialog: MatDialog, private alertCtrl: AlertController  ) {
+ 
     this.disableEditarButton   = this.disableEditar.asObservable();
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
@@ -115,8 +117,6 @@ export class CrearAgrupaciones {
 
   }
 
-
-  
     openDialog(): void {
       const dialogRef = this.dialog.open(SubirArchivoComponent, {
         width: '250px',
@@ -157,4 +157,17 @@ export class CrearAgrupaciones {
     console.log("la foto", capturedPhoto)
     this.srcJoya= capturedPhoto.base64String
   }
+  //ALERTAS
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      backdropDismiss: false,
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'Nombre de Agrupacion requerido.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
 }
