@@ -3,17 +3,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UPLOAD_PATH = void 0;
 const server_1 = require("./classes/server");
 const mongoose_1 = __importDefault(require("mongoose"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const cors_1 = __importDefault(require("cors"));
+const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("./routes/usuario"));
 const agrupacion_1 = __importDefault(require("./routes/agrupacion"));
 const server = new server_1.Server();
+exports.UPLOAD_PATH = 'uploads';
 //Middleware para utilizar JS - bodyParser
-server.app.use(body_parser_1.default.urlencoded({ extended: true }));
-server.app.use(body_parser_1.default.json());
+server.app.use(express_1.default.json({ limit: '50mb' }));
+server.app.use(express_1.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 //File Upload - Toma los archivos que se sube
 server.app.use(express_fileupload_1.default());
 // Configuracion CORS - front

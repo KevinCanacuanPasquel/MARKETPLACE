@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { SubirArchivoComponent } from 'src/app/components/subir-archivo/subir-archivo.component';
+import { DataUpload } from 'src/app/interfaces/interfaces';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+
 
 @Component({
   selector: 'app-crear-agrupacion',
@@ -12,9 +18,12 @@ import { AgrupacionesService } from '../../services/agrupaciones.service';
 export class CrearAgrupaciones {
 
   tempImages: string[] = [];
-
+  file: File;
+  filesToLoad:Array<DataUpload>=[];
+  images=[];
+  image:DataUpload;
   titulo = "Nueva Agrupacion";
-  
+  srcJoya;
   disableEditarButton;
   disableEditar = new BehaviorSubject<boolean>(false);
   disableCrearButton;
@@ -26,13 +35,13 @@ export class CrearAgrupaciones {
     descripcion: '',
     numintegrantes: 1,
     tiempoexistente: '',
-    estasuscrito: 1
+    estasuscrito: 1,
+    estado: "ACTIVO"
     
   };
   item
-  constructor( private agrupacionService: AgrupacionesService,
-               private router: Router,
-               private alertCtrl: AlertController ) {
+  constructor( private agrupacionService: AgrupacionesService, private router: Router, private uiService: UiServiceService , public dialog: MatDialog, private alertCtrl: AlertController  ) {
+ 
     this.disableEditarButton   = this.disableEditar.asObservable();
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
@@ -49,6 +58,12 @@ export class CrearAgrupaciones {
       this.agrupacion.nombre = this.item.nombre
       this.agrupacion.descripcion = this.item.descripcion
       this.agrupacion.numintegrantes = this.item.numintegrantes
+      
+      if(this.item.fotos.length!= 0){
+      this.agrupacion.fotos = this.item.fotos
+
+        
+      }
       this.disableEditar.next(true);
       this.disableCrear.next(false);
     
@@ -60,19 +75,24 @@ export class CrearAgrupaciones {
  }
 
   crearAgrupacion() {
-
+    if(this.filesToLoad.length !=0){
+      this.agrupacion.fotos = this.filesToLoad
+    }
     console.log( this.agrupacion );
     this.agrupacionService.crearAgrupacion( this.agrupacion ).subscribe((data:any)=>{
       console.log(data.ok)
       if(data.ok){
         this.router.navigate(['/gestion-agrupacion' ]);
         this.disableCrear.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ', );
       }
+    
     
    
 
     },error =>{
-      
+      this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ');
       console.log("valio madres")
     });
 
@@ -87,15 +107,56 @@ export class CrearAgrupaciones {
       if(data.ok){
         this.router.navigate(['/gestion-agrupacion' ]);
         this.disableEditar.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al actualizar agrupacion ');
       }
-
+ 
     },error =>{
       
-      console.log("valio madres")
     });
 
   }
 
+    openDialog(): void {
+      const dialogRef = this.dialog.open(SubirArchivoComponent, {
+        width: '250px',
+      
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log("eel resulatdo", result)
+        result.forEach(element => {
+          this.agrupacion.fotos.push(element)
+        });
+
+        console.log("la agrupacion",  this.agrupacion.fotos)
+      });
+    }
+  
+  
+
+
+  
+  verImagenes(){
+   
+    this.srcJoya = this.filesToLoad[0].fileBase64
+  }
+
+
+
+  public async addNewToGallery() {
+    // Take a photo
+    const capturedPhoto = await Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera,
+      quality: 100,
+      saveToGallery: false,
+
+    });
+    console.log("la foto", capturedPhoto)
+    this.srcJoya= capturedPhoto.base64String
+  }
   //ALERTAS
   async presentAlert() {
     const alert = await this.alertCtrl.create({
@@ -108,6 +169,5 @@ export class CrearAgrupaciones {
 
     await alert.present();
   }
-
 
 }

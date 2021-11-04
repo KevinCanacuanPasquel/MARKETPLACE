@@ -103,6 +103,9 @@ export class LoginPage implements OnInit {
        
     }
 }
+  olvide_mi_contrasena(){
+
+}
 
 
 
