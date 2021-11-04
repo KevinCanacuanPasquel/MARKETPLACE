@@ -1,0 +1,9 @@
+<ion-grid fixed>
+  <ion-row>
+    <ion-col  size="12" size-lg="3" size-md="4" size-sm="6" size-xs="12" offset="1"
+              *ngFor="let image of listaImagenes">
+              <img height="300px" width="300px" src="{{'data:image/png;base64,' + image.fileBase64}}" class="img-responsive">
+    
+    </ion-col>
+  </ion-row>
+</ion-grid>

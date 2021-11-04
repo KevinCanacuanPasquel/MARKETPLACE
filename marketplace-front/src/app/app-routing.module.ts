@@ -19,10 +19,7 @@ const routes: Routes = [
     //canActivate: [ UsuarioGuard ]
     canLoad: [ UsuarioGuard ]
   },
-  {
-    path: 'main',
-    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
-  },
+
   {
     path: '',
     pathMatch: 'full',
@@ -39,7 +36,8 @@ const routes: Routes = [
     path: 'crear-agrupacion',
     loadChildren: () => import('./pages/crear-agrupacion/crear-agrupacion.module').then( m => m.CrearAgrupacionPageModule),
     canLoad: [ UsuarioGuard ]
-  },  {
+  },
+  {
     path: 'actualizar-usuario',
     loadChildren: () => import('./pages/actualizar-usuario/actualizar-usuario.module').then( m => m.ActualizarUsuarioPageModule)
   }

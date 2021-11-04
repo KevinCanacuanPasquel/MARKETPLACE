@@ -8,7 +8,10 @@ import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.compo
 import { OpcionesMasComponent } from './opciones-mas/opciones-mas.component';
 import { FooterComponent } from './footer/footer.component';
 
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { SubirArchivoComponent } from './subir-archivo/subir-archivo.component';
+import { GaleriaImagenesComponent } from './galeria-imagenes/galeria-imagenes.component';
 
 @NgModule({
   declarations: [
@@ -16,20 +19,29 @@ import { FooterComponent } from './footer/footer.component';
     AgrupacionesComponent,
     AvatarSelectorComponent,
     OpcionesMasComponent,
-    FooterComponent
+    FooterComponent,
+    SubirArchivoComponent,
+    GaleriaImagenesComponent,
+   
+    
     
   ],
   exports: [
     AgrupacionesComponent,
     AvatarSelectorComponent,
     OpcionesMasComponent,
-    FooterComponent
+    FooterComponent,
+    GaleriaImagenesComponent
+   
   ],
   imports: [
+    
     CommonModule,
     IonicModule,
     PipesModule,
-    
+    FormsModule,
+    MatDialogModule
+ 
   ]
 })
 export class ComponentsModule { }

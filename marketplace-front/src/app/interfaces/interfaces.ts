@@ -27,3 +27,12 @@ export interface Usuario {
   contrasena?: string;
   repContrasena? : string;
 }
+
+
+export interface DataUpload {
+  name: string;
+  ext: string;
+  fecha: Date;
+  fileBase64: string;
+ 
+}

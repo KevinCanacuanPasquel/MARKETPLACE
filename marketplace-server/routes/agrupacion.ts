@@ -59,8 +59,8 @@ agrupacionRoutes.post('/crearAgrupacion', [verificaToken],  (req:any, res:Respon
     const body = req.body;
     body.usuario = req.usuario._id;
 
-    const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
-    body.fotos = imagenes;
+   // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
+    //body.fotos = imagenes;
 
     Agrupacion.create(body).then ( async agrupacionDB => {
 

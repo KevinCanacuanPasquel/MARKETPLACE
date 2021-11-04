@@ -32,6 +32,20 @@ const usuarioSchema = new mongoose_1.Schema({
     estado: {
         type: Number,
         default: 1
+    },
+    foto:{
+        name: {
+            type: String
+        },
+        ext: {
+            type: String
+        },
+        fecha: {
+            type: Date
+        },
+        fileBase64: {
+            type: String
+        }
     }
 });
 //Metodo para contrasena
