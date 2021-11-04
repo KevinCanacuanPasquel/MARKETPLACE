@@ -57,6 +57,10 @@ export class ExplorarAgrupacionesPage implements OnInit {
 
   }
 
+  mostrarContratos(){
+    console.log("@");
+  }
+
   
 
 

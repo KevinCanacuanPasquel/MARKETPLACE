@@ -9,6 +9,7 @@ import { CrearAgrupacionPageRoutingModule } from './crear-agrupacion-routing.mod
 import { CrearAgrupaciones } from './crear-agrupacion.page';
 import { ExploreContainerComponentModule } from 'src/app/explore-container/explore-container.module';
 import { OpcionesMasComponent } from '../../components/opciones-mas/opciones-mas.component';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { OpcionesMasComponent } from '../../components/opciones-mas/opciones-mas
     FormsModule,
     IonicModule,
     ExploreContainerComponentModule,
-    CrearAgrupacionPageRoutingModule
+    CrearAgrupacionPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [CrearAgrupaciones]
 })

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
 
@@ -29,7 +30,9 @@ export class CrearAgrupaciones {
     
   };
   item
-  constructor( private agrupacionService: AgrupacionesService, private router: Router ) {
+  constructor( private agrupacionService: AgrupacionesService,
+               private router: Router,
+               private alertCtrl: AlertController ) {
     this.disableEditarButton   = this.disableEditar.asObservable();
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
@@ -92,5 +95,19 @@ export class CrearAgrupaciones {
     });
 
   }
+
+  //ALERTAS
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      backdropDismiss: false,
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'Nombre de Agrupacion requerido.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
 
 }
