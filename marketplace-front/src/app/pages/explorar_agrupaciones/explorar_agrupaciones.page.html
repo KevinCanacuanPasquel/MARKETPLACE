@@ -2,7 +2,7 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-icon slot="icon-only" name="bonfire"></ion-icon>
+      <ion-icon slot="icon-only" name="color-palette-outline"></ion-icon>
     </ion-buttons>
 
     <ion-title>
@@ -12,6 +12,13 @@
 </ion-header>
 
 <ion-content color="light">
+
+  <div class="centrado">
+    <ion-button (click)="mostrarContratos()" shape="round"  color="warning">
+      CONTRATOS
+    </ion-button>
+  </div>
+ 
 
   <ion-refresher slot="fixed" (ionRefresh)="recargar($event)">
     <ion-refresher-content></ion-refresher-content>

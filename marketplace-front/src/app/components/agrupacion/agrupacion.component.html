@@ -8,7 +8,7 @@
       <img src="/assets/avatars/av-1.png" />
     </ion-avatar>
 
-    <ion-label>
+    <ion-label (click)="mostrarAgrupacionSeleccionada()">
       <h3>{{ agrupacion.nombre }}</h3>
       <h5>{{ agrupacion.usuario.nombres }} - {{ agrupacion.usuario.apellidos }}</h5>
     </ion-label>

@@ -23,35 +23,77 @@
   <ion-list>
     
     <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-textarea [(ngModel)]="agrupacion.nombre"></ion-textarea>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="agrupacion.nombre"
+                 #nombreInput = "ngModel">
+      </ion-input>
     </ion-item>
+    <div *ngIf="nombreInput.touched && nombreInput.dirty">
+      <h6 class="ion-text-center" *ngIf="nombreInput.errors?.required">
+        Nombre de Agrupacion requerido
+      </h6>
+    </div>
 
     <ion-item>
-      <ion-label position="floating">Descripcion</ion-label>
-      <ion-textarea [(ngModel)]="agrupacion.descripcion"></ion-textarea>
+      <ion-label position="stacked">Descripcion</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="agrupacion.descripcion"
+                 #descripcionInput = "ngModel">
+      </ion-input>
     </ion-item>
+    <div *ngIf="descripcionInput.touched && descripcionInput.dirty">
+      <h6 class="ion-text-center" *ngIf="descripcionInput.errors?.required">
+        Descripcion requerida
+      </h6>
+    </div>
 
     <ion-item>
-      <ion-label position="floating">Num. Integrantes</ion-label>
-      <ion-textarea [(ngModel)]="agrupacion.numintegrantes"></ion-textarea>
+      <ion-label position="stacked">Num. Integrantes</ion-label>
+      <ion-input type="number"
+                 required
+                 [(ngModel)]="agrupacion.numintegrantes"
+                 #numIntegrantesInput = "ngModel">
+      </ion-input>
     </ion-item>
+    <div *ngIf="numIntegrantesInput.touched && numIntegrantesInput.dirty">
+      <h6 class="ion-text-center" *ngIf="numIntegrantesInput.errors?.required">
+        Numero de integrantes minimo: 1
+      </h6>
+      <h6 class="ion-text-center" *ngIf="numIntegrantesInput.value == 0">
+        Numero de integrantes no puede ser 0
+      </h6>
+    </div>
+
+   <ion-item>
+      <ion-label position="stacked">Tiempo Existente en Meses</ion-label>
+      <ion-input type="number"
+                 required
+                 [(ngModel)]="agrupacion.tiempoexistente"
+                 #tiempoExistenteInput = "ngModel">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="tiempoExistenteInput.touched && tiempoExistenteInput.dirty">
+      <h6 class="ion-text-center" *ngIf="tiempoExistenteInput.errors?.required">
+        Minimo: 1 mes
+      </h6>
+      <h6 class="ion-text-center" *ngIf="tiempoExistenteInput.value == 0">
+        Minimo: 1 mes
+      </h6>
+    </div>
 
     <ion-item>
-      <ion-label position="floating">Tiempo Existente</ion-label>
-      <ion-textarea [(ngModel)]="agrupacion.tiempoexistente"></ion-textarea>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Suscripcion</ion-label>
+      <ion-label  position="stacked">Suscripcion</ion-label>
       <ion-textarea [(ngModel)]="agrupacion.estasuscrito"></ion-textarea>
     </ion-item>
 
    
     <ion-list>
       <ion-item>
-        <ion-label>Posición actual</ion-label>
-        <ion-spinner name="lines-small"></ion-spinner>
+        <ion-label position="stacked">Posición actual</ion-label>
+        <ion-spinner slot="end" name="lines-small"></ion-spinner>
         <ion-toggle slot="end"></ion-toggle>
       </ion-item>
     </ion-list>
@@ -86,3 +128,10 @@
 
 
 </ion-content>
+
+<ion-footer>
+
+     
+  <app-footer></app-footer>
+
+</ion-footer>

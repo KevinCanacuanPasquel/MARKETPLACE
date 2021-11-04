@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ActualizarUsuarioPageRoutingModule } from './actualizar-usuario-routing.module';
 
 import { ActualizarUsuarioPage } from './actualizar-usuario.page';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ActualizarUsuarioPageRoutingModule
+    ActualizarUsuarioPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ActualizarUsuarioPage]
 })

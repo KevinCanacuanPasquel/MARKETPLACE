@@ -15,9 +15,9 @@ const server = new server_1.Server();
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 //File Upload - Toma los archivos que se sube
-server.app.use((0, express_fileupload_1.default)());
+server.app.use(express_fileupload_1.default());
 // Configuracion CORS - front
-server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
+server.app.use(cors_1.default({ origin: true, credentials: true }));
 // routes/usuario.ts - Definir una ruta en particula "middleware"
 // Rutas de las APP
 server.app.use('/user', usuario_1.default);

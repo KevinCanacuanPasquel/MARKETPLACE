@@ -17,9 +17,10 @@ export class AgrupacionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
 
-
-
+  mostrarAgrupacionSeleccionada(){
+    console.log("JAI");
   }
 
 }
