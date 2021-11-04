@@ -16,7 +16,7 @@ const express_1 = require("express");
 const autenticacion_1 = require("../middlewares/autenticacion");
 const agrupacion_model_1 = require("../models/agrupacion.model");
 const file_system_1 = __importDefault(require("../classes/file-system"));
-const agrupacionRoutes = express_1.Router();
+const agrupacionRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 agrupacionRoutes.get('/agrupaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,8 +53,8 @@ agrupacionRoutes.get('/agrupacionesByUsuario', (req, res) => __awaiter(void 0, v
 agrupacionRoutes.post('/crearAgrupacion', [autenticacion_1.verificaToken], (req, res) => {
     const body = req.body;
     body.usuario = req.usuario._id;
-    const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones(req.usuario._id);
-    body.fotos = imagenes;
+    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
+    //body.fotos = imagenes;
     agrupacion_model_1.Agrupacion.create(body).then((agrupacionDB) => __awaiter(void 0, void 0, void 0, function* () {
         yield agrupacionDB.populate('usuario', '-contrasena').execPopulate();
         res.json({

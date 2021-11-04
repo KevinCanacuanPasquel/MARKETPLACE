@@ -1,4 +1,5 @@
 import { Schema, Document, model } from 'mongoose';
+import { Imagen } from './imagen';
 
 //Modelo BDD
 const agrupacionSchema = new Schema({
@@ -22,8 +23,20 @@ const agrupacionSchema = new Schema({
         type: String
     },
     fotos: [{
-        type: String
-    }],
+        name: {
+            type: String
+        },
+        ext: {
+            type: String
+        },
+        fecha: { 
+            type: Date 
+        },
+        fileBase64:{
+            type: String
+        },      
+    
+        }],
 
 
     //Relacion con Usuario

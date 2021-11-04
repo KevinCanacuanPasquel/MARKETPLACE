@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { environment } from '../environments/environment';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    MatDialogModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
