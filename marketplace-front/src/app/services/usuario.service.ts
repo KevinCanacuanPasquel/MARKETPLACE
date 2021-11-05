@@ -104,7 +104,7 @@ export class UsuarioService {
   }
 
   async validaToken(): Promise<boolean> {
-
+console.log("entra a validar");
      this.storage.create();
     await this.cargarToken();
     if ( !this.token ) {
@@ -136,12 +136,12 @@ export class UsuarioService {
   }
 
 
-  getUsuario() {
-
+  async getUsuario() {
+    console.log("entra aqui",this.usuario,!this.usuario._id)
     if ( !this.usuario._id ) {
-      this.validaToken();
+      await this.validaToken();
     }
-    console.log("entra aqui")
+    
     return { ...this.usuario };
 
   }

@@ -72,8 +72,15 @@
       <ion-grid fixed>
 
             <!-- AVATAR -->    
-            <app-avatar-selector (avatarSeleccionado) = "registroUsuario.avatar= $event "></app-avatar-selector>
-
+            <a (click)="addNewToGallery()">
+              <div *ngIf="registroUsuario.foto==null" class="contenedor">
+                <img  height="100px" width="100px"    src="/assets/avatars/av-8.png">
+                <div class="centrado">Tomar Foto</div>
+              </div>
+             
+              <img *ngIf ="registroUsuario.foto!=null"  height="100px" width="100px" src="{{'data:image/png;base64,' + registroUsuario.foto.fileBase64}}" class="img-responsive">
+           
+              </a>
             <!-- FORMULARIO DE REGISTRO -->
         
             <form (ngSubmit)="registro ( fRegistro )" #fRegistro="ngForm">

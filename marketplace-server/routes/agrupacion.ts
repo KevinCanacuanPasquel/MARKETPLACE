@@ -116,6 +116,7 @@ agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: 
 });
 
 //Servicio para subir archivos
+/*
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
 
     if ( !req.files ) {
@@ -162,7 +163,7 @@ agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
 
     res.sendFile(pathFoto);
 });
-
+*/
 
 
 export default agrupacionRoutes;
