@@ -29,7 +29,21 @@ const usuarioSchema = new Schema({
     estado: {
         type: Number,
         default: 1
-    }
+    },
+    foto:{
+        name: {
+            type: String
+        },
+        ext: {
+            type: String
+        },
+        fecha: { 
+            type: Date 
+        },
+        fileBase64:{
+            type: String
+        }    
+      }
 
 });
 
@@ -52,6 +66,7 @@ interface Iusuario extends Document {
     fecha_nacimiento: string;
     contrasena: string;
     estado: number;
+    foto: any;
 
     compararContrasena( contrasena: string): boolean;
 }

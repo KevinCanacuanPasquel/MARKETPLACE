@@ -29,7 +29,9 @@ export class GestionAgrupacionPage implements OnInit {
   
  
   ngOnInit() {
-     this.usuario = this.usuarioService.getUsuario();
+      this.usuarioService.getUsuario().then(p=>{
+       this.usuario= p;
+     });
      
      console.log(this.usuario)
      this.getAgrupaciones();

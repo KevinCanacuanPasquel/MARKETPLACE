@@ -151,11 +151,19 @@ export class CrearAgrupaciones {
       resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
       quality: 100,
-      saveToGallery: false,
+      
 
     });
     console.log("la foto", capturedPhoto)
     this.srcJoya= capturedPhoto.base64String
+    let dataUpload:DataUpload = {
+      name: "imagen",
+      ext: capturedPhoto.format,
+      fecha: new Date(),
+      fileBase64: capturedPhoto.base64String,
+               
+    };
+    this.agrupacion.fotos.push(dataUpload);  
   }
   //ALERTAS
   async presentAlert() {
