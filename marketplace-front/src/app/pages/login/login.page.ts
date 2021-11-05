@@ -3,7 +3,8 @@ import { FormBuilder, NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario.service';
 import { UiServiceService } from '../../services/ui-service.service';
-import { Usuario } from '../../interfaces/interfaces';
+import { DataUpload, Usuario } from '../../interfaces/interfaces';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +21,15 @@ export class LoginPage implements OnInit {
     contrasena: '1234'
   };
 
+  srcImagen 
   registroUsuario: Usuario = {
     correo: 'diego',
     contrasena: '123456',
     repContrasena: '123456',
     nombres: 'Diego',
     apellidos: 'Serrano',
-    fecha_nacimiento: '2020-01-01'
+    fecha_nacimiento: '2020-01-01',
+    foto: null
   };
 
   constructor( private UsuarioService: UsuarioService,
@@ -62,7 +65,7 @@ export class LoginPage implements OnInit {
   //Registrar usuario
   async registro ( fRegistro: NgForm ) {
 
-    if( fRegistro.invalid ) {
+    if( fRegistro.invalid || this.registroUsuario.foto==null ) {
       return;
     }
 
@@ -106,7 +109,26 @@ export class LoginPage implements OnInit {
   olvide_mi_contrasena(){
 
 }
+public async addNewToGallery() {
+  // Take a photo
+  const capturedPhoto = await Camera.getPhoto({
+    resultType: CameraResultType.Base64,
+    source: CameraSource.Camera,
+    quality: 100,
+    
 
+  });
+  console.log("la foto", capturedPhoto)
+  this.srcImagen= capturedPhoto.base64String
+  let dataUpload:DataUpload = {
+    name: "imagen",
+    ext: capturedPhoto.format,
+    fecha: new Date(),
+    fileBase64: capturedPhoto.base64String,
+             
+  };
+  this.registroUsuario.foto = dataUpload;  
+}
 
 
 }

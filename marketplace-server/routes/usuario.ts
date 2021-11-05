@@ -33,6 +33,7 @@ userRotes.post('/login', (req: Request, res: Response) => {
                 fecha_nacimiento: userDB.fecha_nacimiento,
                 contrasena: userDB.contrasena,
                 estado: userDB.estado,
+           
             });
             res.json({
                 ok: true,
@@ -62,7 +63,7 @@ userRotes.post('/crearUsuario', (req: Request, res: Response) => {
         correo: req.body.correo,
         fecha_nacimiento: req.body.fecha_nacimiento,
         contrasena: bcrypt.hashSync(req.body.contrasena, 10),   //Encriptar la contrasena
-
+        foto: req.body.foto
     };
 
     
@@ -78,6 +79,7 @@ userRotes.post('/crearUsuario', (req: Request, res: Response) => {
         fecha_nacimiento: userDB.fecha_nacimiento,
         contrasena: userDB.contrasena,
         estado: userDB.estado,
+
         });
         
         res.json({
@@ -95,6 +97,12 @@ userRotes.post('/crearUsuario', (req: Request, res: Response) => {
 
 });
 
+//get image
+userRotes.get('/getImagen', [verificaToken], (req: any, res: Response)=>
+{
+    Usuario.findOne({ _id: req.body.id }, ( err: any, userDB: any ) => {
+    })
+})
 
 //USUARIO - Actualizar
 userRotes.post('/actualizarUsuario', [verificaToken],  (req: any, res: Response) => {
@@ -105,7 +113,8 @@ userRotes.post('/actualizarUsuario', [verificaToken],  (req: any, res: Response)
         correo: req.body.correo || req.usuario.correo,
         fecha_nacimiento: req.body.fecha_nacimiento || req.usuario.fecha_nacimiento,
         contrasena: bcrypt.hashSync(req.body.contrasena, 10) || req.usuario.contrasena, 
-        estado: req.body.estado || req.usuario.estado
+        estado: req.body.estado || req.usuario.estado,
+        foto: req.body.foto
     }
 
     Usuario.findByIdAndUpdate( req.usuario._id, user, { new: true }, ( err, userDB ) => {

@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
 const autenticacion_1 = require("../middlewares/autenticacion");
 // Escribir en el URL ciertas direcciones - tipos de peticiones REST
-const userRotes = express_1.Router();
+const userRotes = (0, express_1.Router)();
 //USUARIO - Login
 userRotes.post('/login', (req, res) => {
     usuario_model_1.Usuario.findOne({ correo: req.body.correo }, (err, userDB) => {
@@ -61,7 +61,8 @@ userRotes.post('/crearUsuario', (req, res) => {
         apellidos: req.body.apellidos,
         correo: req.body.correo,
         fecha_nacimiento: req.body.fecha_nacimiento,
-        contrasena: bcrypt_1.default.hashSync(req.body.contrasena, 10), //Encriptar la contrasena
+        contrasena: bcrypt_1.default.hashSync(req.body.contrasena, 10),
+        foto: req.body.foto
     };
     //Crear usuario en BDD
     usuario_model_1.Usuario.create(usuario).then(userDB => {
@@ -86,6 +87,11 @@ userRotes.post('/crearUsuario', (req, res) => {
         });
     });
 });
+//get image
+userRotes.get('/getImagen', [autenticacion_1.verificaToken], (req, res) => {
+    usuario_model_1.Usuario.findOne({ _id: req.body.id }, (err, userDB) => {
+    });
+});
 //USUARIO - Actualizar
 userRotes.post('/actualizarUsuario', [autenticacion_1.verificaToken], (req, res) => {
     const user = {
@@ -94,7 +100,8 @@ userRotes.post('/actualizarUsuario', [autenticacion_1.verificaToken], (req, res)
         correo: req.body.correo || req.usuario.correo,
         fecha_nacimiento: req.body.fecha_nacimiento || req.usuario.fecha_nacimiento,
         contrasena: bcrypt_1.default.hashSync(req.body.contrasena, 10) || req.usuario.contrasena,
-        estado: req.body.estado || req.usuario.estado
+        estado: req.body.estado || req.usuario.estado,
+        foto: req.body.foto
     };
     usuario_model_1.Usuario.findByIdAndUpdate(req.usuario._id, user, { new: true }, (err, userDB) => {
         if (err)

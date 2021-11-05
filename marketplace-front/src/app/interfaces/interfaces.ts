@@ -26,6 +26,7 @@ export interface Usuario {
   fecha_nacimiento?: string;
   contrasena?: string;
   repContrasena? : string;
+  foto? :any;
 }
 
 

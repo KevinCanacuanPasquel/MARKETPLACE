@@ -95,37 +95,52 @@ agrupacionRoutes.put('/actualizarAgrupacion', [autenticacion_1.verificaToken], (
     });
 });
 //Servicio para subir archivos
-agrupacionRoutes.post('/cargarImagenesAgrupacion', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.files) {
+/*
+agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
+
+    if ( !req.files ) {
         return res.status(400).json({
             ok: false,
             mensaje: 'No se subio ningun archivo'
         });
     }
-    const file = req.files.imagen;
-    if (!file) {
+
+    const file: FileUpload = req.files.imagen;
+
+    if ( !file ){
         return res.status(400).json({
             ok: false,
             mensaje: 'No se subio ningun archivo - imagen'
         });
     }
-    if (!file.mimetype.includes('image')) {
+
+    if ( !file.mimetype.includes('image') ) {
         return res.status(400).json({
             ok: false,
             mensaje: 'Lo que cargo no es una imagen'
         });
     }
-    yield fileSystem.guardarImagenTemporal(file, req.usuario._id);
+
+    await fileSystem.guardarImagenTemporal( file, req.usuario._id );
+    
+
     res.json({
         ok: true,
         file: file.mimetype
     });
-}));
+
+})
+
+
 //Mostrar Imagenes
-agrupacionRoutes.get('/imagen/:userid/:img', (req, res) => {
+agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
+
     const userId = req.params.userid;
     const img = req.params.img;
-    const pathFoto = fileSystem.getFotoUrl(userId, img);
+
+    const pathFoto = fileSystem.getFotoUrl( userId, img);
+
     res.sendFile(pathFoto);
 });
+*/
 exports.default = agrupacionRoutes;

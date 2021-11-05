@@ -1,5 +1,5 @@
 import { Schema, Document, model } from 'mongoose';
-import { Imagen } from './imagen';
+
 
 //Modelo BDD
 const agrupacionSchema = new Schema({
