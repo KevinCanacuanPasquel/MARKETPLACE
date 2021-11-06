@@ -87,16 +87,11 @@ export class CrearAgrupaciones {
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ', );
       }
-    
-    
-   
 
     },error =>{
       this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ');
       console.log("valio madres")
     });
-
-
   }
 
   actualizarAgrupacion() {

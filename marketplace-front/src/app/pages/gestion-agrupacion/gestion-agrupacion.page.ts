@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { async, BehaviorSubject } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/interfaces';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
@@ -29,11 +29,9 @@ export class GestionAgrupacionPage implements OnInit {
   
  
   ngOnInit() {
-      this.usuarioService.getUsuario().then(p=>{
-       this.usuario= p;
-     });
      
-     console.log(this.usuario)
+     
+     console.log("el usuario", this.usuario)
      this.getAgrupaciones();
     
   }
@@ -44,8 +42,16 @@ export class GestionAgrupacionPage implements OnInit {
   
  }
 
- 
-  getAgrupaciones(){
+  getDatosUsuario(){
+    this.usuarioService.getUsuario().then(p=>{
+      console.log("p", p)
+     this.usuario= p;
+   });
+  }
+
+  async getAgrupaciones(){
+    await  this.getDatosUsuario();
+    console.log(this.usuario._id)
     this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
       console.log("agrupaciones" ,data.agrupaciones);
       this.catalogoAgrupaciones = data.agrupaciones

@@ -49,7 +49,7 @@ export class AgrupacionesService {
     params = params.set('userId', userId );
     let options = { headers: this.headers, params: params };
   
-    return this.http.get<RespuestaAgrupaciones>( URL+ '/agrupacion//agrupacionesByUsuario',options );
+    return this.http.get<RespuestaAgrupaciones>( URL+ '/agrupacion/agrupacionesByUsuario',options );
   }
 }
 
