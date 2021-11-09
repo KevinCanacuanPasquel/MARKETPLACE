@@ -98,11 +98,26 @@ userRotes.post('/crearUsuario', (req: Request, res: Response) => {
 });
 
 //get image
-userRotes.get('/getImagen', [verificaToken], (req: any, res: Response)=>
+userRotes.get('/getUsuarioById', async (req:any, res:Response)=>
 {
-    Usuario.findOne({ _id: req.body.id }, ( err: any, userDB: any ) => {
-    })
+    console.log("el query", req.query.userId)
+    console.log("lo que reetorna ", await Usuario.findById(req.query.userId)                      
+    .exec())
+    const usuario = await Usuario.findById(req.query.userId)                      
+    .exec();
+    
+
+    res.json({
+    ok: true,
+    usuario
 })
+});
+
+
+    
+    
+    
+
 
 //USUARIO - Actualizar
 userRotes.post('/actualizarUsuario', [verificaToken],  (req: any, res: Response) => {

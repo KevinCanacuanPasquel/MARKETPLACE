@@ -6,6 +6,12 @@ export interface RespuestaAgrupaciones {
   agrupaciones: Agrupacion[];
 }
 
+
+export interface RespuestaUsuario {
+  ok: boolean;
+  usuario: Usuario;
+}
+
 export interface Agrupacion {
   fotos?: string[];
   _id?: string;
