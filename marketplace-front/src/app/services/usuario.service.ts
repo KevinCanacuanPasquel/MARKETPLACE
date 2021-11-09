@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
-import { Usuario } from '../interfaces/interfaces';
+import { RespuestaAgrupaciones, RespuestaUsuario, Usuario } from '../interfaces/interfaces';
 
 //URL = localhost:3000
 const URL = environment.url;
@@ -12,7 +12,7 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class UsuarioService {
-
+  headers;
   token:string= null;
   private usuario:Usuario = {};
 
@@ -146,6 +146,9 @@ console.log("entra a validar");
 
   }
 
+
+
+
   //Actualizar Usuario
   actualizarUsuario( usuario: Usuario ) {
 
@@ -170,5 +173,13 @@ console.log("entra a validar");
     
   }
 
+//usuario by id
 
+getUsuarioById(userId){
+  let params = new HttpParams();
+  params = params.set('userId', userId );
+  let options = { headers: this.headers, params: params };
+
+  return this.http.get<RespuestaUsuario>( URL+ '/user/getUsuarioById',options );
+}
 }

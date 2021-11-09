@@ -88,10 +88,17 @@ userRotes.post('/crearUsuario', (req, res) => {
     });
 });
 //get image
-userRotes.get('/getImagen', [autenticacion_1.verificaToken], (req, res) => {
-    usuario_model_1.Usuario.findOne({ _id: req.body.id }, (err, userDB) => {
+userRotes.get('/getUsuarioById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("el query", req.query.userId);
+    console.log("lo que reetorna ", yield usuario_model_1.Usuario.findById(req.query.userId)
+        .exec());
+    const usuario = yield usuario_model_1.Usuario.findById(req.query.userId)
+        .exec();
+    res.json({
+        ok: true,
+        usuario
     });
-});
+}));
 //USUARIO - Actualizar
 userRotes.post('/actualizarUsuario', [autenticacion_1.verificaToken], (req, res) => {
     const user = {
