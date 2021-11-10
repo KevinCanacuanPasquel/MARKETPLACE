@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
 
     //Traer el token al iniciar correctamente la sesion
     const valido = await this.UsuarioService.login( this.loginUser.correo, this.loginUser.contrasena );
-
+    console.log(" valido", valido)
     if( valido ) {
       //Ingresar a la APP
       this.navCtrl.navigateRoot( '/ofertar-explorar', { animated: true });
