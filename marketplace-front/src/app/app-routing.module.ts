@@ -40,7 +40,12 @@ const routes: Routes = [
   {
     path: 'actualizar-usuario',
     loadChildren: () => import('./pages/actualizar-usuario/actualizar-usuario.module').then( m => m.ActualizarUsuarioPageModule)
+  },
+  {
+    path: 'actividad',
+    loadChildren: () => import('./pages/actividad/actividad.module').then( m => m.ActividadPageModule)
   }
+
 
 ];
 @NgModule({

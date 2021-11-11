@@ -16,7 +16,7 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     IonicModule,
     GestionAgrupacionPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
   ],
   declarations: [GestionAgrupacionPage]
 })
