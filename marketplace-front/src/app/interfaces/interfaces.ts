@@ -6,6 +6,11 @@ export interface RespuestaAgrupaciones {
   agrupaciones: Agrupacion[];
 }
 
+export interface RespuestaActividades {
+  ok: boolean;
+  actividades: Actividad[];
+}
+
 
 export interface RespuestaUsuario {
   ok: boolean;
@@ -21,6 +26,11 @@ export interface Agrupacion {
   tiempoexistente?: string;
   estasuscrito?: number;
   usuario?: Usuario;
+}
+
+export interface Actividad {
+  nombre?: string;
+  arte? : string;
 }
 
 export interface Usuario {
