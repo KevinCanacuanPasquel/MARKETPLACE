@@ -12,6 +12,7 @@ export class CrearActividadComponent implements OnInit {
   item
   titulo="Crear Actividad";
   actividad = {
+    _id: "",
     nombre: "",
     arte: ""
   }
@@ -39,7 +40,7 @@ export class CrearActividadComponent implements OnInit {
       // this.agrupacion.fotos = this.item.fotos
       this.actividad.nombre = this.item.nombre
       this.actividad.arte = this.item.arte
-     
+      this.actividad._id = this.item._id
       this.enableEditar.next(true);
       this.enableCrear.next(false);
     
@@ -49,14 +50,20 @@ export class CrearActividadComponent implements OnInit {
 
 
   crearActividad(){
-    this.actividadService.crearAgrupacion(this.actividad).subscribe((data:any)=>{
-      if(data.ok){
-        console.log("lo logro", data.actividad)
+    this.actividadService.crearActividad(this.actividad).subscribe((data:any)=>{
+      if(data){
+        this.router.navigate(['/actividad/gestion-actividad' ]);
+        this.enableCrear.next(false);
       }
     })
   }
   actualizarActividad(){
-
+    this.actividadService.actualizarActividad(this.actividad).subscribe((data:any)=>{
+      if(data){
+        this.router.navigate(['/actividad/gestion-actividad' ]);
+        this.enableEditar.next(false);
+      }
+    })
   }
 
 

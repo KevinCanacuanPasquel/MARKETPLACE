@@ -37,7 +37,8 @@ actividadRoutes.get('/actividadPorPadre', (req, res) => __awaiter(void 0, void 0
 actividadRoutes.post('/crearActividad', (req, res) => {
     const actividad = {
         nombre: req.body.nombre,
-        arte: req.body.arte
+        arte: req.body.arte,
+        estado: "ACTIVO"
     };
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
@@ -51,30 +52,31 @@ actividadRoutes.get('/actividadPorParametros', (req, res) => __awaiter(void 0, v
     console.log("pruebas");
     const nombre = req.query.nombre;
     const arte = req.query.arte;
+    const estado = req.query.estado;
     console.log(arte);
     if (arte && nombre) {
-        const actividades = yield actividad_model_1.Actividad.find({ nombre: nombre, arte: arte }).exec();
+        const actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, arte: { $regex: arte }, estado: estado }).exec();
         res.json({
             ok: true,
             actividades
         });
     }
     else if (nombre) {
-        const actividades = yield actividad_model_1.Actividad.find({ nombre: nombre }).exec();
+        const actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, estado: estado }).exec();
         res.json({
             ok: true,
             actividades
         });
     }
     else if (arte) {
-        const actividades = yield actividad_model_1.Actividad.find({ arte: arte }).exec();
+        const actividades = yield actividad_model_1.Actividad.find({ arte: { $regex: arte }, estado: estado }).exec();
         res.json({
             ok: true,
             actividades
         });
     }
     else {
-        const actividades = yield actividad_model_1.Actividad.find({}).exec();
+        const actividades = yield actividad_model_1.Actividad.find({ estado: estado }).exec();
         res.json({
             ok: true,
             actividades
@@ -82,40 +84,29 @@ actividadRoutes.get('/actividadPorParametros', (req, res) => __awaiter(void 0, v
     }
 }));
 ///ACTUALIZAR
-//USUARIO - Actualizar
-/*agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: Response) => {
-
-    const agrup = {
-        nombre: req.body.nombre ,
-        descripcion: req.body.descripcion ,
-        numintegrantes: req.body.numintegrantes ,
-        tiempoexistente: req.body.tiempoexistente ,
-        estasuscrito: req.body.estasuscrito ,
-        _id: req.body.id
-     //   estado: req.body.estado || req.usuario.estado
-    }
-    console.log(agrup)
-    Agrupacion.findByIdAndUpdate( agrup._id, agrup, { new: true }, ( err, agrupacionDB ) => {
-
-        if ( err ) throw err;
-
-        if ( !agrupacionDB ) {
+//Actividad - Actualizar
+actividadRoutes.put('/actualizarActividad', (req, res) => {
+    const actividad = {
+        _id: req.body._id,
+        nombre: req.body.nombre,
+        arte: req.body.arte,
+        estado: req.body.estado
+        //   estado: req.body.estado || req.usuario.estado
+    };
+    actividad_model_1.Actividad.findByIdAndUpdate(actividad._id, actividad, { new: true }, (err, actividadDB) => {
+        if (err)
+            throw err;
+        if (!actividadDB) {
             return res.json({
                 ok: false,
-                mensaje: 'No existe un agrupacion con ese ID'
+                mensaje: 'No existe un actividad con ese ID'
             });
         }
-
         //Token
-     
-            
-            res.json({
-                ok: true,
-                agrupacion: agrupacionDB
-            });
-
+        res.json({
+            ok: true,
+            actividad: actividadDB
+        });
     });
-
 });
-*/
 exports.default = actividadRoutes;

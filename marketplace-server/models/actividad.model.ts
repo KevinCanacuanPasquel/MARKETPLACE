@@ -12,8 +12,11 @@ const actividadSchema = new Schema({
     arte:{
         type: String,
         required: [ true]
+    },
+    estado:{
+        type: String,
+        required: [ true]
     }
-   
 
 });
 
