@@ -29,7 +29,7 @@ export class ActividadService {
   }
 
 
-  crearAgrupacion(actividad) {
+  crearActividad(actividad) {
 
     let options = { headers: this.headers};
     return this.http.post(URL + '/actividad/crearActividad', actividad, options) ;
@@ -42,11 +42,18 @@ export class ActividadService {
     return this.http.get<RespuestaActividades>( URL+ '/actividad/actividadPorPadre',options );
   }
 
-  getActividadesByParams(nombre, arte){
+  getActividadesByParams(nombre, arte, estado){
     let params = new HttpParams();
     params = params.set('nombre', nombre );
     params = params.set('arte', arte );
+    params = params.set('estado', estado );
     let options = { headers: this.headers, params: params};
     return this.http.get<RespuestaActividades>( URL+ '/actividad/actividadPorParametros',options );
+  }
+
+  actualizarActividad( actividad ) {
+
+    let options = { headers: this.headers};
+    return this.http.put(URL + '/actividad/actualizarActividad', actividad, options) ;
   }
 }

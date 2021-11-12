@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { ActividadService } from 'src/app/services/actividad.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
@@ -11,15 +12,17 @@ import { UiServiceService } from 'src/app/services/ui-service.service';
 })
 export class GestionActividadComponent implements OnInit {
 
-  constructor(private actividadService: ActividadService, private navCtrl: NavController, private uiService: UiServiceService) { }
+  constructor(private actividadService: ActividadService, private navCtrl: NavController, private uiService: UiServiceService, private router:Router) { }
   nombre;
   arteValue;
-  catalogoArtes = ["escenica", "musica"]; 
+  estado = "ACTIVO"
+  catalogoArtes = ["","escenica", "musica"]; 
   titulo ="Gestion de Actividades"
   dataSource = new MatTableDataSource<any>();
   displayedColumns = ['nombre', 'arte', 'accion']
   ngOnInit() {
-    this.getActividades();
+
+    this.getActividadesByParams();
   }
 
 
@@ -36,7 +39,7 @@ export class GestionActividadComponent implements OnInit {
 
   getActividadesByParams(){
 
-    this.actividadService.getActividadesByParams(this.nombre? this.nombre: "", this.arteValue? this.arteValue : "").subscribe((data:any)=>{
+    this.actividadService.getActividadesByParams(this.nombre? this.nombre: "", this.arteValue? this.arteValue : "", this.estado? this.estado: "").subscribe((data:any)=>{
       console.log(data.actividades)
       this.dataSource = new MatTableDataSource<any>(data.actividades);
     })
@@ -54,6 +57,16 @@ export class GestionActividadComponent implements OnInit {
   }
 
   eliminarActividad(row){
-
+      row.estado = "INACTIVO"
+      this.actividadService.actualizarActividad(row).subscribe((data:any)=>{
+        if(data){
+          console.log("lo logro")
+          this.getActividadesByParams();
+        }
+      
+      })
+  }
+  crearActividad(){
+    this.router.navigate(['/actividad/crear-actividad' ]);
   }
 }

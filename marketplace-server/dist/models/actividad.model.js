@@ -11,6 +11,10 @@ const actividadSchema = new mongoose_1.Schema({
     arte: {
         type: String,
         required: [true]
+    },
+    estado: {
+        type: String,
+        required: [true]
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos

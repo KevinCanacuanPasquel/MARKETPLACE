@@ -45,7 +45,8 @@ actividadRoutes.post('/crearActividad',  (req:any, res:Response) => {
 
     const actividad = {
         nombre: req.body.nombre,
-        arte: req.body.arte
+        arte: req.body.arte,
+        estado: "ACTIVO"
     }
 
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
@@ -62,11 +63,11 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
     console.log("pruebas")
     const nombre = req.query.nombre;
     const arte = req.query.arte;
-    
+    const estado = req.query.estado
     console.log(arte)
     if(arte && nombre) {
         const actividades = await Actividad.find( 
-            {nombre: nombre, arte: arte }).exec();
+            {nombre: { $regex: nombre }, arte: { $regex: arte } , estado:estado}).exec();
             
         res.json({
             ok: true,
@@ -74,7 +75,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
         });
     }else if(nombre){
         const actividades = await Actividad.find( 
-            {nombre: nombre}).exec();
+            {nombre: { $regex: nombre },  estado:estado}).exec();
     
         res.json({
             ok: true,
@@ -82,7 +83,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
         });
     }else if(arte) {
         const actividades = await Actividad.find( 
-            {arte: arte }).exec();
+            {arte:  { $regex: arte } ,  estado:estado}).exec();
     
         res.json({
             ok: true,
@@ -90,7 +91,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
         });
     } else {
         const actividades = await Actividad.find( 
-            { }).exec();
+            { estado:estado }).exec();
     
         res.json({
             ok: true,
@@ -105,27 +106,25 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
 
 
 ///ACTUALIZAR
-//USUARIO - Actualizar
-/*agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: Response) => {
+//Actividad - Actualizar
+actividadRoutes.put('/actualizarActividad',   (req: any, res: Response) => {
 
-    const agrup = {
+    const actividad = {
+        _id: req.body._id,
         nombre: req.body.nombre ,
-        descripcion: req.body.descripcion ,
-        numintegrantes: req.body.numintegrantes ,
-        tiempoexistente: req.body.tiempoexistente ,
-        estasuscrito: req.body.estasuscrito ,
-        _id: req.body.id
+        arte: req.body.arte ,
+        estado: req.body.estado
      //   estado: req.body.estado || req.usuario.estado
     }
-    console.log(agrup)
-    Agrupacion.findByIdAndUpdate( agrup._id, agrup, { new: true }, ( err, agrupacionDB ) => {
+    
+    Actividad.findByIdAndUpdate( actividad._id, actividad, { new: true }, ( err, actividadDB ) => {
 
         if ( err ) throw err;
 
-        if ( !agrupacionDB ) {
+        if ( !actividadDB ) {
             return res.json({
                 ok: false,
-                mensaje: 'No existe un agrupacion con ese ID'
+                mensaje: 'No existe un actividad con ese ID'
             });
         }
 
@@ -134,13 +133,13 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
             
             res.json({
                 ok: true,
-                agrupacion: agrupacionDB
+                actividad: actividadDB
             });
 
     });
 
 });
-*/
+
 
 
 export default actividadRoutes;
