@@ -11,6 +11,7 @@ const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("./routes/usuario"));
 const agrupacion_1 = __importDefault(require("./routes/agrupacion"));
+const actividad_1 = __importDefault(require("./routes/actividad"));
 const server = new server_1.Server();
 exports.UPLOAD_PATH = 'uploads';
 //Middleware para utilizar JS - bodyParser
@@ -24,6 +25,7 @@ server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
 // Rutas de las APP
 server.app.use('/user', usuario_1.default);
 server.app.use('/agrupacion', agrupacion_1.default);
+server.app.use('/actividad', actividad_1.default);
 //Conectar BD
 mongoose_1.default.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true, useCreateIndex: true }, (error => {
     if (error)

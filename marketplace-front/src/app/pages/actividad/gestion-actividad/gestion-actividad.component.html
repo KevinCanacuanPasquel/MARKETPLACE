@@ -1,0 +1,95 @@
+<ion-header no-border>
+  <ion-toolbar>
+      <ion-title>
+      {{titulo}}
+    </ion-title>
+
+    <ion-row>
+      <ion-col size="4" >
+      <ion-item>
+        <ion-label position="stacked">Nombre:</ion-label>
+        <ion-input type="text"
+                   required
+                   [(ngModel)]="nombre"
+                   #tiempoExistenteInput = "ngModel">
+        </ion-input>
+      </ion-item>  
+      </ion-col>
+
+      <ion-col size="4" offset="1">
+        <ion-item>
+          <ion-label position="stacked">Arte:</ion-label>
+          <ion-select [(ngModel)]="arteValue" placeholder ="Filtro por artes" >
+            <ion-select-option  *ngFor="let actividad of catalogoArtes" [value]="actividad" >
+              {{actividad}}
+            </ion-select-option>
+          
+          </ion-select>
+        </ion-item>  
+        </ion-col>
+    </ion-row>
+    <ion-buttons slot="end">
+      <ion-button  (click)="getActividadesByParams()"
+                  
+                  color="primary">
+        BUSCAR
+      </ion-button>
+      <ion-button  (click)="crearActividad()"
+                  
+      color="primary">
+CREAR
+</ion-button>
+  
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card>
+    
+    <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+    
+      <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nombre}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="arte">
+          <mat-header-cell *matHeaderCellDef>Arte</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+             {{element.arte}}
+          </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accion" sticky>
+        <mat-header-cell *matHeaderCellDef>Accion</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <ion-button (click)="editarActividad(row)">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+          <ion-button (click)="eliminarActividad(row)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </mat-cell>
+    </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  </ion-card>
+
+  
+
+
+
+
+
+</ion-content>
+
+<ion-footer>
+  <app-footer></app-footer>
+
+</ion-footer>
+
+<!-- 
+   -->
