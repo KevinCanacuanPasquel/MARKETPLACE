@@ -14,7 +14,8 @@ export class CrearActividadComponent implements OnInit {
   actividad = {
     _id: "",
     nombre: "",
-    arte: ""
+    arte: "",
+    estado: ""
   }
 
   enableEditarButton;
@@ -41,6 +42,7 @@ export class CrearActividadComponent implements OnInit {
       this.actividad.nombre = this.item.nombre
       this.actividad.arte = this.item.arte
       this.actividad._id = this.item._id
+      this.actividad.estado = this.item.estado
       this.enableEditar.next(true);
       this.enableCrear.next(false);
     
