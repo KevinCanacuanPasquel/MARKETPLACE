@@ -35,6 +35,11 @@ export class OpcionesMasComponent implements OnInit {
     
   }
 
+  cuentasBancarias() {
+    this.popoverCtrl.dismiss();
+    this.navCtrl.navigateRoot( '/cuentas-bancarias', { animated: true });
+  }
+
   logout() {
 
     this.popoverCtrl.dismiss();
