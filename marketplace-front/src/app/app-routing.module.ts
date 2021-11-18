@@ -44,7 +44,23 @@ const routes: Routes = [
   {
     path: 'actividad',
     loadChildren: () => import('./pages/actividad/actividad.module').then( m => m.ActividadPageModule)
+  },  {
+    path: 'gestion-servicios',
+    loadChildren: () => import('./pages/gestion-servicios/gestion-servicios.module').then( m => m.GestionServiciosPageModule)
+  },
+  {
+    path: 'crear-servicio',
+    loadChildren: () => import('./pages/crear-servicio/crear-servicio.module').then( m => m.CrearServicioPageModule)
+  },
+  {
+    path: 'cuentas-bancarias',
+    loadChildren: () => import('./pages/cuentas-bancarias/cuentas-bancarias.module').then( m => m.CuentasBancariasPageModule)
+  },
+  {
+    path: 'crear-cuentabancaria',
+    loadChildren: () => import('./pages/crear-cuentabancaria/crear-cuentabancaria.module').then( m => m.CrearCuentabancariaPageModule)
   }
+
 
 
 ];

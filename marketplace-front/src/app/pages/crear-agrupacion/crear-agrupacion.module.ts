@@ -19,7 +19,6 @@ import { ComponentsModule } from '../../components/components.module';
     ComponentsModule,
     ExploreContainerComponentModule,
     CrearAgrupacionPageRoutingModule,
-    ComponentsModule
   ],
   declarations: [CrearAgrupaciones]
 })

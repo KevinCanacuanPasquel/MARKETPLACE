@@ -74,6 +74,18 @@ export class GestionAgrupacionPage implements OnInit {
 
   }
 
+  contratosAgrupacion() {
+
+  }
+
+  gestionServiciosAgrupacion() {
+    if(this.agrupacionValue != null){
+      this.navCtrl.navigateRoot( '/gestion-servicios', { state: { item: this.agrupacionValue }});
+    }else{
+      this.uiService.alertaActualizacionUsuario(' Debes seleccionar la agrupacion  que deseas administrar ');
+    }
+  }
+
   registrarServicioAgrupacion() {
     if(this.agrupacionValue != null){
       //this.navCtrl.navigateRoot( '/crear-agrupacion', { state: { item: this.agrupacionValue }});

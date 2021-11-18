@@ -1,0 +1,146 @@
+<ion-header no-border>
+  <ion-toolbar>
+      <ion-title>
+      {{titulo}}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="crearServicio()" color="primary">
+        CREAR
+      </ion-button>
+      <ion-button (click)="actualizarAgrupacion()" color="primary">
+        EDITAR
+      </ion-button>
+    </ion-buttons>
+
+    <!-- <ion-buttons slot="end">
+      <ion-button *ngIf="disableCrearButton | async" (click)="crearServicio()"
+                  [disabled] = "agrupacion.nombre.length < 1"
+                  color="primary">
+        CREAR
+      </ion-button>
+      <ion-button *ngIf="disableEditarButton | async" (click)="actualizarAgrupacion()"
+      [disabled] = "agrupacion.nombre.length < 1"
+      color="primary">EDITAR</ion-button>
+    </ion-buttons> -->
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    
+    <!-- COMBOS BOX -->
+    <ion-item>
+      <ion-label position="stacked">ACTIVIDAD</ion-label>
+      <ion-input type="text"
+                 required>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">ARTE</ion-label>
+      <ion-input type="text"
+                 required>
+      </ion-input>
+    </ion-item>
+    <!-- FIN -->
+
+    
+    <!-- FORMULARIO -->
+    <ion-item>
+      <ion-label position="stacked">Nombre del servicio</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="servicio.nombre"
+                 #nombreInput = "ngModel">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="nombreInput.touched && nombreInput.dirty">
+      <h6 class="ion-text-center" *ngIf="nombreInput.errors?.required">
+        Nombre Requerido
+      </h6>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Descripcion del servicio</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="servicio.descripcion"
+                 #descripcionInput = "ngModel">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="descripcionInput.touched && descripcionInput.dirty">
+      <h6 class="ion-text-center" *ngIf="descripcionInput.errors?.required">
+        Descripcion Requerida
+      </h6>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Valor estimado del servicio</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="servicio.valor"
+                 #valorInput = "ngModel">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="valorInput.touched && valorInput.dirty">
+      <h6 class="ion-text-center" *ngIf="valorInput.errors?.required">
+        Valor del servicio Requerido
+      </h6>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Ubicacion del servicio</ion-label>
+      <ion-input type="text"
+                 required
+                 [(ngModel)]="servicio.ubicacion"
+                 #ubicacionInput = "ngModel">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="ubicacionInput.touched && ubicacionInput.dirty">
+      <h6 class="ion-text-center" *ngIf="ubicacionInput.errors?.required">
+        Ubicacion Requerida
+      </h6>
+    </div>
+  </ion-list>
+
+
+  <!-- FOTOS -->
+  <ion-row>
+    <ion-col size="6">
+      <ion-button expand="full"
+                  shape="round" (click)="addNewToGallery()">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Cámara
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="full"
+                  shape="round"  (click)="openDialog()">
+                  <ion-icon name="add-circle"></ion-icon>
+        Subir fotos
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-text color="primary" class="ion-text-center">
+    <h3>GALERIA</h3>
+  </ion-text>
+  <app-galeria-imagenes [listaImagenesInput]="servicio.fotos"></app-galeria-imagenes>
+
+  <ion-button expand="full"
+                  shape="round" (click)="reactivarServicio()"
+                  color="light">
+        <ion-icon slot="start" name="arrow-up-outline"></ion-icon>
+        REACTIVAR SERVICIO
+      </ion-button>
+
+
+
+</ion-content>
+
+<ion-footer>
+  <app-footer></app-footer>
+</ion-footer>

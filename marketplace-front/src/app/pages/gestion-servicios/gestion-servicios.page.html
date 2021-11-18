@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión Servicios "AGRUPACION"</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card mode='md'>
+    
+    <ion-card-header>
+      <ion-card-title>Nombre del Servicio</ion-card-title>
+      <ion-card-subtitle>Descripcion del Servicio</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Descripcion del Servicio
+        <ion-buttons>
+          <ion-button (click)="opcionesServicio( $event )" color="warning">
+            <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-card-content>
+  </ion-card>
+
+  <div class="centrado">
+    <ion-button (click)="crearServicio()" color="dark" shape="round">Crear Servicio </ion-button>
+  </div>
+
+
+</ion-content>
+
+<ion-footer>
+  <app-footer></app-footer>
+</ion-footer>
