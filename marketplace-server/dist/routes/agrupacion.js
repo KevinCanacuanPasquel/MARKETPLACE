@@ -16,7 +16,7 @@ const express_1 = require("express");
 const autenticacion_1 = require("../middlewares/autenticacion");
 const agrupacion_model_1 = require("../models/agrupacion.model");
 const file_system_1 = __importDefault(require("../classes/file-system"));
-const agrupacionRoutes = express_1.Router();
+const agrupacionRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 agrupacionRoutes.get('/agrupaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
