@@ -28,6 +28,12 @@
               <p>Estado : {{cuenta.estado}}</p> 
           </ion-item>
 
+          <ion-button expand="full" *ngIf="cuenta.estado =='INACTIVO'"
+          shape="round" (click)="activarCuentaBancaria(cuenta)"
+          color="light">
+          <ion-icon name="checkmark"></ion-icon>
+       ACTIVAR CUENTA
+        </ion-button>
 
 
           <ion-item-options side="end">
