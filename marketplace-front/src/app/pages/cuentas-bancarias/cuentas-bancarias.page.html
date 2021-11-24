@@ -25,12 +25,13 @@
               </ion-label>
 
               <ion-label slot="end" class="ion-text-end text-small">Tipo de Cuenta: {{cuenta.tipoCuenta}}</ion-label>
+              <p>Estado : {{cuenta.estado}}</p> 
           </ion-item>
 
 
 
           <ion-item-options side="end">
-              <ion-item-option color="danger" (click)="eliminarCuentaBancaria()">
+              <ion-item-option color="danger" (click)="eliminarCuentaBancaria(cuenta)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
               </ion-item-option>
           </ion-item-options>
