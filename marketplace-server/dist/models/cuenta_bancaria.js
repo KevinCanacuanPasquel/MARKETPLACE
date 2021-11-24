@@ -1,47 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Agrupacion = void 0;
+exports.CuentaBancaria = void 0;
 const mongoose_1 = require("mongoose");
 //Modelo BDD
-const agrupacionSchema = new mongoose_1.Schema({
-    nombre: {
+const cuentaBancariaSchema = new mongoose_1.Schema({
+    banco: {
         type: String
     },
-    descripcion: {
+    tipoCuenta: {
         type: String
     },
-    numintegrantes: {
-        type: Number
-    },
-    tiempoexistente: {
+    cuentaBancaria: {
         type: String
     },
-    estasuscrito: {
-        type: Number
-    },
-    estado: {
+    CIBancaria: {
         type: String
     },
-    fotos: [{
-            name: {
-                type: String
-            },
-            ext: {
-                type: String
-            },
-            fecha: {
-                type: Date
-            },
-            fileBase64: {
-                type: String
-            },
-        }],
     //Relacion con Usuario
     usuario: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Usuario',
         required: [true, 'Debe existir una relacion a un Usuario']
+    },
+    estado: {
+        type: String
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Agrupacion = (0, mongoose_1.model)('Agrupacion', agrupacionSchema);
+exports.CuentaBancaria = (0, mongoose_1.model)('CuentaBancaria', cuentaBancariaSchema);

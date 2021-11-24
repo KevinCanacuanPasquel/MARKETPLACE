@@ -2,64 +2,42 @@ import { Schema, Document, model } from 'mongoose';
 
 
 //Modelo BDD
-const agrupacionSchema = new Schema({
+const cuentaBancariaSchema = new Schema({
 
-    nombre: {
+    banco: {
         type: String
     },
-    descripcion: {
+    tipoCuenta: {
         type: String
     },
-    numintegrantes: { 
-        type: Number
-    },
-    tiempoexistente: {
+    cuentaBancaria: { 
         type: String
     },
-    estasuscrito: { 
-        type: Number
-    },
-    estado: { 
+    CIBancaria: {
         type: String
     },
-    fotos: [{
-        name: {
-            type: String
-        },
-        ext: {
-            type: String
-        },
-        fecha: { 
-            type: Date 
-        },
-        fileBase64:{
-            type: String
-        },      
-    
-        }],
-
-
     //Relacion con Usuario
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: [ true, 'Debe existir una relacion a un Usuario' ]
+    },
+    estado:{
+        type: String 
     }
 
 });
 
 
 // Tipado de datos
-interface Iagrupacion extends Document {
-    nombre: string;
-    descripcion: string;
-    numintegrantes: number;
-    tiempoexistente: string;
-    estasuscrito: number;
-    fotos: string[];
+interface IcuentaBancaria extends Document {
+    banco: string;
+    tipoCuenta: string;
+    cuentaBancaria: string;
+    CIBancaria: String;
     usuario:string;
-    estado: string; 
+
 }
 
 // model -> Ayuda con la interaccion con la Base de Datos
-export const Agrupacion = model<Iagrupacion>('Agrupacion', agrupacionSchema);
+export const CuentaBancaria = model<IcuentaBancaria>('CuentaBancaria', cuentaBancariaSchema);

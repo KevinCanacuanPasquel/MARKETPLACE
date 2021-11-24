@@ -12,20 +12,22 @@ const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("./routes/usuario"));
 const agrupacion_1 = __importDefault(require("./routes/agrupacion"));
 const actividad_1 = __importDefault(require("./routes/actividad"));
+const cuenta_bancaria_1 = __importDefault(require("./routes/cuenta_bancaria"));
 const server = new server_1.Server();
 exports.UPLOAD_PATH = 'uploads';
 //Middleware para utilizar JS - bodyParser
 server.app.use(express_1.default.json({ limit: '50mb' }));
 server.app.use(express_1.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 //File Upload - Toma los archivos que se sube
-server.app.use(express_fileupload_1.default());
+server.app.use((0, express_fileupload_1.default)());
 // Configuracion CORS - front
-server.app.use(cors_1.default({ origin: true, credentials: true }));
+server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
 // routes/usuario.ts - Definir una ruta en particula "middleware"
 // Rutas de las APP
 server.app.use('/user', usuario_1.default);
 server.app.use('/agrupacion', agrupacion_1.default);
 server.app.use('/actividad', actividad_1.default);
+server.app.use('/cuenta_bancaria', cuenta_bancaria_1.default);
 //Conectar BD
 mongoose_1.default.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true, useCreateIndex: true }, (error => {
     if (error)

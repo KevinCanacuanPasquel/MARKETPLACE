@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
 const autenticacion_1 = require("../middlewares/autenticacion");
 // Escribir en el URL ciertas direcciones - tipos de peticiones REST
-const userRotes = express_1.Router();
+const userRotes = (0, express_1.Router)();
 //USUARIO - Login
 userRotes.post('/login', (req, res) => {
     usuario_model_1.Usuario.findOne({ correo: req.body.correo }, (err, userDB) => {

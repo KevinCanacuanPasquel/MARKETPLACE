@@ -5,10 +5,10 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="crearCuentaBancaria()" color="primary">
+      <ion-button *ngIf="disableCrearButton | async" (click)="crearCuentaBancaria()" color="primary">
         CREAR
       </ion-button>
-      <ion-button (click)="actualizarCuentaBancarua()" color="primary">
+      <ion-button *ngIf="disableEditarButton | async" (click)="actualizarCuentaBancaria()" color="primary">
         EDITAR
       </ion-button>
     </ion-buttons>
@@ -18,36 +18,32 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-label position="stacked">Banco</ion-label>
-    <ion-input type="text"
-               required
-               [(ngModel)]="cuentaBancaria.banco"
-               #bancoInput = "ngModel">
-    </ion-input>
-  </ion-item>
-  <div *ngIf="bancoInput.touched && bancoInput.dirty">
-    <h6 class="ion-text-center" *ngIf="bancoInput.errors?.required">
-      Nombre del Banco Necesario
-    </h6>
-  </div>
+    <ion-label position="stacked">Arte:</ion-label>
+    <ion-select [(ngModel)]="cuentaBancaria.banco" placeholder ="Seleccione el banco" >
+      <ion-select-option  *ngFor="let banco of bancos" [value]="banco" >
+        {{banco}}
+      </ion-select-option>
+    
+    </ion-select>
+  </ion-item> 
+
 
   <ion-item>
-    <ion-label position="stacked">Tipo de Cuenta</ion-label>
-    <!-- <ion-input type="text"
-               required
-               [(ngModel)]="cuentaBancaria.tipodecuenta"
-               #tipodecuentaInput = "ngModel">
-    </ion-input> -->
-   
-    <ion-list slot="end">
-      <ion-item *ngFor="let entry of form">
-        <ion-label>{{entry.val}}</ion-label>
-        <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
-      </ion-item>
-    </ion-list>
-   
+
+    <ion-label position="">Tipo de Cuenta</ion-label>
+      <ion-radio-group value="biff" [(ngModel)]="cuentaBancaria.tipoCuenta">
+        
+        <ion-item>
+          <ion-label>CORRIENTE</ion-label>
+          <ion-radio slot="start" value="CORRIENTE"></ion-radio>
+        </ion-item>
     
+        <ion-item>
+          <ion-label>AHORROS</ion-label>
+          <ion-radio slot="start" value="AHORROS"></ion-radio>
   </ion-item>
+</ion-radio-group>
+</ion-item>
   <!-- <div *ngIf="tipodecuentaInput.touched && tipodecuentaInput.dirty">
     <h6 class="ion-text-center" *ngIf="tipodecuentaInput.errors?.required">
       Tipo de Cuenta Necesaria
@@ -58,7 +54,7 @@
     <ion-label position="stacked">Cuenta Bancaria</ion-label>
     <ion-input type="text"
                required
-               [(ngModel)]="cuentaBancaria.numcuenta"
+               [(ngModel)]="cuentaBancaria.cuentaBancaria"
                #numcuentaInput = "ngModel">
     </ion-input>
   </ion-item>
@@ -72,7 +68,7 @@
     <ion-label position="stacked">CI Cuenta</ion-label>
     <ion-input type="text"
                required
-               [(ngModel)]="cuentaBancaria.cicuenta"
+               [(ngModel)]="cuentaBancaria.CIBancaria"
                #ciInput = "ngModel">
     </ion-input>
   </ion-item>

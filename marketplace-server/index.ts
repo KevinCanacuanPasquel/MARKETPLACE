@@ -8,6 +8,7 @@ import express from 'express';
 import userRotes from './routes/usuario';
 import agrupacionRoutes from './routes/agrupacion';
 import actividadRoutes from './routes/actividad';
+import cuentaBancariaRoutes from './routes/cuenta_bancaria';
 
 const server = new Server();
 export let UPLOAD_PATH = 'uploads'
@@ -31,6 +32,7 @@ server.app.use( cors({ origin: true, credentials: true }) );
 server.app.use('/user', userRotes);
 server.app.use('/agrupacion', agrupacionRoutes);
 server.app.use('/actividad', actividadRoutes);
+server.app.use('/cuenta_bancaria', cuentaBancariaRoutes);
 
 //Conectar BD
 mongoose.connect('mongodb://localhost:27017/marketplace',
