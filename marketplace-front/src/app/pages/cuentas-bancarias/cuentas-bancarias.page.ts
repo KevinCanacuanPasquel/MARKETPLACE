@@ -12,7 +12,7 @@ export class CuentasBancariasPage implements OnInit {
 
   usuario;
   cuentasBancarias
-  constructor( private navCtrl: NavController, private usuarioService: UsuarioService, private cuentaBancaria: CuentaBancariaService) { }
+  constructor( private navCtrl: NavController, private usuarioService: UsuarioService, private cuentaBancariaService: CuentaBancariaService) { }
 
   ngOnInit() {
     this.getCuentasBancarias();
@@ -26,13 +26,20 @@ export class CuentasBancariasPage implements OnInit {
     this.navCtrl.navigateRoot( '/crear-cuentabancaria', { state: { item: cuenta }});
   }
 
-  eliminarCuentaBancaria(){
+  eliminarCuentaBancaria(row){
+    row.estado = "INACTIVO"
+    this.cuentaBancariaService.actualizarCuentaBancaria(row).subscribe((data:any)=>{
+      if(data){
+        console.log("lo logro")
+        this.getCuentasBancarias();
+      }
     
-  }
+    })
+}
   async getCuentasBancarias(){
     await  this.getDatosUsuario();
     console.log(this.usuario._id)
-    this.cuentaBancaria.getCuentaBancariaByUsuario(this.usuario._id).subscribe((data:any)=>{
+    this.cuentaBancariaService.getCuentaBancariaByUsuario(this.usuario._id).subscribe((data:any)=>{
       console.log("cuentasBancarias" ,data.cuentaBancaria);
       this.cuentasBancarias = data.cuentaBancaria
     })
