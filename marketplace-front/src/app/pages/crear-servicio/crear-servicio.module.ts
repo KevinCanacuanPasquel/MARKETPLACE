@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { IonicSelectableModule } from 'ionic-selectable';
 import { IonicModule } from '@ionic/angular';
 
 import { CrearServicioPageRoutingModule } from './crear-servicio-routing.module';
@@ -15,7 +15,8 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     IonicModule,
     CrearServicioPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    IonicSelectableModule
   ],
   declarations: [CrearServicioPage]
 })

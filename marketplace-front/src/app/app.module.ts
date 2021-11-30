@@ -16,6 +16,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatTableModule} from '@angular/material/table';
     HttpClientModule,
     MatDialogModule,
     MatTableModule,
+    IonicSelectableModule,
     
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,

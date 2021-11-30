@@ -3,17 +3,17 @@ import { Usuario } from '../models/usuario.model';
 import bcrypt from 'bcrypt';
 import Token from '../classes/token';
 import { verificaToken } from '../middlewares/autenticacion';
-import { Actividad } from '../models/actividad.model';
+import { Parametro } from '../models/parametro.model';
 
 
 
-const actividadRoutes = Router();
+const parametroRoutes = Router();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-actividadRoutes.get('/getActividad',  async (req:any, res:Response) => {
+parametroRoutes.get('/getparametro',  async (req:any, res:Response) => {
 
-    const actividades = await Actividad.find()                                        
+    const actividades = await Parametro.find()                                        
                                         .exec();
 
     res.json({
@@ -24,11 +24,11 @@ actividadRoutes.get('/getActividad',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-actividadRoutes.get('/actividadPorPadre',  async (req:any, res:Response) => {
+parametroRoutes.get('/getParametroByNombre',  async (req:any, res:Response) => {
     console.log(req.query.arte)
-    var query = {arte : req.query.arte, estado: "ACTIVO"};
+    var query = {nombre : req.query.nombre, estado:"ACTIVO"};
     
-    const actividades = await Actividad.find(query)                      
+    const actividades = await Parametro.find(query)                      
                                         .exec();
 
     res.json({
@@ -41,23 +41,19 @@ actividadRoutes.get('/actividadPorPadre',  async (req:any, res:Response) => {
 
 
 //AGRUPACION - Crear
-actividadRoutes.post('/crearActividad',  (req:any, res:Response) => {
+parametroRoutes.post('/crearParametro',  (req:any, res:Response) => {
 
-    const actividad = {
-        nombre: req.body.nombre,
-        arte: req.body.arte,
-        estado: "ACTIVO"
-    }
+    const parametro = req.body
 
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    Actividad.create(actividad).then(result => {
-        res.json(actividad);
+    Parametro.create(parametro).then(result => {
+        res.json(parametro);
     })
     .catch(error => console.error(error))
 })
-
+/*
 //   BUSQUEDA -por parameetros
 actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
     console.log("pruebas")
@@ -140,6 +136,6 @@ actividadRoutes.put('/actualizarActividad',   (req: any, res: Response) => {
 
 });
 
+*/
 
-
-export default actividadRoutes;
+export default parametroRoutes;
