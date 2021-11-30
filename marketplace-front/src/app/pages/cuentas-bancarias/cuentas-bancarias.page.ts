@@ -36,6 +36,17 @@ export class CuentasBancariasPage implements OnInit {
     
     })
 }
+activarCuentaBancaria(row){
+  row.estado = "ACTIVO"
+  this.cuentaBancariaService.actualizarCuentaBancaria(row).subscribe((data:any)=>{
+    if(data){
+      console.log("lo logro")
+      this.getCuentasBancarias();
+    }
+  
+  })
+}
+
   async getCuentasBancarias(){
     await  this.getDatosUsuario();
     console.log(this.usuario._id)

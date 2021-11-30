@@ -1,63 +1,49 @@
-import { Router, Request, Response } from "express";
-import { Usuario } from '../models/usuario.model';
-import bcrypt from 'bcrypt';
-import Token from '../classes/token';
-import { verificaToken } from '../middlewares/autenticacion';
-import { Actividad } from '../models/actividad.model';
-
-
-
-const actividadRoutes = Router();
-
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const parametro_model_1 = require("../models/parametro.model");
+const parametroRoutes = (0, express_1.Router)();
 //AGRUPACION - Obtener agrupaciones paginadas
-actividadRoutes.get('/getActividad',  async (req:any, res:Response) => {
-
-    const actividades = await Actividad.find()                                        
-                                        .exec();
-
+parametroRoutes.get('/getparametro', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const actividades = yield parametro_model_1.Parametro.find()
+        .exec();
     res.json({
         ok: true,
         actividades
     });
-});
-
+}));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-actividadRoutes.get('/actividadPorPadre',  async (req:any, res:Response) => {
-    console.log(req.query.arte)
-    var query = {arte : req.query.arte, estado: "ACTIVO"};
-    
-    const actividades = await Actividad.find(query)                      
-                                        .exec();
-
+parametroRoutes.get('/getParametroByNombre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.query.arte);
+    var query = { nombre: req.query.nombre, estado: "ACTIVO" };
+    const actividades = yield parametro_model_1.Parametro.find(query)
+        .exec();
     res.json({
         ok: true,
         actividades
     });
-});
-
-
-
-
+}));
 //AGRUPACION - Crear
-actividadRoutes.post('/crearActividad',  (req:any, res:Response) => {
-
-    const actividad = {
-        nombre: req.body.nombre,
-        arte: req.body.arte,
-        estado: "ACTIVO"
-    }
-
-   // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
+parametroRoutes.post('/crearParametro', (req, res) => {
+    const parametro = req.body;
+    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
-
-    Actividad.create(actividad).then(result => {
-        res.json(actividad);
+    parametro_model_1.Parametro.create(parametro).then(result => {
+        res.json(parametro);
     })
-    .catch(error => console.error(error))
-})
-
+        .catch(error => console.error(error));
+});
+/*
 //   BUSQUEDA -por parameetros
 actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
     console.log("pruebas")
@@ -66,7 +52,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
     const estado = req.query.estado
     console.log(arte)
     if(arte && nombre) {
-        const actividades = await Actividad.find( 
+        const actividades = await Actividad.find(
             {nombre: { $regex: nombre }, arte: { $regex: arte } , estado:estado}).exec();
             
         res.json({
@@ -74,7 +60,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
             actividades
         });
     }else if(nombre){
-        const actividades = await Actividad.find( 
+        const actividades = await Actividad.find(
             {nombre: { $regex: nombre },  estado:estado}).exec();
     
         res.json({
@@ -82,7 +68,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
             actividades
         });
     }else if(arte) {
-        const actividades = await Actividad.find( 
+        const actividades = await Actividad.find(
             {arte:  { $regex: arte } ,  estado:estado}).exec();
     
         res.json({
@@ -90,7 +76,7 @@ actividadRoutes.get('/actividadPorParametros', async (req:any, res:Response)=>{
             actividades
         });
     } else {
-        const actividades = await Actividad.find( 
+        const actividades = await Actividad.find(
             { estado:estado }).exec();
     
         res.json({
@@ -140,6 +126,5 @@ actividadRoutes.put('/actualizarActividad',   (req: any, res: Response) => {
 
 });
 
-
-
-export default actividadRoutes;
+*/
+exports.default = parametroRoutes;

@@ -3,13 +3,17 @@ import { Schema, model, Document } from 'mongoose';
 
 
 //Modelo de la BDD
-const actividadSchema = new Schema({
+const parametroSchema = new Schema({
 
     nombre: {
         type: String,
         required: [ true, 'Los nombres son necesarios']
     },
-    arte:{
+    valor:{
+        type: String,
+        required: [ true]
+    },
+    tipo:{
         type: String,
         required: [ true]
     },
@@ -26,11 +30,13 @@ const actividadSchema = new Schema({
 
 
 // Tipado de datos
-interface Iactividad extends Document {
+interface Iparametro extends Document {
     nombre: string;
-    arte: string;
+    valor: string;
+    tipo: string;
+    estado: string;
 }
 
 
 // model -> Ayuda con la interaccion con la Base de Datos
-export const Actividad = model<Iactividad>('Actividad', actividadSchema);
+export const Parametro = model<Iparametro>('Parametro', parametroSchema);

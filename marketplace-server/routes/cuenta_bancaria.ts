@@ -60,7 +60,7 @@ cuentaBancariaRoutes.get('/cuentaBancariaByUsuario',  async (req:any, res:Respon
     console.log(req.query.userId)
     var query = {usuario : userId};
     
-    const cuentaBancaria = await CuentaBancaria.find(query)                      
+    const cuentaBancaria = await CuentaBancaria.find(query).sort({estado: 1})                     
                                         .exec();
 
     res.json({

@@ -25,7 +25,7 @@ actividadRoutes.get('/getActividad', (req, res) => __awaiter(void 0, void 0, voi
 ///
 actividadRoutes.get('/actividadPorPadre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.query.arte);
-    var query = { arte: req.query.arte };
+    var query = { arte: req.query.arte, estado: "ACTIVO" };
     const actividades = yield actividad_model_1.Actividad.find(query)
         .exec();
     res.json({

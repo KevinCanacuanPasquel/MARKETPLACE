@@ -46,7 +46,7 @@ cuentaBancariaRoutes.get('/cuentaBancariaByUsuario', (req, res) => __awaiter(voi
     const userId = req.query.userId;
     console.log(req.query.userId);
     var query = { usuario: userId };
-    const cuentaBancaria = yield cuenta_bancaria_1.CuentaBancaria.find(query)
+    const cuentaBancaria = yield cuenta_bancaria_1.CuentaBancaria.find(query).sort({ estado: 1 })
         .exec();
     res.json({
         ok: true,

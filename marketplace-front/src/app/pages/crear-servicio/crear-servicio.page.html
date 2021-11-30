@@ -33,16 +33,24 @@
     
     <!-- COMBOS BOX -->
     <ion-item>
-      <ion-label position="stacked">ACTIVIDAD</ion-label>
-      <ion-input type="text"
-                 required>
-      </ion-input>
+      <ion-label position="stacked">ARTE</ion-label>
+      <ion-select [(ngModel)]="arteValue" placeholder ="Mis agrupaciones" (ionChange)="cambiarArte($event)" >
+        <ion-select-option  *ngFor="let arte of catalogoArtes" [value]="arte" >
+          {{arte}}
+        </ion-select-option>
+       
+      </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">ARTE</ion-label>
-      <ion-input type="text"
-                 required>
-      </ion-input>
+      <ion-label position="stacked">ACTIVIDAD</ion-label>
+      <ionic-selectable
+   
+    [(ngModel)]="actividadValue"
+    [items]="catalogoActividades"
+    
+    [canSearch]="true"
+    >
+  </ionic-selectable>
     </ion-item>
     <!-- FIN -->
 

@@ -8,7 +8,8 @@ import { DataUpload } from 'src/app/interfaces/interfaces';
 import { UiServiceService } from 'src/app/services/ui-service.service';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-
+import { IonicSelectableComponent } from 'ionic-selectable';
+import { ActividadService } from 'src/app/services/actividad.service';
 @Component({
   selector: 'app-crear-servicio',
   templateUrl: './crear-servicio.page.html',
@@ -18,6 +19,18 @@ export class CrearServicioPage {
 
   titulo = "Crear Servicio";
   
+  agrupacion = {
+    id: '',
+    fotos: [],
+    nombre: '',
+    descripcion: '',
+    numintegrantes: 1,
+    tiempoexistente: '',
+    estasuscrito: 1,
+    estado: ''
+    
+  };
+
   servicio = {
     id:'',
     fotos: [],
@@ -27,6 +40,7 @@ export class CrearServicioPage {
     valor: 0.00,
     numvistas: 0,
     estrellas: 0,
+    activdad: ''
   }
 
   tempImages: string[] = [];
@@ -34,21 +48,49 @@ export class CrearServicioPage {
   filesToLoad:Array<DataUpload>=[];
   images=[];
   image:DataUpload;
-  srcJoya;
   item;
 
+  /////////observadores botones
   disableEditarButton;
   disableEditar = new BehaviorSubject<boolean>(false);
   disableCrearButton;
   disableCrear = new BehaviorSubject<boolean>(false);
 
-  constructor(private agrupacionService: AgrupacionesService,
+//// 
+catalogoArtes =["escenica", "musica", "plastica"]
+catalogoActividades=["dj", "clown", "Magia", " desnudos", "concierto", "ultraman"]
+arteValue;
+actividadValue
+
+
+  constructor(private actividadService: ActividadService,
               private router: Router,
               private uiService: UiServiceService ,
               public dialog: MatDialog,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController) {
+
+
+                if (this.router.getCurrentNavigation().extras.state) {
+
+                  let bool = false;
+                 // this.titulo = "Editar Agrupacion";
+                  
+                  
+                  this.item = this.router.getCurrentNavigation().extras.state.item;
+                  console.log("item", this.item)
+                  // this.agrupacion.fotos = this.item.fotos
+                  this.agrupacion.id = this.item._id
+                  this.agrupacion.nombre = this.item.nombre
+                  this.agrupacion.descripcion = this.item.descripcion
+                  this.agrupacion.numintegrantes = this.item.numintegrantes
+                  this.agrupacion.estado= this.item.estado
+                  
+                           }
+                        
+               }
 
   ngOnInit() {
+    this.getActividades("");
   }
 
   
@@ -70,10 +112,7 @@ export class CrearServicioPage {
     }
   
     
-  verImagenes(){
-   
-    this.srcJoya = this.filesToLoad[0].fileBase64
-  }
+
 
 
   public async addNewToGallery() {
@@ -86,7 +125,6 @@ export class CrearServicioPage {
 
     });
     console.log("la foto", capturedPhoto)
-    this.srcJoya= capturedPhoto.base64String
     let dataUpload:DataUpload = {
       name: "imagen",
       ext: capturedPhoto.format,
@@ -101,4 +139,17 @@ export class CrearServicioPage {
     
   }
 
+  cambiarArte($event){
+    console.log($event.target.value)
+    this.getActividades($event.target.value);
+  }
+
+  getActividades(arte){
+    this.actividadService.getActividadesByParams("",  arte, "").subscribe((data:any)=> {
+      if(data){
+        console.log(data)
+     //   this.catalogoActividades = data;
+      }
+    })
+  }
 }
