@@ -6,6 +6,7 @@ import { verificaToken } from '../middlewares/autenticacion';
 import { Agrupacion } from '../models/agrupacion.model';
 import { FileUpload } from '../interfaces/file-upload';
 import FileSystem from "../classes/file-system";
+import { Servicio } from "../models/servicio.model";
 
 
 const servicioRoutes = Router();
@@ -33,14 +34,31 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
     });
 });
 
+
+
+//AGRUPACIONES - Obtener servicio by id
+///
+servicioRoutes.get('/servicioById',  async (req:any, res:Response) => {
+    const id = req.query.id;
+    console.log(req.query.agrupId)
+    
+    const servicios = await Servicio.findById(id).populate('actividad').populate('agrupacion')                    
+                                        .exec();
+
+    res.json({
+        ok: true,
+        servicios
+    });
+});
+
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-servicioRoutes.get('/agrupacionesByUsuario',  async (req:any, res:Response) => {
-    const userId = req.query.userId;
-    console.log(req.query.userId)
-    var query = {usuario : userId};
+servicioRoutes.get('/serviciosByAgupacion',  async (req:any, res:Response) => {
+    const agrupId = req.query.agrupId;
+    console.log(req.query.agrupId)
+    var query = {agrupacion : agrupId};
     
-    const servicios = await Agrupacion.find(query)                      
+    const servicios = await Servicio.find(query).populate('actividad').populate('servicio')                      
                                         .exec();
 
     res.json({
@@ -55,19 +73,20 @@ servicioRoutes.get('/agrupacionesByUsuario',  async (req:any, res:Response) => {
 //AGRUPACION - Crear
 servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) => {
 
-    const body = req.body;
-    body.usuario = req.usuario._id;
-
+    let body = req.body;
+    body.agrupacion = req.body.agrupacion;
+    body.actividad =req.body.actividad;
+    console.log("el body", body)
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    Servicio.create(body).then ( async agrupacionDB => {
+    Servicio.create(body).then ( async servicioDB => {
 
-        await agrupacionDB.populate('usuario').execPopulate();
+        await servicioDB.populate('agrupacion').populate('actividad').execPopulate();
 
         res.json({
             ok: true,
-            agrupacion: agrupacionDB
+            servicio: servicioDB
         });
 
     }).catch( err => {
@@ -76,29 +95,22 @@ servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) 
 
 
 });
-/*
+
 ///ACTUALIZAR
 //USUARIO - Actualizar
-agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: Response) => {
+servicioRoutes.put('/actualizarServicio', [verificaToken],  (req: any, res: Response) => {
 
-    const agrup = {
-        nombre: req.body.nombre ,
-        descripcion: req.body.descripcion ,
-        numintegrantes: req.body.numintegrantes ,
-        tiempoexistente: req.body.tiempoexistente ,
-        estasuscrito: req.body.estasuscrito ,
-        _id: req.body.id
-     //   estado: req.body.estado || req.usuario.estado
-    }
-    console.log(agrup)
-    Agrupacion.findByIdAndUpdate( agrup._id, agrup, { new: true }, ( err, agrupacionDB ) => {
+    const servicio =  req.body
+    
+    console.log(servicio)
+    Agrupacion.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, agrupacionDB ) => {
 
         if ( err ) throw err;
 
         if ( !agrupacionDB ) {
             return res.json({
                 ok: false,
-                mensaje: 'No existe un agrupacion con ese ID'
+                mensaje: 'No existe un servicio con ese ID'
             });
         }
 
@@ -113,7 +125,7 @@ agrupacionRoutes.put('/actualizarAgrupacion', [verificaToken],  (req: any, res: 
     });
 
 });
-*/
+
 //Servicio para subir archivos
 /*
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {

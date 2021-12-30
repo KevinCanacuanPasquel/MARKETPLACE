@@ -10,15 +10,30 @@ import { AgrupacionesService } from '../../services/agrupaciones.service';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { ActividadService } from 'src/app/services/actividad.service';
+import { Geolocation } from '@capacitor/geolocation';
+import { ServicioService } from 'src/app/services/servicio.service';
+
+class Actividades {
+    public id: string;
+    public nombre: string;
+    public arte: string;
+    public estado: string;
+}
+
 @Component({
   selector: 'app-crear-servicio',
   templateUrl: './crear-servicio.page.html',
   styleUrls: ['./crear-servicio.page.scss'],
 })
+
+
 export class CrearServicioPage {
 
   titulo = "Crear Servicio";
   
+
+  
+
   agrupacion = {
     id: '',
     fotos: [],
@@ -40,7 +55,9 @@ export class CrearServicioPage {
     valor: 0.00,
     numvistas: 0,
     estrellas: 0,
-    activdad: ''
+    actividad: '',
+    agrupacion:'',
+    estado:''
   }
 
   tempImages: string[] = [];
@@ -58,7 +75,7 @@ export class CrearServicioPage {
 
 //// 
 catalogoArtes =["escenica", "musica", "plastica"]
-catalogoActividades=["dj", "clown", "Magia", " desnudos", "concierto", "ultraman"]
+catalogoActividades: Actividades[] ;
 arteValue;
 actividadValue
 
@@ -67,7 +84,8 @@ actividadValue
               private router: Router,
               private uiService: UiServiceService ,
               public dialog: MatDialog,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private servicioServicio: ServicioService) {
 
 
                 if (this.router.getCurrentNavigation().extras.state) {
@@ -79,12 +97,15 @@ actividadValue
                   this.item = this.router.getCurrentNavigation().extras.state.item;
                   console.log("item", this.item)
                   // this.agrupacion.fotos = this.item.fotos
-                  this.agrupacion.id = this.item._id
-                  this.agrupacion.nombre = this.item.nombre
-                  this.agrupacion.descripcion = this.item.descripcion
-                  this.agrupacion.numintegrantes = this.item.numintegrantes
-                  this.agrupacion.estado= this.item.estado
-                  
+                  this.servicio.id = this.item.id
+                  this.arteValue = this.item.actividad.arte
+                  this.actividadValue = this.item.actividad.nombre
+                  this.servicio.actividad=  this.item.actividad.nombre
+                  this.servicio.nombre = this.item.nombre
+                  this.servicio.descripcion = this.item.descripcion
+                  this.servicio.valor = this.item.valor
+                  this.servicio.estado= this.item.estado
+                 console.log("id agrupacion" , this.agrupacion)
                            }
                         
                }
@@ -145,11 +166,36 @@ actividadValue
   }
 
   getActividades(arte){
-    this.actividadService.getActividadesByParams("",  arte, "").subscribe((data:any)=> {
+    this.actividadService.getActividadesByParams("",  arte, "ACTIVO").subscribe((data:any)=> {
       if(data){
-        console.log(data)
-     //   this.catalogoActividades = data;
+        console.log("xd", data)
+   
+        this.catalogoActividades = data.actividades;
+        console.log("actividades",this.catalogoActividades)
       }
+    })
+  }
+
+  actividadChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    this.servicio.actividad  = event.value._id;
+    console.log('port:', event.value._id);
+  }
+
+
+  async getCurrentPosition() {
+    const coordinates = await Geolocation.getCurrentPosition();
+   // this.servicio.ubicacion = coordinates
+    console.log('Current', coordinates);
+  }
+
+
+  crearServicio(){
+    console.log("servicio", this.servicio)
+    this.servicioServicio.crearServicio(this.servicio).subscribe((data:any)=>{
+      console.log(data)
     })
   }
 }

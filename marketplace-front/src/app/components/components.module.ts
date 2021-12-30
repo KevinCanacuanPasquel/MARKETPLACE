@@ -12,6 +12,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { SubirArchivoComponent } from './subir-archivo/subir-archivo.component';
 import { GaleriaImagenesComponent } from './galeria-imagenes/galeria-imagenes.component';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { GaleriaImagenesComponent } from './galeria-imagenes/galeria-imagenes.co
     FooterComponent,
     SubirArchivoComponent,
     GaleriaImagenesComponent,
+    GoogleMapsComponent
    
     
     

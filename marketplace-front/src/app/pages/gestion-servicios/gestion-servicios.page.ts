@@ -3,6 +3,8 @@ import { PopoverController } from '@ionic/angular';
 import { OpcionesServicioInfoComponent } from '../../components/opciones-servicio-info/opciones-servicio-info.component';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ServicioService } from 'src/app/services/servicio.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 
 
 
@@ -14,6 +16,7 @@ import { Router } from '@angular/router';
 export class GestionServiciosPage implements OnInit {
 
   item;
+  listaServicios
   agrupacion = {
     id: '',
     fotos: [],
@@ -26,7 +29,7 @@ export class GestionServiciosPage implements OnInit {
     
   };
   constructor( private popoverCtrl: PopoverController,
-              private navCtrl: NavController , private router: Router) {
+              private navCtrl: NavController , private router: Router, private servicioService: ServicioService, private uiService: UiServiceService) {
 
   if (this.router.getCurrentNavigation().extras.state) {
 
@@ -42,11 +45,10 @@ export class GestionServiciosPage implements OnInit {
       this.agrupacion.descripcion = this.item.descripcion
       this.agrupacion.numintegrantes = this.item.numintegrantes
       this.agrupacion.estado= this.item.estado
-      
-               }
+      }
                console.log("agrupacion", this.agrupacion)   
-            }
-         
+      this.getServicios();
+              }
 
   ngOnInit() {
   }
@@ -70,4 +72,33 @@ export class GestionServiciosPage implements OnInit {
     this.navCtrl.navigateRoot( '/crear-servicio', { animated: true, state: { item: this.agrupacion }});
   }
 
+  getServicios(){
+    this.servicioService.getAgrupacionesByUsuario(this.agrupacion.id).subscribe((data:any)=> {
+      console.log("data", data)
+      this.listaServicios = data.servicios
+    })
+  }
+
+
+
+
+  editarServicio(servicio){
+
+    console.log(servicio)
+    if(servicio != null){
+      this.navCtrl.navigateRoot( '/crear-servicio', { state: { item: servicio }});
+    }else{
+      this.uiService.alertaActualizacionUsuario(' Debes seleccionar la agrupacion  que deseas editar ');
+    }
+
+
+    
+  }
+
+  eliminarServicio(){
+      
+  }
+  darBajaServicio(){
+
+  }
 }
