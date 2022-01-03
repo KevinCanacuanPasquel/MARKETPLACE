@@ -69,7 +69,7 @@ export class GestionServiciosPage implements OnInit {
   }
 
   crearServicio() {
-    this.navCtrl.navigateRoot( '/crear-servicio', { animated: true, state: { item: this.agrupacion }});
+    this.navCtrl.navigateRoot( '/crear-servicio', { animated: true, state: { agrupacion: this.agrupacion }});
   }
 
   getServicios(){
@@ -84,9 +84,9 @@ export class GestionServiciosPage implements OnInit {
 
   editarServicio(servicio){
 
-    console.log(servicio)
+    console.log("que es lo que pasa aca", servicio)
     if(servicio != null){
-      this.navCtrl.navigateRoot( '/crear-servicio', { state: { item: servicio }});
+      this.navCtrl.navigateRoot( '/crear-servicio', { state: { servicio: servicio }});
     }else{
       this.uiService.alertaActualizacionUsuario(' Debes seleccionar la agrupacion  que deseas editar ');
     }
@@ -95,10 +95,37 @@ export class GestionServiciosPage implements OnInit {
     
   }
 
-  eliminarServicio(){
+  eliminarServicio(servicio){
+    console.log("servicio is here", servicio)
+      this.servicioService.eliminarServicio(servicio._id).subscribe((data:any)=>{
+        if (data){
+          console.log(data)
+          this.getServicios();
+        }
       
-  }
-  darBajaServicio(){
+      })
 
+     
+  }
+  darBajaServicio(row){
+    row.estado = "INACTIVO"
+    this.servicioService.actualizarServicio(row).subscribe((data:any)=>{
+      if(data){
+        console.log("lo logro")
+        this.getServicios();
+      }
+    
+    })
+  }
+
+  activarServicio(row){
+    row.estado = "ACTIVO"
+    this.servicioService.actualizarServicio(row).subscribe((data:any)=>{
+      if(data){
+        console.log("lo logro")
+        this.getServicios();
+      }
+    
+    })
   }
 }
