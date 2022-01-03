@@ -5,24 +5,17 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="crearServicio()" color="primary">
-        CREAR
-      </ion-button>
-      <ion-button (click)="actualizarAgrupacion()" color="primary">
-        EDITAR
-      </ion-button>
-    </ion-buttons>
-
-    <!-- <ion-buttons slot="end">
       <ion-button *ngIf="disableCrearButton | async" (click)="crearServicio()"
-                  [disabled] = "agrupacion.nombre.length < 1"
+                  [disabled] = "servicio.nombre.length < 1"
                   color="primary">
         CREAR
       </ion-button>
-      <ion-button *ngIf="disableEditarButton | async" (click)="actualizarAgrupacion()"
-      [disabled] = "agrupacion.nombre.length < 1"
+      <ion-button *ngIf="disableEditarButton | async" (click)="actualizarServicio()"
+      [disabled] = "servicio.nombre.length < 1"
       color="primary">EDITAR</ion-button>
-    </ion-buttons> -->
+    </ion-buttons>
+
+    <!--  -->
 
   </ion-toolbar>
 </ion-header>
@@ -49,7 +42,7 @@
     [items]="catalogoActividades"
     itemValueField="_id"
     itemTextField="nombre"
-    
+    #input 
     [canSearch]="true"
     (onChange)="actividadChange($event)"
     >
@@ -91,7 +84,7 @@
       <ion-label position="stacked">Valor estimado del servicio</ion-label>
       <ion-input type="text"
                  required
-                 [(ngModel)]="servicio.valor"
+                 [(ngModel)]="servicio.valorEstimado"
                  #valorInput = "ngModel">
       </ion-input>
     </ion-item>
@@ -101,11 +94,6 @@
       </h6>
     </div>
 
-    <ion-item>
-  
-      <ion-button (click)="getCurrentPosition()"> Ubicacion </ion-button>
-    </ion-item>
-    
   </ion-list>
 
 

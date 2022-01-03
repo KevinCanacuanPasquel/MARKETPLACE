@@ -40,6 +40,9 @@ const servicioSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Actividad',
         required: [ true, 'Debe existir una relacion a un Actividad' ]
+    },
+    estado:{
+        type: String
     }
 
 });
@@ -49,12 +52,12 @@ const servicioSchema = new Schema({
 interface Iservicio extends Document {
     nombre: string;
     descripcion: string;
-    numintegrantes: number;
-    tiempoexistente: string;
-    estasuscrito: number;
+    valorEstimado: number;
     fotos: string[];
-    usuario:string;
+    agrupacion:string;
+    actividad: string;
     estado: string; 
+
 }
 
 // model -> Ayuda con la interaccion con la Base de Datos

@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const autenticacion_1 = require("../middlewares/autenticacion");
-const agrupacion_model_1 = require("../models/agrupacion.model");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const servicioRoutes = (0, express_1.Router)();
@@ -25,7 +24,7 @@ servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0,
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const servicios = yield agrupacion_model_1.Agrupacion.find()
+    const servicios = yield servicio_model_1.Servicio.find()
         .sort({ _id: -1 })
         .skip(skip)
         .limit(10)
@@ -81,13 +80,13 @@ servicioRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res
 });
 ///ACTUALIZAR
 //USUARIO - Actualizar
-servicioRoutes.put('/actualizarServicio', [autenticacion_1.verificaToken], (req, res) => {
+servicioRoutes.put('/actualizarServicio', (req, res) => {
     const servicio = req.body;
     console.log(servicio);
-    agrupacion_model_1.Agrupacion.findByIdAndUpdate(servicio._id, servicio, { new: true }, (err, agrupacionDB) => {
+    servicio_model_1.Servicio.findByIdAndUpdate(servicio._id, servicio, { new: true }, (err, servicioDB) => {
         if (err)
             throw err;
-        if (!agrupacionDB) {
+        if (!servicioDB) {
             return res.json({
                 ok: false,
                 mensaje: 'No existe un servicio con ese ID'
@@ -96,9 +95,18 @@ servicioRoutes.put('/actualizarServicio', [autenticacion_1.verificaToken], (req,
         //Token
         res.json({
             ok: true,
-            agrupacion: agrupacionDB
+            servicio: servicioDB
         });
     });
+});
+servicioRoutes.delete('/eliminarServicio', (req, res) => {
+    servicio_model_1.Servicio.deleteOne({ _id: req.query.id }).then(result => {
+        if (result.deletedCount === 0) {
+            return res.json('No se encontro el servicio');
+        }
+        res.json("Se elmino el servicio");
+    })
+        .catch(error => console.error(error));
 });
 //Servicio para subir archivos
 /*

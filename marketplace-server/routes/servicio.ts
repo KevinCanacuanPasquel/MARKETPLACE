@@ -21,7 +21,7 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const servicios = await Agrupacion.find()
+    const servicios = await Servicio.find()
                                         .sort({ _id: -1 })
                                         .skip( skip )
                                         .limit(10)
@@ -98,16 +98,16 @@ servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) 
 
 ///ACTUALIZAR
 //USUARIO - Actualizar
-servicioRoutes.put('/actualizarServicio', [verificaToken],  (req: any, res: Response) => {
+servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
 
     const servicio =  req.body
     
     console.log(servicio)
-    Agrupacion.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, agrupacionDB ) => {
+    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
 
-        if ( !agrupacionDB ) {
+        if ( !servicioDB ) {
             return res.json({
                 ok: false,
                 mensaje: 'No existe un servicio con ese ID'
@@ -119,12 +119,27 @@ servicioRoutes.put('/actualizarServicio', [verificaToken],  (req: any, res: Resp
             
             res.json({
                 ok: true,
-                agrupacion: agrupacionDB
+                servicio: servicioDB
             });
 
     });
 
 });
+
+servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
+    
+    Servicio.deleteOne(
+      { _id: req.query.id }
+      
+    ).then(result => {
+        if (result.deletedCount === 0) {
+          return res.json('No se encontro el servicio')
+        }
+        res.json( "Se elmino el servicio")
+      })
+      .catch(error => console.error(error))
+
+  })
 
 //Servicio para subir archivos
 /*

@@ -52,12 +52,12 @@ export class CrearServicioPage {
     nombre: '',
     descripcion: '',
     ubicacion:'',
-    valor: 0.00,
+    valorEstimado: 0.00,
     numvistas: 0,
     estrellas: 0,
     actividad: '',
     agrupacion:'',
-    estado:''
+    estado: "ACTIVO"
   }
 
   tempImages: string[] = [];
@@ -78,7 +78,8 @@ catalogoArtes =["escenica", "musica", "plastica"]
 catalogoActividades: Actividades[] ;
 arteValue;
 actividadValue
-
+servicioItem;
+agrupacionItem;
 
   constructor(private actividadService: ActividadService,
               private router: Router,
@@ -86,26 +87,52 @@ actividadValue
               public dialog: MatDialog,
               private alertCtrl: AlertController,
               private servicioServicio: ServicioService) {
-
-
+                this.disableEditarButton   = this.disableEditar.asObservable();
+                this.disableCrearButton   = this.disableCrear.asObservable();
+                this.disableCrear.next(true);
+                this.disableEditar.next(false);
+                console.log("item", this.router.getCurrentNavigation().extras.state)
                 if (this.router.getCurrentNavigation().extras.state) {
 
                   let bool = false;
-                 // this.titulo = "Editar Agrupacion";
+              
+                 console.log("item", this.router.getCurrentNavigation().extras.state)
+                 if( this.router.getCurrentNavigation().extras.state.agrupacion) {
                   
-                  
-                  this.item = this.router.getCurrentNavigation().extras.state.item;
-                  console.log("item", this.item)
+                  this.agrupacionItem = this.router.getCurrentNavigation().extras.state.agrupacion;
+                  console.log("itemAgrupacion", this.agrupacionItem)
                   // this.agrupacion.fotos = this.item.fotos
-                  this.servicio.id = this.item.id
-                  this.arteValue = this.item.actividad.arte
-                  this.actividadValue = this.item.actividad.nombre
-                  this.servicio.actividad=  this.item.actividad.nombre
-                  this.servicio.nombre = this.item.nombre
-                  this.servicio.descripcion = this.item.descripcion
-                  this.servicio.valor = this.item.valor
-                  this.servicio.estado= this.item.estado
-                 console.log("id agrupacion" , this.agrupacion)
+                  this.agrupacion.id = this.agrupacionItem.id
+                  this.agrupacion.nombre = this.agrupacionItem.nombre
+                  this.agrupacion.descripcion = this.agrupacionItem.descripcion
+                  this.agrupacion.numintegrantes = this.agrupacionItem.numintegrantes
+                  this.servicio.agrupacion = this.agrupacionItem.id
+                  console.log("id agrupacion" , this.agrupacion)
+                 
+                 }else{
+                  this.titulo = "Editar Servicio";
+                  this.servicioItem = this.router.getCurrentNavigation().extras.state.servicio;
+                  console.log("servicioItem", this.servicioItem)
+                  // this.agrupacion.fotos = this.item.fotos
+                  this.servicio.id = this.servicioItem._id
+                  this.arteValue = this.servicioItem.actividad.arte
+                  this.actividadValue = this.servicioItem.actividad.nombre
+                  this.servicio.actividad=  this.servicioItem.actividad._id
+                  this.servicio.nombre = this.servicioItem.nombre
+                  this.servicio.descripcion = this.servicioItem.descripcion
+                  this.servicio.valorEstimado = this.servicioItem.valorEstimado
+                  console.log("llego hasta aqui")
+                  this.servicio.estado= this.servicioItem.estado
+                  this.servicio.agrupacion = this.servicioItem.agrupacion
+                  this.servicio.fotos = this.servicioItem.fotos
+                  console.log("son las fotos", this.servicio.fotos)
+                  console.log("servicio xd", this.servicio)
+                  this.disableEditar.next(true);
+                  this.disableCrear.next(false);
+                 }
+
+
+           
                            }
                         
                }
@@ -196,6 +223,30 @@ actividadValue
     console.log("servicio", this.servicio)
     this.servicioServicio.crearServicio(this.servicio).subscribe((data:any)=>{
       console.log(data)
+      if(data.ok){
+        this.router.navigate(['/gestion-servicios' ]);
+        this.disableCrear.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');
+      }
+     
     })
+  }
+
+  actualizarServicio(){
+    console.log("actualizar",  this.servicio );
+    this.servicioServicio.actualizarServicio( this.servicio ).subscribe((data:any)=>{
+      console.log("el servicio actualizado", data)
+      if(data.ok){
+        this.router.navigate(['/gestion-servicio' ]);
+        this.disableEditar.next(false);
+      }else{
+        this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');
+      }
+ 
+    },error =>{
+      
+    });
+
   }
 }

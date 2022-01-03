@@ -23,17 +23,22 @@
           <img height="300px" width="300px" src="{{'data:image/png;base64,' + servicio.fotos[0].fileBase64}}" class="img-responsive">
         </ion-col>
       </ion-row>
-      <ion-row> 
-        <ion-button>el boton </ion-button>
+      <ion-row>
+        <ion-col size="8">
+          <p>{{servicio.valorEstimado}} </p>
+        </ion-col>
       </ion-row>
       <ion-row>
         <ion-button (click)="editarServicio(servicio )">
           <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
         </ion-button>
-        <ion-button (click)="darBajaServicio()" color="danger">
-          <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
+        <ion-button *ngIf="servicio.estado ==='ACTIVO'" (click)="darBajaServicio(servicio)" color="danger">
+          <ion-icon name="thumbs-down"></ion-icon>
         </ion-button>
-        <ion-button (click)="eliminarServicio()" color="danger">
+        <ion-button *ngIf="servicio.estado ==='INACTIVO'" (click)="activarServicio(servicio)" color="danger">
+          <ion-icon name="thumbs-up"></ion-icon>
+        </ion-button>
+        <ion-button (click)="eliminarServicio(servicio)" color="danger">
           <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
         </ion-button>
       </ion-row>

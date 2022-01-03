@@ -37,6 +37,9 @@ const servicioSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Actividad',
         required: [true, 'Debe existir una relacion a un Actividad']
+    },
+    estado: {
+        type: String
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos

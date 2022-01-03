@@ -33,9 +33,16 @@ export class ServicioService {
     return this.http.get( URL+ '/servicio/serviciosByAgupacion',options );
   }
 
-  actualizarAgrupacion( servicio ) {
+  actualizarServicio( servicio ) {
 
     let options = { headers: this.headers};
     return this.http.put(URL + '/servicio/actualizarServicio', servicio, options) ;
+  }
+
+  eliminarServicio(servicioId){
+    let params = new HttpParams();
+    params = params.set('id', servicioId );
+    let options = { headers: this.headers, params: params };
+    return this.http.delete(URL + '/servicio/eliminarServicio',  options) ;
   }
 }
