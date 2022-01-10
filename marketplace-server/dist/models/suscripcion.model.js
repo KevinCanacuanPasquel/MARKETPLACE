@@ -41,4 +41,4 @@ const suscripcionSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Suscripcion = (0, mongoose_1.model)('Actividad', suscripcionSchema);
+exports.Suscripcion = (0, mongoose_1.model)('Suscripcion', suscripcionSchema);

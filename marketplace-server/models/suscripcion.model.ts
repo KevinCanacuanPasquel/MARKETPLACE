@@ -64,4 +64,4 @@ interface Isuscripcion extends Document {
 
 
 // model -> Ayuda con la interaccion con la Base de Datos
-export const Suscripcion = model<Isuscripcion>('Actividad', suscripcionSchema);
+export const Suscripcion = model<Isuscripcion>('Suscripcion', suscripcionSchema);
