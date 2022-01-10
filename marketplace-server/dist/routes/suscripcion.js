@@ -13,18 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
 const file_system_1 = __importDefault(require("../classes/file-system"));
-const servicio_model_1 = require("../models/servicio.model");
-const servicioRoutes = (0, express_1.Router)();
+const suscripcion_model_1 = require("../models/suscripcion.model");
+const suscripcionRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+suscripcionRoutes.get('/suscripcion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const servicios = yield servicio_model_1.Servicio.find()
+    const suscripcion = yield suscripcion_model_1.Suscripcion.find()
         .sort({ _id: -1 })
         .skip(skip)
         .limit(10)
@@ -32,28 +31,29 @@ servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0,
     res.json({
         ok: true,
         pagina,
-        servicios
+        suscripcion
     });
 }));
 //AGRUPACIONES - Obtener servicio by id
 ///
-servicioRoutes.get('/servicioById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+suscripcionRoutes.get('/suscripcionById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
-    console.log(req.query.agrupId);
-    const servicios = yield servicio_model_1.Servicio.findById(id).populate('actividad').populate('agrupacion')
+    console.log(req.query.suscripcionId);
+    const suscripcion = yield suscripcion_model_1.Suscripcion.findById(id)
         .exec();
     res.json({
         ok: true,
-        servicios
+        suscripcion
     });
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-servicioRoutes.get('/serviciosByAgupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+suscripcionRoutes.get('/validarSuscripcionByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const agrupId = req.query.agrupId;
     console.log(req.query.agrupId);
-    var query = { agrupacion: agrupId };
-    const servicios = yield servicio_model_1.Servicio.find(query).populate('actividad').populate('servicio')
+    //   let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
+    let query = { agrupacion: agrupId };
+    const servicios = yield suscripcion_model_1.Suscripcion.find(query).populate('agrupacion')
         .exec();
     res.json({
         ok: true,
@@ -61,18 +61,17 @@ servicioRoutes.get('/serviciosByAgupacion', (req, res) => __awaiter(void 0, void
     });
 }));
 //AGRUPACION - Crear
-servicioRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res) => {
+suscripcionRoutes.post('/crearSuscripcion', (req, res) => {
     let body = req.body;
     body.agrupacion = req.body.agrupacion;
-    body.actividad = req.body.actividad;
     console.log("el body", body);
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
-    servicio_model_1.Servicio.create(body).then((servicioDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield servicioDB.populate('agrupacion').populate('actividad').execPopulate();
+    suscripcion_model_1.Suscripcion.create(body).then((suscripcionDB) => __awaiter(void 0, void 0, void 0, function* () {
+        yield suscripcionDB.populate('agrupacion').execPopulate();
         res.json({
             ok: true,
-            servicio: servicioDB
+            sucripcion: suscripcionDB
         });
     })).catch(err => {
         res.json(err);
@@ -80,12 +79,12 @@ servicioRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res
 });
 ///ACTUALIZAR
 //USUARIO - Actualizar
-servicioRoutes.put('/actualizarServicio', (req, res) => {
+suscripcionRoutes.put('/actualizarSusripcion', (req, res) => {
     console.log("llega el servicio desde arriba", req.body);
-    const servicio = req.body;
-    servicio._id = req.body.id;
-    console.log("llega el servicio", servicio);
-    servicio_model_1.Servicio.findByIdAndUpdate(servicio._id, servicio, { new: true }, (err, servicioDB) => {
+    const suscripcion = req.body;
+    suscripcion._id = req.body.id;
+    console.log("llega el servicio", suscripcion);
+    suscripcion_model_1.Suscripcion.findByIdAndUpdate(suscripcion._id, suscripcion, { new: true }, (err, servicioDB) => {
         if (err)
             throw err;
         if (!servicioDB) {
@@ -101,15 +100,22 @@ servicioRoutes.put('/actualizarServicio', (req, res) => {
         });
     });
 });
-servicioRoutes.delete('/eliminarServicio', (req, res) => {
-    servicio_model_1.Servicio.deleteOne({ _id: req.query.id }).then(result => {
+/*
+servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
+    
+    Servicio.deleteOne(
+      { _id: req.query.id }
+      
+    ).then(result => {
         if (result.deletedCount === 0) {
-            return res.json('No se encontro el servicio');
+          return res.json('No se encontro el servicio')
         }
-        res.json("Se elmino el servicio");
-    })
-        .catch(error => console.error(error));
-});
+        res.json( "Se elmino el servicio")
+      })
+      .catch(error => console.error(error))
+
+  })
+*/
 //Servicio para subir archivos
 /*
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
@@ -159,4 +165,4 @@ agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
     res.sendFile(pathFoto);
 });
 */
-exports.default = servicioRoutes;
+exports.default = suscripcionRoutes;

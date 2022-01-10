@@ -3,25 +3,23 @@ import { Usuario } from '../models/usuario.model';
 import bcrypt from 'bcrypt';
 import Token from '../classes/token';
 import { verificaToken } from '../middlewares/autenticacion';
-import { Agrupacion } from '../models/agrupacion.model';
-import { FileUpload } from '../interfaces/file-upload';
 import FileSystem from "../classes/file-system";
-import { Servicio } from "../models/servicio.model";
+import { Suscripcion } from "../models/suscripcion.model";
 
 
-const servicioRoutes = Router();
+const suscripcionRoutes = Router();
 const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
+suscripcionRoutes.get('/suscripcion',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const servicios = await Servicio.find()
+    const suscripcion = await Suscripcion.find()
                                         .sort({ _id: -1 })
                                         .skip( skip )
                                         .limit(10)
@@ -30,7 +28,7 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
     res.json({
         ok: true,
         pagina,
-        servicios
+        suscripcion
     });
 });
 
@@ -38,27 +36,28 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener servicio by id
 ///
-servicioRoutes.get('/servicioById',  async (req:any, res:Response) => {
+suscripcionRoutes.get('/suscripcionById',  async (req:any, res:Response) => {
     const id = req.query.id;
-    console.log(req.query.agrupId)
-    
-    const servicios = await Servicio.findById(id).populate('actividad').populate('agrupacion')                    
+    console.log(req.query.suscripcionId)
+ 
+    const suscripcion = await Suscripcion.findById(id)                    
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        suscripcion
     });
 });
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-servicioRoutes.get('/serviciosByAgupacion',  async (req:any, res:Response) => {
+suscripcionRoutes.get('/validarSuscripcionByAgrupacion',  async (req:any, res:Response) => {
     const agrupId = req.query.agrupId;
     console.log(req.query.agrupId)
-    var query = {agrupacion : agrupId};
-    
-    const servicios = await Servicio.find(query).populate('actividad').populate('servicio')                      
+  
+ //   let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
+    let query = {agrupacion: agrupId}
+    const servicios = await Suscripcion.find(query).populate('agrupacion')                     
                                         .exec();
 
     res.json({
@@ -71,22 +70,22 @@ servicioRoutes.get('/serviciosByAgupacion',  async (req:any, res:Response) => {
 
 
 //AGRUPACION - Crear
-servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) => {
+suscripcionRoutes.post('/crearSuscripcion',  (req:any, res:Response) => {
 
     let body = req.body;
     body.agrupacion = req.body.agrupacion;
-    body.actividad =req.body.actividad;
+   
     console.log("el body", body)
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    Servicio.create(body).then ( async servicioDB => {
+    Suscripcion.create(body).then ( async suscripcionDB => {
 
-        await servicioDB.populate('agrupacion').populate('actividad').execPopulate();
+        await suscripcionDB.populate('agrupacion').execPopulate();
 
         res.json({
             ok: true,
-            servicio: servicioDB
+            sucripcion: suscripcionDB
         });
 
     }).catch( err => {
@@ -98,12 +97,12 @@ servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) 
 
 ///ACTUALIZAR
 //USUARIO - Actualizar
-servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
+suscripcionRoutes.put('/actualizarSusripcion',   (req: any, res: Response) => {
     console.log("llega el servicio desde arriba" ,  req.body)
-    const servicio =  req.body
-    servicio._id = req.body.id
-    console.log("llega el servicio" , servicio)
-    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
+    const suscripcion =  req.body
+    suscripcion._id = req.body.id
+    console.log("llega el servicio" , suscripcion)
+    Suscripcion.findByIdAndUpdate( suscripcion._id, suscripcion, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
 
@@ -125,7 +124,7 @@ servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
     });
 
 });
-
+/*
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(
@@ -140,7 +139,7 @@ servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
       .catch(error => console.error(error))
 
   })
-
+*/
 //Servicio para subir archivos
 /*
 agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
@@ -192,4 +191,4 @@ agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
 */
 
 
-export default servicioRoutes;
+export default suscripcionRoutes;
