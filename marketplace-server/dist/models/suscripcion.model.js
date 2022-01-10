@@ -25,7 +25,7 @@ const suscripcionSchema = new mongoose_1.Schema({
         ref: 'Agrupacion',
         required: [true, 'Debe existir una relacion a un Agrupacion']
     },
-    foto: {
+    documento: {
         name: {
             type: String
         },

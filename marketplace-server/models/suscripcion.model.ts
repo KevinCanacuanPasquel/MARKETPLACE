@@ -28,7 +28,7 @@ const suscripcionSchema = new Schema({
         ref: 'Agrupacion',
         required: [ true, 'Debe existir una relacion a un Agrupacion' ]
     },
-    foto:{
+    documento:{
         name: {
             type: String
         },
@@ -58,7 +58,7 @@ interface Isuscripcion extends Document {
     valor: number;
     estado: string;
     agrupacion: string;
-    foto: string[];
+    documento: string[];
 
 }
 

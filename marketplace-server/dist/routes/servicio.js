@@ -83,7 +83,7 @@ servicioRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res
 servicioRoutes.put('/actualizarServicio', (req, res) => {
     console.log("llega el servicio desde arriba", req.body);
     const servicio = req.body;
-    servicio._id = req.body.id;
+    servicio._id = req.body._id;
     console.log("llega el servicio", servicio);
     servicio_model_1.Servicio.findByIdAndUpdate(servicio._id, servicio, { new: true }, (err, servicioDB) => {
         if (err)

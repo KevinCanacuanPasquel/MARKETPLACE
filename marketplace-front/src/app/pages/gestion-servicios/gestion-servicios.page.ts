@@ -114,9 +114,10 @@ export class GestionServiciosPage implements OnInit {
   }
   darBajaServicio(row){
     row.estado = "INACTIVO"
+    console.log("para actualizr" ,row)
     this.servicioService.actualizarServicio(row).subscribe((data:any)=>{
       if(data){
-        console.log("lo logro")
+        console.log("lo logro", data)
         this.getServicios();
       }
     

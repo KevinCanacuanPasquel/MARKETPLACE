@@ -101,7 +101,7 @@ servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) 
 servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
     console.log("llega el servicio desde arriba" ,  req.body)
     const servicio =  req.body
-    servicio._id = req.body.id
+    servicio._id = req.body._id
     console.log("llega el servicio" , servicio)
     Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
 
