@@ -11,6 +11,7 @@ import actividadRoutes from './routes/actividad';
 import cuentaBancariaRoutes from './routes/cuenta_bancaria';
 import servicioRoutes from './routes/servicio';
 import parametroRoutes from './routes/parametro';
+import suscripcionRoutes from './routes/suscripcion';
 
 const server = new Server();
 export let UPLOAD_PATH = 'uploads'
@@ -37,7 +38,7 @@ server.app.use('/actividad', actividadRoutes);
 server.app.use('/cuenta_bancaria', cuentaBancariaRoutes);
 server.app.use('/servicio', servicioRoutes);
 server.app.use('/parametro', parametroRoutes);
-
+server.app.use('/suscrpcion', suscripcionRoutes);
 //Conectar BD
 mongoose.connect('mongodb://localhost:27017/marketplace',
                  { useNewUrlParser: true, useCreateIndex: true}, (error => {    //Poder trabajar con los indices
