@@ -36,19 +36,24 @@ export class GestionServiciosPage implements OnInit {
       let bool = false;
      // this.titulo = "Editar Agrupacion";
       
-      
-      this.item = this.router.getCurrentNavigation().extras.state.item;
-      console.log("agrupacion", this.item)
-      // this.agrupacion.fotos = this.item.fotos
-      this.agrupacion.id = this.item._id
-      this.agrupacion.nombre = this.item.nombre
-      this.agrupacion.descripcion = this.item.descripcion
-      this.agrupacion.numintegrantes = this.item.numintegrantes
-      this.agrupacion.estado= this.item.estado
+      if (this.router.getCurrentNavigation().extras.state.item){
+        this.item = this.router.getCurrentNavigation().extras.state.item;
+        console.log("agrupacion", this.item)
+        // this.agrupacion.fotos = this.item.fotos
+        this.agrupacion.id = this.item._id
+        this.agrupacion.nombre = this.item.nombre
+        this.agrupacion.descripcion = this.item.descripcion
+        this.agrupacion.numintegrantes = this.item.numintegrantes
+        this.agrupacion.estado= this.item.estado
       }
-               console.log("agrupacion", this.agrupacion)   
+      if( this.router.getCurrentNavigation().extras.state.idAgrupacion){
+        this.agrupacion.id = this.router.getCurrentNavigation().extras.state.idAgrupacion
+      }
+     
+      }
+        
       this.getServicios();
-              }
+ }
 
   ngOnInit() {
   }
@@ -73,7 +78,7 @@ export class GestionServiciosPage implements OnInit {
   }
 
   getServicios(){
-    this.servicioService.getAgrupacionesByUsuario(this.agrupacion.id).subscribe((data:any)=> {
+    this.servicioService.getServiciosByAgrupacion(this.agrupacion.id).subscribe((data:any)=> {
       console.log("data", data)
       this.listaServicios = data.servicios
     })
