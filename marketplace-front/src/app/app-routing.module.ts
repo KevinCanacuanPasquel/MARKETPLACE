@@ -59,6 +59,10 @@ const routes: Routes = [
   {
     path: 'crear-cuentabancaria',
     loadChildren: () => import('./pages/crear-cuentabancaria/crear-cuentabancaria.module').then( m => m.CrearCuentabancariaPageModule)
+  },
+  {
+    path: 'suscripcion',
+    loadChildren: () => import('./pages/suscripcion/suscripcion.module').then( m => m.SuscripcionPageModule)
   }
 
 
