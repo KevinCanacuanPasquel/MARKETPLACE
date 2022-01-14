@@ -42,7 +42,7 @@ export class GestionAgrupacionPage implements OnInit {
   
  }
 
-  getDatosUsuario(){
+   getDatosUsuario(){
     this.usuarioService.getUsuario().then(p=>{
       console.log("p", p)
      this.usuario= p;

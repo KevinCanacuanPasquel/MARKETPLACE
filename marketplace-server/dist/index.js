@@ -33,7 +33,7 @@ server.app.use('/actividad', actividad_1.default);
 server.app.use('/cuenta_bancaria', cuenta_bancaria_1.default);
 server.app.use('/servicio', servicio_1.default);
 server.app.use('/parametro', parametro_1.default);
-server.app.use('/suscrpcion', suscripcion_1.default);
+server.app.use('/suscripcion', suscripcion_1.default);
 //Conectar BD
 mongoose_1.default.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true, useCreateIndex: true }, (error => {
     if (error)

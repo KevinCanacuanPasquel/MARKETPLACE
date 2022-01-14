@@ -38,7 +38,7 @@ server.app.use('/actividad', actividadRoutes);
 server.app.use('/cuenta_bancaria', cuentaBancariaRoutes);
 server.app.use('/servicio', servicioRoutes);
 server.app.use('/parametro', parametroRoutes);
-server.app.use('/suscrpcion', suscripcionRoutes);
+server.app.use('/suscripcion', suscripcionRoutes);
 //Conectar BD
 mongoose.connect('mongodb://localhost:27017/marketplace',
                  { useNewUrlParser: true, useCreateIndex: true}, (error => {    //Poder trabajar con los indices
