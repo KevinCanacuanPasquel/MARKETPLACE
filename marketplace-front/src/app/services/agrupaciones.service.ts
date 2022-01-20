@@ -16,9 +16,7 @@ export class AgrupacionesService {
 
   constructor( private http:HttpClient,
                private usuarioService: UsuarioService ) {
-                this.headers = new HttpHeaders({
-                  'x-token': this.usuarioService.token 
-                });
+               
                 }
 
   getAgrupaciones( pull:boolean = false) {
@@ -34,17 +32,21 @@ export class AgrupacionesService {
   }
 
   crearAgrupacion( agrupacion ) {
-
+    this.headers = new HttpHeaders({
+      'x-token': this.usuarioService.token 
+    });
     let options = { headers: this.headers};
     return this.http.post(URL + '/agrupacion/crearAgrupacion', agrupacion, options) ;
   }
   actualizarAgrupacion( agrupacion ) {
-
+    
     let options = { headers: this.headers};
     return this.http.put(URL + '/agrupacion/actualizarAgrupacion', agrupacion, options) ;
   }
 
   getAgrupacionesByUsuario(userId){
+ 
+   
     let params = new HttpParams();
     params = params.set('userId', userId );
     let options = { headers: this.headers, params: params };

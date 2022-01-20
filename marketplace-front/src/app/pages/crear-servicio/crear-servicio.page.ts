@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { SubirArchivoComponent } from 'src/app/components/subir-archivo/subir-archivo.component';
@@ -85,7 +86,7 @@ agrupacionItem;
               private router: Router,
               private uiService: UiServiceService ,
               public dialog: MatDialog,
-              private alertCtrl: AlertController,
+              private alertCtrl: AlertController, private navCtrl: NavController,
               private servicioServicio: ServicioService) {
                 this.disableEditarButton   = this.disableEditar.asObservable();
                 this.disableCrearButton   = this.disableCrear.asObservable();
@@ -224,7 +225,8 @@ agrupacionItem;
     this.servicioServicio.crearServicio(this.servicio).subscribe((data:any)=>{
       console.log(data)
       if(data.ok){
-        this.router.navigate(['/gestion-servicios' ]);
+        console.log("es el id que se manda", this.servicio.agrupacion)
+        this.navCtrl.navigateRoot( '/gestion-servicios', { state: { idAgrupacion: this.servicio.agrupacion }});
         this.disableCrear.next(false);
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');
@@ -238,7 +240,8 @@ agrupacionItem;
     this.servicioServicio.actualizarServicio( this.servicio ).subscribe((data:any)=>{
       console.log("el servicio actualizado", data)
       if(data.ok){
-        this.router.navigate(['/gestion-servicio' ]);
+        this.navCtrl.navigateRoot( '/gestion-servicios', { state: { idAgrupacion: this.servicio.agrupacion }});
+       
         this.disableEditar.next(false);
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');

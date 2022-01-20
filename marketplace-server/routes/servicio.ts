@@ -7,6 +7,7 @@ import { Agrupacion } from '../models/agrupacion.model';
 import { FileUpload } from '../interfaces/file-upload';
 import FileSystem from "../classes/file-system";
 import { Servicio } from "../models/servicio.model";
+import { Actividad } from "../models/actividad.model";
 
 
 const servicioRoutes = Router();
@@ -99,10 +100,10 @@ servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) 
 ///ACTUALIZAR
 //USUARIO - Actualizar
 servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
-
+    console.log("llega el servicio desde arriba" ,  req.body)
     const servicio =  req.body
-    
-    console.log(servicio)
+    servicio._id = req.body._id
+    console.log("llega el servicio" , servicio)
     Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
@@ -141,55 +142,62 @@ servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
 
   })
 
-//Servicio para subir archivos
-/*
-agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
 
-    if ( !req.files ) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subio ningun archivo'
+
+
+//   BUSQUEDA -por parameetros
+servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
+    console.log("pruebas")
+    const nombre = req.query.actividad;
+    const arte = req.query.arte;
+    const estado = req.query.estado
+    console.log(arte, nombre)
+    let actividades
+    let listId
+    if(arte && nombre) {
+     
+        actividades = await Actividad.find( 
+            {nombre: { $regex: nombre }, arte: { $regex: arte } , estado:estado}).select('_id').exec();
+            listId =  actividades.map(x=>  { return x._id} )
+           console.log("lista Id", listId )
+            const servicios =  await Servicio.find({actividad: {$in: listId}})
+      //      console.log("servicios", servicios)
+        res.json({
+            ok: true,
+            servicios
+        });
+    }else if(nombre){
+        actividades = await Actividad.find( 
+            {nombre: { $regex: nombre },  estado:estado}).exec();
+    
+        res.json({
+            ok: true,
+            actividades
+        });
+    }else if(arte) {
+        actividades = await Actividad.find( 
+            {arte:  { $regex: arte } ,  estado:estado}).exec();
+    
+        res.json({
+            ok: true,
+            actividades
+        });
+    } else {
+        actividades = await Actividad.find( 
+            { estado:estado }).exec();
+    
+        res.json({
+            ok: true,
+            actividades
         });
     }
-
-    const file: FileUpload = req.files.imagen;
-
-    if ( !file ){
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subio ningun archivo - imagen'
-        });
-    }
-
-    if ( !file.mimetype.includes('image') ) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'Lo que cargo no es una imagen'
-        });
-    }
-
-    await fileSystem.guardarImagenTemporal( file, req.usuario._id );
+    
     
 
-    res.json({
-        ok: true,
-        file: file.mimetype
-    });
 
 })
 
 
-//Mostrar Imagenes
-agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
-
-    const userId = req.params.userid;
-    const img = req.params.img;
-
-    const pathFoto = fileSystem.getFotoUrl( userId, img);
-
-    res.sendFile(pathFoto);
-});
-*/
-
 
 export default servicioRoutes;
+

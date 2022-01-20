@@ -15,6 +15,7 @@ const actividad_1 = __importDefault(require("./routes/actividad"));
 const cuenta_bancaria_1 = __importDefault(require("./routes/cuenta_bancaria"));
 const servicio_1 = __importDefault(require("./routes/servicio"));
 const parametro_1 = __importDefault(require("./routes/parametro"));
+const suscripcion_1 = __importDefault(require("./routes/suscripcion"));
 const server = new server_1.Server();
 exports.UPLOAD_PATH = 'uploads';
 //Middleware para utilizar JS - bodyParser
@@ -32,6 +33,7 @@ server.app.use('/actividad', actividad_1.default);
 server.app.use('/cuenta_bancaria', cuenta_bancaria_1.default);
 server.app.use('/servicio', servicio_1.default);
 server.app.use('/parametro', parametro_1.default);
+server.app.use('/suscripcion', suscripcion_1.default);
 //Conectar BD
 mongoose_1.default.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true, useCreateIndex: true }, (error => {
     if (error)

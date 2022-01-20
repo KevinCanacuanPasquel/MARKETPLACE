@@ -14,7 +14,7 @@ import { Usuario } from '../../interfaces/interfaces';
 })
 export class OfertarExplorarPage implements OnInit {
 
-
+  usuario: Usuario
   constructor( private usuarioService: UsuarioService,
                 private navCtrl: NavController ,
                 private uiService: UiServiceService,
@@ -22,7 +22,7 @@ export class OfertarExplorarPage implements OnInit {
     ) { }
 
   ngOnInit() {
-  
+    this.getDatosUsuario();
   }
   
   ofertar(){
@@ -36,4 +36,11 @@ export class OfertarExplorarPage implements OnInit {
   }
 
   
+  getDatosUsuario(){
+    this.usuarioService.getUsuario().then(p=>{
+      console.log("p", p)
+     this.usuario= p;
+     localStorage.setItem("id", this.usuario._id);
+   });
+  }
 }

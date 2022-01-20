@@ -44,7 +44,8 @@ const routes: Routes = [
   {
     path: 'actividad',
     loadChildren: () => import('./pages/actividad/actividad.module').then( m => m.ActividadPageModule)
-  },  {
+  },
+  {
     path: 'gestion-servicios',
     loadChildren: () => import('./pages/gestion-servicios/gestion-servicios.module').then( m => m.GestionServiciosPageModule)
   },
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path: 'detalle-agrupacion',
     loadChildren: () => import('./pages/detalle-agrupacion/detalle-agrupacion.module').then( m => m.DetalleAgrupacionPageModule)
+  },
+  {
+    path: 'suscripcion',
+    loadChildren: () => import('./pages/suscripcion/suscripcion.module').then( m => m.SuscripcionPageModule)
   }
 
 

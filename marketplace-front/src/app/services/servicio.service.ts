@@ -25,7 +25,7 @@ export class ServicioService {
   }
 
   
-  getAgrupacionesByUsuario(agrupacionId){
+  getServiciosByAgrupacion(agrupacionId){
     let params = new HttpParams();
     params = params.set('agrupId', agrupacionId );
     let options = { headers: this.headers, params: params };
