@@ -54,9 +54,11 @@ suscripcionRoutes.get('/suscripcionById',  async (req:any, res:Response) => {
 suscripcionRoutes.get('/validarSuscripcionByAgrupacion',  async (req:any, res:Response) => {
     const agrupId = req.query.agrupId;
     console.log(req.query.agrupId)
+    let fechaActual = new Date();
   
- //   let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
+   //let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
     let query = {agrupacion: agrupId}
+ 
     const servicios = await Suscripcion.find(query).populate('agrupacion')                     
                                         .exec();
 

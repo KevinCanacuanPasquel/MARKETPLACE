@@ -16,6 +16,7 @@ const express_1 = require("express");
 const autenticacion_1 = require("../middlewares/autenticacion");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
+const actividad_model_1 = require("../models/actividad.model");
 const servicioRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
@@ -110,53 +111,46 @@ servicioRoutes.delete('/eliminarServicio', (req, res) => {
     })
         .catch(error => console.error(error));
 });
-//Servicio para subir archivos
-/*
-agrupacionRoutes.post('/cargarImagenesAgrupacion', [verificaToken],  async (req: Request, res: Response) => {
-
-    if ( !req.files ) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subio ningun archivo'
+//   BUSQUEDA -por parameetros
+servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("pruebas");
+    const nombre = req.query.actividad;
+    const arte = req.query.arte;
+    const estado = req.query.estado;
+    console.log(arte, nombre);
+    let actividades;
+    let listId;
+    if (arte && nombre) {
+        actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, arte: { $regex: arte }, estado: estado }).select('_id').exec();
+        listId = actividades.map(x => { return x._id; });
+        console.log("lista Id", listId);
+        const servicios = yield servicio_model_1.Servicio.find({ actividad: { $in: listId } });
+        //      console.log("servicios", servicios)
+        res.json({
+            ok: true,
+            servicios
         });
     }
-
-    const file: FileUpload = req.files.imagen;
-
-    if ( !file ){
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subio ningun archivo - imagen'
+    else if (nombre) {
+        actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, estado: estado }).exec();
+        res.json({
+            ok: true,
+            actividades
         });
     }
-
-    if ( !file.mimetype.includes('image') ) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'Lo que cargo no es una imagen'
+    else if (arte) {
+        actividades = yield actividad_model_1.Actividad.find({ arte: { $regex: arte }, estado: estado }).exec();
+        res.json({
+            ok: true,
+            actividades
         });
     }
-
-    await fileSystem.guardarImagenTemporal( file, req.usuario._id );
-    
-
-    res.json({
-        ok: true,
-        file: file.mimetype
-    });
-
-})
-
-
-//Mostrar Imagenes
-agrupacionRoutes.get('/imagen/:userid/:img', ( req: any, res: Response) => {
-
-    const userId = req.params.userid;
-    const img = req.params.img;
-
-    const pathFoto = fileSystem.getFotoUrl( userId, img);
-
-    res.sendFile(pathFoto);
-});
-*/
+    else {
+        actividades = yield actividad_model_1.Actividad.find({ estado: estado }).exec();
+        res.json({
+            ok: true,
+            actividades
+        });
+    }
+}));
 exports.default = servicioRoutes;

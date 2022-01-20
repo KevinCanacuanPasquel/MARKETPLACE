@@ -51,7 +51,8 @@ suscripcionRoutes.get('/suscripcionById', (req, res) => __awaiter(void 0, void 0
 suscripcionRoutes.get('/validarSuscripcionByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const agrupId = req.query.agrupId;
     console.log(req.query.agrupId);
-    //   let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
+    let fechaActual = new Date();
+    //let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
     let query = { agrupacion: agrupId };
     const servicios = yield suscripcion_model_1.Suscripcion.find(query).populate('agrupacion')
         .exec();
