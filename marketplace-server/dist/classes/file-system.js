@@ -29,7 +29,7 @@ class FileSystem {
     generarNombreUnico(nombreOriginal) {
         const nombreaArr = nombreOriginal.split('.');
         const extension = nombreaArr[nombreaArr.length - 1];
-        const idUnico = (0, uniqid_1.default)();
+        const idUnico = uniqid_1.default();
         return `${idUnico}.${extension}`;
     }
     crearCarpetaUsuario(userId) {

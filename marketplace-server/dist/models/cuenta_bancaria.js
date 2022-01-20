@@ -27,4 +27,4 @@ const cuentaBancariaSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.CuentaBancaria = (0, mongoose_1.model)('CuentaBancaria', cuentaBancariaSchema);
+exports.CuentaBancaria = mongoose_1.model('CuentaBancaria', cuentaBancariaSchema);

@@ -22,4 +22,4 @@ const parametroSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Parametro = (0, mongoose_1.model)('Parametro', parametroSchema);
+exports.Parametro = mongoose_1.model('Parametro', parametroSchema);
