@@ -1,103 +1,85 @@
-import { Router, Request, Response } from "express";
-import { Usuario } from '../models/usuario.model';
-import bcrypt from 'bcrypt';
-import Token from '../classes/token';
-import { verificaToken } from '../middlewares/autenticacion';
-import { Agrupacion } from '../models/agrupacion.model';
-import { FileUpload } from '../interfaces/file-upload';
-import FileSystem from "../classes/file-system";
-import { Servicio } from "../models/servicio.model";
-import { Actividad } from "../models/actividad.model";
-import { Suscripcion } from "../models/suscripcion.model";
-
-
-const servicioRoutes = Router();
-const fileSystem = new FileSystem();
-
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const autenticacion_1 = require("../middlewares/autenticacion");
+const file_system_1 = __importDefault(require("../classes/file-system"));
+const servicio_model_1 = require("../models/servicio.model");
+const agenda_model_1 = require("../models/agenda.model");
+const agendaRoutes = (0, express_1.Router)();
+const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
-
+agendaRoutes.get('/agencia', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
-
-    const servicios = await Servicio.find()
-                                        .sort({ _id: -1 })
-                                        .skip( skip )
-                                        .limit(10)
-                                        .exec();
-
+    const agenda = yield agenda_model_1.Agenda.find()
+        .sort({ _id: -1 })
+        .skip(skip)
+        .limit(10)
+        .exec();
     res.json({
         ok: true,
         pagina,
-        servicios
+        agenda
     });
-});
-
-
-
+}));
 //AGRUPACIONES - Obtener servicio by id
 ///
-servicioRoutes.get('/servicioById',  async (req:any, res:Response) => {
+agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
-    console.log(req.query.agrupId)
-    
-    const servicios = await Servicio.findById(id).populate('actividad').populate('agrupacion')                    
-                                        .exec();
-
+    console.log(req.query.agrupId);
+    const servicios = yield agenda_model_1.Agenda.findById(id).populate('').populate('agrupacion')
+        .exec();
     res.json({
         ok: true,
         servicios
     });
-});
-
+}));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-servicioRoutes.get('/serviciosByAgupacion',  async (req:any, res:Response) => {
-    const agrupId = req.query.agrupId;
-    console.log(req.query.agrupId)
-    var query = {agrupacion : agrupId};
-    
-    const servicios = await Servicio.find(query).populate('actividad').populate('servicio')                      
-                                        .exec();
-
+agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clienteId = req.query.clienteId;
+    console.log(req.query.agrupId);
+    var query = { cliente: clienteId };
+    const servicios = yield servicio_model_1.Servicio.find(query).populate('servicio').populate('usuario')
+        .exec();
     res.json({
         ok: true,
         servicios
     });
-});
-
-
-
-
+}));
 //AGRUPACION - Crear
-servicioRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) => {
-
+agendaRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res) => {
     let body = req.body;
-    body.agrupacion = req.body.agrupacion;
-    body.actividad =req.body.actividad;
-    console.log("el body", body)
-   // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
+    body.servicio = req.body.servicio;
+    body.cliente = req.body.cliente;
+    console.log("el body", body);
+    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
-
-    Servicio.create(body).then ( async servicioDB => {
-
-        await servicioDB.populate('agrupacion').populate('actividad').execPopulate();
-
+    agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
+        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
         res.json({
             ok: true,
-            servicio: servicioDB
+            agenda: agendaDB
         });
-
-    }).catch( err => {
-        res.json(err)
+    })).catch(err => {
+        res.json(err);
     });
-
-
 });
-
+/*
 ///ACTUALIZAR
 //USUARIO - Actualizar
 servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
@@ -158,14 +140,14 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
     let listIdAgrupaciones
     let fechaActual = new Date().toISOString();
     let query =  { $and: [ { fechaFin: {$gte: fechaActual} }, {fechaInicio :{$lt: fechaActual } }]}
-    const agrupaciones = await Suscripcion.find(query).select('agrupacion')         
+    const agrupaciones = await Suscripcion.find(query).select('agrupacion')
     .exec();
     console.log("agrupaciones", agrupaciones)
     listIdAgrupaciones = agrupaciones.map(x=>{ return x.agrupacion})
     console.log("agrupaciones lista id", listIdAgrupaciones)
     if(arte && nombre) {
      
-        actividades = await Actividad.find( 
+        actividades = await Actividad.find(
             {nombre: { $regex: nombre }, arte: { $regex: arte } , estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
             const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
@@ -176,7 +158,7 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
             servicios
         });
     }else if(nombre){
-        actividades = await Actividad.find( 
+        actividades = await Actividad.find(
             {nombre: { $regex: nombre },  estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
             const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
@@ -185,7 +167,7 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
             servicios
         });
     }else if(arte) {
-        actividades = await Actividad.find( 
+        actividades = await Actividad.find(
             {arte:  { $regex: arte } ,  estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
             const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
@@ -195,7 +177,7 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
             servicios
         });
     } else {
-        actividades = await Actividad.find( 
+        actividades = await Actividad.find(
             { estado:estado }).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
             const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
@@ -211,6 +193,5 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
 })
 
 
-
-export default servicioRoutes;
-
+*/
+exports.default = agendaRoutes;

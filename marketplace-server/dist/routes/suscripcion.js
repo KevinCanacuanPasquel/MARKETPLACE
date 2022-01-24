@@ -48,17 +48,19 @@ suscripcionRoutes.get('/suscripcionById', (req, res) => __awaiter(void 0, void 0
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-suscripcionRoutes.get('/validarSuscripcionByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const agrupId = req.query.agrupId;
+suscripcionRoutes.get('/validarSuscripcion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //const agrupId = req.query.agrupId;
     console.log(req.query.agrupId);
-    let fechaActual = new Date();
-    //let query =  { $and: [ { fechaInicio: {$gte: new Date()} }, { fechaFin:{$lt: new Date() } }]}
-    let query = { agrupacion: agrupId };
-    const servicios = yield suscripcion_model_1.Suscripcion.find(query).populate('agrupacion')
+    let fechaActual = new Date().toISOString();
+    console.log(fechaActual);
+    let query = { $and: [{ fechaFin: { $gte: fechaActual } }, { fechaInicio: { $lt: fechaActual } }] };
+    // let query = {agrupacion: agrupId}
+    //  let query = {fechaInicio :{$lte: fechaActual}}
+    const agrupaciones = yield suscripcion_model_1.Suscripcion.find(query).select('agrupacion._id')
         .exec();
     res.json({
         ok: true,
-        servicios
+        agrupaciones
     });
 }));
 //AGRUPACION - Crear
