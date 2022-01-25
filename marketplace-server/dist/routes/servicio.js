@@ -18,7 +18,7 @@ const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const actividad_model_1 = require("../models/actividad.model");
 const suscripcion_model_1 = require("../models/suscripcion.model");
-const servicioRoutes = (0, express_1.Router)();
+const servicioRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

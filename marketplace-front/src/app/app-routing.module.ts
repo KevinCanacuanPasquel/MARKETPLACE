@@ -44,7 +44,8 @@ const routes: Routes = [
   {
     path: 'actividad',
     loadChildren: () => import('./pages/actividad/actividad.module').then( m => m.ActividadPageModule)
-  },  {
+  },
+  {
     path: 'gestion-servicios',
     loadChildren: () => import('./pages/gestion-servicios/gestion-servicios.module').then( m => m.GestionServiciosPageModule)
   },
@@ -61,9 +62,25 @@ const routes: Routes = [
     loadChildren: () => import('./pages/crear-cuentabancaria/crear-cuentabancaria.module').then( m => m.CrearCuentabancariaPageModule)
   },
   {
+    path: 'detalle-agrupacion',
+    loadChildren: () => import('./pages/detalle-agrupacion/detalle-agrupacion.module').then( m => m.DetalleAgrupacionPageModule)
+  },
+  {
     path: 'suscripcion',
     loadChildren: () => import('./pages/suscripcion/suscripcion.module').then( m => m.SuscripcionPageModule)
+  },  {
+    path: 'agenda',
+    loadChildren: () => import('./pages/agenda/agenda.module').then( m => m.AgendaPageModule)
+  },
+  {
+    path: 'contratos-agrupacion',
+    loadChildren: () => import('./pages/contratos-agrupacion/contratos-agrupacion.module').then( m => m.ContratosAgrupacionPageModule)
+  },
+  {
+    path: 'contratos-usuario',
+    loadChildren: () => import('./pages/contratos-usuario/contratos-usuario.module').then( m => m.ContratosUsuarioPageModule)
   }
+
 
 
 

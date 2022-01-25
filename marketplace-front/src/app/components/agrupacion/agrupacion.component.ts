@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Agrupacion } from '../../interfaces/interfaces';
 
 @Component({
@@ -14,13 +15,13 @@ export class AgrupacionComponent implements OnInit {
   img2 = '/assets/perro-2.jpg';
   img3 = '/assets/perro-3.jpg';
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
   }
 
   mostrarAgrupacionSeleccionada(){
-    console.log("JAI");
+    this.navCtrl.navigateRoot( '/detalle-agrupacion', { animated: true });
   }
 
 }

@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import { IonicSelectableModule } from 'ionic-selectable';
 
+import { NgCalendarModule } from 'ionic2-calendar';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +32,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
     MatDialogModule,
     MatTableModule,
     IonicSelectableModule,
-    
+    NgCalendarModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
