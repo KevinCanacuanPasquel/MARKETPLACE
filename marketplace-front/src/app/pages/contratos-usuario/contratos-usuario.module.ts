@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetalleAgrupacionPageRoutingModule } from './detalle-agrupacion-routing.module';
+import { ContratosUsuarioPageRoutingModule } from './contratos-usuario-routing.module';
 
-import { DetalleAgrupacionPage } from './detalle-agrupacion.page';
+import { ContratosUsuarioPage } from './contratos-usuario.page';
 
 import { ComponentsModule } from 'src/app/components/components.module';
 
@@ -15,9 +15,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
-    DetalleAgrupacionPageRoutingModule
+    ContratosUsuarioPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [DetalleAgrupacionPage]
+  declarations: [ContratosUsuarioPage]
 })
-export class DetalleAgrupacionPageModule {}
+export class ContratosUsuarioPageModule {}

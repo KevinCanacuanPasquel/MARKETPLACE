@@ -13,6 +13,40 @@
 
 <ion-content>
 
+  <div class="centrado">
+          <ion-card>
+            <ion-slides pager="true">
+              <ion-slide class="image-slide">
+                <img src="/assets/avatars/av-1.png" />
+              </ion-slide>
+  
+              <ion-slide class="image-slide" >
+                <h1>Slide 2</h1>
+              </ion-slide>
+              
+            </ion-slides>
+          </ion-card>
+  
+          <ion-card-header>
+            <ion-card-subtitle class="centrado">Nombre del artista</ion-card-subtitle>
+            <ion-card-title class="centrado">Arte / Servicio</ion-card-title>
+          </ion-card-header>
+  
+          <ion-card-content class="centrado">
+            Descripcion del nego.
+          </ion-card-content>
+
+          <ion-card-content class="centrado color2">
+            Costo
+          </ion-card-content>
+  </div>
+  
+
+  <div class="centrado">
+    <ion-button shape="round" color="warning" (click)="irAgenda()">Agendar/Reservar Servicio</ion-button>
+  </div>
+  
+  
 </ion-content>
 
 <ion-footer>

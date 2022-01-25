@@ -11,6 +11,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class DetalleAgrupacionPage implements OnInit {
 
+  img1 = '/assets/perro-1.jpg';
+  img2 = '/assets/perro-2.jpg';
+  img3 = '/assets/perro-3.jpg';
+
   constructor(private agrupacionesService: AgrupacionesService,
     private usuarioService: UsuarioService,
                 private navCtrl: NavController ,
@@ -19,5 +23,10 @@ export class DetalleAgrupacionPage implements OnInit {
 
   ngOnInit() {
   }
+
+  irAgenda(){
+    this.navCtrl.navigateRoot( '/agenda', { animated: true });
+  }
+
 
 }

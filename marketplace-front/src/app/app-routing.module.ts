@@ -68,7 +68,19 @@ const routes: Routes = [
   {
     path: 'suscripcion',
     loadChildren: () => import('./pages/suscripcion/suscripcion.module').then( m => m.SuscripcionPageModule)
+  },  {
+    path: 'agenda',
+    loadChildren: () => import('./pages/agenda/agenda.module').then( m => m.AgendaPageModule)
+  },
+  {
+    path: 'contratos-agrupacion',
+    loadChildren: () => import('./pages/contratos-agrupacion/contratos-agrupacion.module').then( m => m.ContratosAgrupacionPageModule)
+  },
+  {
+    path: 'contratos-usuario',
+    loadChildren: () => import('./pages/contratos-usuario/contratos-usuario.module').then( m => m.ContratosUsuarioPageModule)
   }
+
 
 
 

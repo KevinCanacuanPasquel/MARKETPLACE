@@ -58,7 +58,7 @@ export class ExplorarAgrupacionesPage implements OnInit {
   }
 
   mostrarContratos(){
-    console.log("@");
+    this.navCtrl.navigateRoot( '/contratos-usuario', { animated: true });
   }
 
   

@@ -1,0 +1,42 @@
+<ion-header no-border>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+    </ion-buttons>
+
+    <ion-title>
+      CONTRATOS 
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div><calendar [eventSource]="eventSource"
+        [calendarMode]="calendar.mode"
+        [currentDate]="calendar.currentDate"
+        (onCurrentDateChanged)="onCurrentDateChanged($event)"
+        (onRangeChanged)="reloadSource(startTime, endTime)"
+        (onEventSelected)="onEventSelected($event)"
+        (onTitleChanged)="onViewTitleChanged($event)"
+        (onTimeSelected)="onTimeSelected($event)"
+        [step]="calendar.step">
+        
+    </calendar></div>
+
+ 
+    <div class="centrado">
+      <ion-button shape="round" color="success" (click)="addNewEvent()">ACEPTAR</ion-button>
+      <ion-button shape="round" color="danger" (click)="addNewEvent()">RECHAZAR</ion-button>
+      <ion-button shape="round" color="warning" (click)="addNewEvent()">FINALIZAR</ion-button>
+    </div>
+  
+</ion-content>
+
+<ion-footer>
+
+     
+  <app-footer></app-footer>
+
+</ion-footer>
