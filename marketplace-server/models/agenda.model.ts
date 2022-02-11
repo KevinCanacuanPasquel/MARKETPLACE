@@ -4,7 +4,10 @@ import { Schema, Document, model } from 'mongoose';
 //Modelo BDD
 const servicioSchema = new Schema({
 
-    hora: {
+    horaInicio: {
+        type: String
+    },
+    horaFin:{
         type: String
     },
     fechaAgenda: {
@@ -43,7 +46,8 @@ const servicioSchema = new Schema({
 
 // Tipado de datos
 interface IAgenda extends Document {
-    hora: string;
+    horaInicio: string;
+    horaFin: string;
     fechaAgenda: string;
     location: any;
     servicio: string;

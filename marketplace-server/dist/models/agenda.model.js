@@ -4,7 +4,10 @@ exports.Agenda = void 0;
 const mongoose_1 = require("mongoose");
 //Modelo BDD
 const servicioSchema = new mongoose_1.Schema({
-    hora: {
+    horaInicio: {
+        type: String
+    },
+    horaFin: {
         type: String
     },
     fechaAgenda: {
@@ -36,4 +39,4 @@ const servicioSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Agenda = mongoose_1.model('Agenda', servicioSchema);
+exports.Agenda = (0, mongoose_1.model)('Agenda', servicioSchema);

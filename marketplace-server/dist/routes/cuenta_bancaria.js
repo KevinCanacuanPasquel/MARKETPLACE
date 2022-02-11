@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const autenticacion_1 = require("../middlewares/autenticacion");
 const cuenta_bancaria_1 = require("../models/cuenta_bancaria");
-const cuentaBancariaRoutes = express_1.Router();
+const cuentaBancariaRoutes = (0, express_1.Router)();
 //AGRUPACION - Obtener agrupaciones paginadas
 cuentaBancariaRoutes.get('/getCuentaBancaria', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const actividades = yield cuenta_bancaria_1.CuentaBancaria.find()

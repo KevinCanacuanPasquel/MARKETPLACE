@@ -18,7 +18,7 @@ const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const actividad_model_1 = require("../models/actividad.model");
 const suscripcion_model_1 = require("../models/suscripcion.model");
-const servicioRoutes = express_1.Router();
+const servicioRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,12 +41,12 @@ servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0,
 ///
 servicioRoutes.get('/servicioById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
-    console.log(req.query.agrupId);
-    const servicios = yield servicio_model_1.Servicio.findById(id).populate('actividad').populate('agrupacion')
+    console.log(req.query.id);
+    const servicio = yield servicio_model_1.Servicio.findById(id).populate('actividad').populate('agrupacion')
         .exec();
     res.json({
         ok: true,
-        servicios
+        servicio
     });
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario

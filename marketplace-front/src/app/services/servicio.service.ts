@@ -33,6 +33,16 @@ export class ServicioService {
     return this.http.get( URL+ '/servicio/serviciosByAgupacion',options );
   }
 
+  
+  getServiciosById(servicioId){
+    let params = new HttpParams();
+    params = params.set('id', servicioId );
+    let options = { headers: this.headers, params: params };
+  
+    return this.http.get( URL+ '/servicio/servicioById',options );
+  }
+
+
   actualizarServicio( servicio ) {
 
     let options = { headers: this.headers};

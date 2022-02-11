@@ -61,8 +61,6 @@ export class CrearAgrupaciones {
       
       if(this.item.fotos.length!= 0){
       this.agrupacion.fotos = this.item.fotos
-
-        
       }
       this.disableEditar.next(true);
       this.disableCrear.next(false);
