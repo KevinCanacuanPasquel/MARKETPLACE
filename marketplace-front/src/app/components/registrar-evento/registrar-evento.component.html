@@ -12,23 +12,23 @@
 <ion-content>
 	
 		<ion-item>
-			<ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+			<ion-input type="text" placeholder="Title" [(ngModel)]="agenda.nombre"></ion-input>
 		</ion-item>
 
 		<ion-item>
-			<ion-textarea placeholder="Notes" [(ngModel)]="event.notes" rows="3"></ion-textarea>
+			<ion-textarea placeholder="Notes" [(ngModel)]="agenda.descripcion" rows="3"></ion-textarea>
 		</ion-item>
 
 		 <ion-item>
 			<ion-label>Start</ion-label>
-			<ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" value="1997-08-04T08:30Z"></ion-datetime> 
-      <ion-datetime displayFormat="HH:mm"  pickerFormat="HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+			<ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A"  [(ngModel)]="agenda.horaInicio"></ion-datetime> 
+   
 		</ion-item>
 
 		<ion-item>
 			<ion-label>End</ion-label>
-			<ion-datetime presentation="time" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
-		</ion-item> -->
+			<ion-datetime displayFormat="h:mm A"  pickerFormat="h:mm A"  [(ngModel)]="agenda.horaFin"></ion-datetime>
+		</ion-item> 
 <!-- 
 		<ion-item>
 			<ion-label>Select Room</ion-label>
@@ -47,20 +47,23 @@
 			<ion-label>All Day?</ion-label>
 			<ion-checkbox [(ngModel)]="event.allDay" [disabled]="event.blockDay"></ion-checkbox>
 		</ion-item> -->
-
-		<ion-button  color="light" full (click)="presentModal()">
-		</ion-button>
+		<ion-row>
+			<ion-label>Agrega la ubicacion del evento </ion-label>
+		</ion-row>
+		<ion-row>
+			<ion-button  color="light" full (click)="presentModal()">
+			</ion-button>
+		</ion-row>
+		
 
 
 	<ion-row>
-		<ion-button ion-button color="light" full (click)="testMarker()">
-		  Test Marker
-	</ion-button>
+		<ion-button (click)="registrarEvento()" expand="block" fill="clear" shape="round"> 
+			Registrar
+		</ion-button> 
 </ion-row>
 	 
-	<!-- <ion-button (click)="save()" expand="block" fill="clear" shape="round"> 
-			Registrar
-		</ion-button>  -->
+	
 
 	
 

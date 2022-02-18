@@ -41,6 +41,7 @@ import { NgCalendarModule } from 'ionic2-calendar';
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     
+    
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
@@ -49,7 +50,7 @@ import { NgCalendarModule } from 'ionic2-calendar';
     })
   ],
  
-  providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }],
+  providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }] ,
   bootstrap: [AppComponent],
 })
 export class AppModule {}

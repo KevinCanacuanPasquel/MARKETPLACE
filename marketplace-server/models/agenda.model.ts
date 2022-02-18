@@ -4,6 +4,9 @@ import { Schema, Document, model } from 'mongoose';
 //Modelo BDD
 const servicioSchema = new Schema({
 
+    nombre: {
+        type: String
+    },
     horaInicio: {
         type: String
     },
@@ -14,10 +17,10 @@ const servicioSchema = new Schema({
         type: String
     },
     location: {
-        type : String,
-        coordinates : [
-        ]
-        },
+        lat :{type: String},
+        lng: {type: String}
+
+    },
    
 
     //Relacion con Usuario

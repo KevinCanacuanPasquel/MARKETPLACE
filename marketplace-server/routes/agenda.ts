@@ -17,7 +17,7 @@ const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agencia',  async (req:any, res:Response) => {
+agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
@@ -74,7 +74,7 @@ agendaRoutes.get('/serviciosByCliente',  async (req:any, res:Response) => {
 
 
 //AGRUPACION - Crear
-agendaRoutes.post('/crearServicio', [verificaToken],  (req:any, res:Response) => {
+agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
     let body = req.body;
     body.servicio = req.body.servicio;

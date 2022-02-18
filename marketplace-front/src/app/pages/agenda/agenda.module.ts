@@ -10,7 +10,8 @@ import { AgendaPage } from './agenda.page';
 import { ComponentsModule } from '../../components/components.module';
 
 import { NgCalendarModule } from 'ionic2-calendar';
-import { MatDialogModule} from '@angular/material/dialog';
+
+
 
 
 
@@ -22,9 +23,10 @@ import { MatDialogModule} from '@angular/material/dialog';
     ComponentsModule,
     AgendaPageRoutingModule,
     NgCalendarModule,
-    MatDialogModule
+
   ],
   declarations: [AgendaPage],
-  providers:[MatDialogModule ]
+ 
+ 
 })
 export class AgendaPageModule {}

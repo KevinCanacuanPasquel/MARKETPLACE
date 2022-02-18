@@ -1,8 +1,12 @@
+import { compileNgModule } from '@angular/compiler';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
-import { ModalController, NavController, NavParams } from '@ionic/angular';
 
-import { of } from 'rxjs';
+import { ModalController, NavController, NavParams } from '@ionic/angular';
+import { AgendaService } from 'src/app/services/agenda.service';
+
+
+import { DataService } from 'src/app/services/data.service';
 import { GoogleMapsComponent } from '../google-maps/google-maps.component';
 
 @Component({
@@ -20,11 +24,36 @@ export class RegistrarEventoComponent implements OnInit {
     room : {},
     title: ''
   };
+  
+  fecha
+  servicio
+  message
+  cliente
+  agenda = {
+    nombre: '',
+    horaInicio : '',
+    horaFin: '',
+    fechaAgenda: '',
+    location: {
+        lat : '',
+        lng : '',
+    },
+    estado: '',
+    cliente: '',
+    servicio:'', 
+    fechaCreacion: '',
+    descripcion: ''
+
+
+  }
   minDate = new Date().toISOString();
-  rooms$ = of([{ id: "room1", name: "room1" }, { id: "room2", name: "room2" }, { id: "room3", name: "room3" }])
+ 
 
   constructor(
-    public navCtrl: NavController, private modalCtrl:  ModalController
+    public navCtrl: NavController, private modalCtrl:  ModalController,
+    private dataService : DataService,
+    private agendaService: AgendaService,
+
    
    ) {
  //   let preselectedDate = moment(this.navParams.get('selectedDay')).format();
@@ -32,7 +61,16 @@ export class RegistrarEventoComponent implements OnInit {
  //   this.event.endTime = preselectedDate;0
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  
+    console.log( "fthis fecha", this.fecha)
+    console.log("servicio", this.servicio)
+    console.log(" cliente", this.cliente)
+    this.agenda.fechaAgenda = this.fecha
+    this.agenda.fechaCreacion = new Date().toISOString();
+    this.agenda.cliente = this.cliente
+    this.agenda.servicio = this.servicio
+  }
 
   cancel() {
   //  this.viewCtrl.dismiss();
@@ -71,7 +109,52 @@ export class RegistrarEventoComponent implements OnInit {
         'locale': 'es_ES'
       }*/
     });
-    return await modal.present();
-  }
 
+    modal.onDidDismiss()
+    .then((data) => {
+     console.log( data)
+      this.dataService.currentMessage.subscribe(
+      message => {
+        this.message = message
+        this.agenda.location = this.message
+          }
+  
+     
+    )
+    
+  
+      // Here's your selected user!
+  });
+
+  return await modal.present();
+}
+  
+/*
+openDialog(): void {
+  const dialogRef = this.dialog.open(GoogleMapsComponent, {
+    width: '800px',
+    height: '800px'
+  
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+    console.log("eel resulatdo", result)
+  
+
+    
+  });
+}
+*/
+
+registrarEvento(){
+  console.log(this.agenda)
+  this.agendaService.crearAgenda(this.agenda).subscribe((data:any)=>{
+    if(data.ok){
+      
+        this.modalCtrl.dismiss(data.agenda);
+      
+    }
+  })
+}
 }

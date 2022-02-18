@@ -44,7 +44,7 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
     IonicModule,
     PipesModule,
     FormsModule,
-    MatDialogModule
+  
  
   ]
 })

@@ -13,14 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const agenda_model_1 = require("../models/agenda.model");
 const agendaRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agencia', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+agendaRoutes.get('/agenda', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
@@ -62,7 +61,7 @@ agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, 
     });
 }));
 //AGRUPACION - Crear
-agendaRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res) => {
+agendaRoutes.post('/crearAgenda', (req, res) => {
     let body = req.body;
     body.servicio = req.body.servicio;
     body.cliente = req.body.cliente;

@@ -71,7 +71,8 @@ export class DetalleAgrupacionPage implements OnInit {
   }
 
   irAgenda(){
-    this.navCtrl.navigateRoot( '/agenda', { animated: true });
+    this.navCtrl.navigateRoot( '/agenda', { state: { servicioId: this.servicioId }});
+ 
   }
 
   getServicio(){

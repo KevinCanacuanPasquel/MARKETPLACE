@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
 import { RegistrarEventoComponent } from 'src/app/components/registrar-evento/registrar-evento.component';
@@ -18,12 +19,14 @@ export class AgendaPage implements OnInit {
 
   ngOnInit() {
   }
+  item
+  servicioId
   selectedDay = new Date()
   selectedObject
   eventSource = []
   viewTitle;
   isToday: boolean;
-    
+  fechita
   calendarModes = [
     { key: 'month', value: 'Month' },
     { key: 'week', value: 'Week' },
@@ -35,8 +38,20 @@ export class AgendaPage implements OnInit {
   }; // these are the variable used by the calendar.
   constructor(public navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
-    private modalCtrl: ModalController, public dialog: MatDialog) {
+    private modalCtrl: ModalController, private router: Router) {
 
+      if (this.router.getCurrentNavigation().extras.state) {
+
+        let bool = false;
+      //  this.titulo = "Editar Agrupacion";
+        
+        
+        this.servicioId = this.router.getCurrentNavigation().extras.state.servicioId;
+        console.log("servicio", this.servicioId)
+        
+      
+      
+      }
     // this.markDisabled(new Date(2017, 12, 25))
   }
 
@@ -47,6 +62,7 @@ export class AgendaPage implements OnInit {
     this.viewTitle = title;
   }
   onEventSelected(event) {
+    console.log("entra a esta vaina")
     console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
   }
   changeMode(mode) {
@@ -59,7 +75,9 @@ export class AgendaPage implements OnInit {
     console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
       (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
     this.selectedObject = ev
+    console.log("el evento", this.selectedObject) 
     // this.openActionSheet(ev)
+    this.fechita = this.selectedObject.selectedTime
   }
   onCurrentDateChanged(event: Date) {
     var today = new Date();
@@ -105,7 +123,7 @@ export class AgendaPage implements OnInit {
       ]
     }); actionsheet.present();
   }
-*/
+*//*
   blockDayEvent(date) {
     let startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 
@@ -123,7 +141,7 @@ export class AgendaPage implements OnInit {
       this.eventSource = events;
     });
   }
-
+*/
  /* addEvent() {
     let modal = this.modalCtrl.create(EventModalPage, { selectedDay: this.selectedDay });
     modal.present();
@@ -143,7 +161,7 @@ export class AgendaPage implements OnInit {
       }
     });
   }*/
-
+/*
   addEvent(): void {
     const dialogRef = this.dialog.open(RegistrarEventoComponent, {
       width: 'auto',
@@ -158,21 +176,21 @@ export class AgendaPage implements OnInit {
 
      
     });
-  }
+  }*/
 
   onOptionSelected($event: any) {
-    console.log($event)
+    console.log("aqui mijin", $event)
     //this.calendar.mode = $event
   }
 
   async presentModal() {
     const modal = await this.modalCtrl.create({
       component: RegistrarEventoComponent,
-    /*  componentProps: {
-        'nombre': 'Aitor',
-        'apellidos': 'Sánchez',
-        'locale': 'es_ES'
-      }*/
+      componentProps: {
+        'fecha': this.fechita,
+        'servicio': this.servicioId,
+        'cliente': localStorage.getItem('id')
+      }
     });
     return await modal.present();
   }

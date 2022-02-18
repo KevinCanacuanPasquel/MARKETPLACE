@@ -4,6 +4,9 @@ exports.Agenda = void 0;
 const mongoose_1 = require("mongoose");
 //Modelo BDD
 const servicioSchema = new mongoose_1.Schema({
+    nombre: {
+        type: String
+    },
     horaInicio: {
         type: String
     },
@@ -14,8 +17,8 @@ const servicioSchema = new mongoose_1.Schema({
         type: String
     },
     location: {
-        type: String,
-        coordinates: []
+        lat: { type: String },
+        lng: { type: String }
     },
     //Relacion con Usuario
     servicio: {
