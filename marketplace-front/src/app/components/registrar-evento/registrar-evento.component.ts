@@ -66,7 +66,7 @@ export class RegistrarEventoComponent implements OnInit {
     console.log( "fthis fecha", this.fecha)
     console.log("servicio", this.servicio)
     console.log(" cliente", this.cliente)
-    this.agenda.fechaAgenda = this.fecha
+   
     this.agenda.fechaCreacion = new Date().toISOString();
     this.agenda.cliente = this.cliente
     this.agenda.servicio = this.servicio
@@ -149,6 +149,13 @@ openDialog(): void {
 
 registrarEvento(){
   console.log(this.agenda)
+ var  fechaAgendaOnlyDate = this.fecha.toISOString().split("T")[0]
+  var tiempitoInicio = this.agenda.horaInicio.split("T")[1]
+  var tiempitoFin = this.agenda.horaFin.split("T")[1]
+ this.agenda.horaInicio =  new Date(fechaAgendaOnlyDate.concat("T").concat(tiempitoInicio)).toISOString()
+ this.agenda.horaFin =  new Date(fechaAgendaOnlyDate.concat("T").concat(tiempitoFin)).toISOString()
+
+
   this.agendaService.crearAgenda(this.agenda).subscribe((data:any)=>{
     if(data.ok){
       
@@ -157,4 +164,18 @@ registrarEvento(){
     }
   })
 }
+
+
+ CombineDateAndTime(date, time) {
+  var timeString = time.getHours() + ':' + time.getMinutes() + ':00';
+  var ampm = time.getHours() >= 12 ? 'PM' : 'AM';
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1; // Jan is 0, dec is 11
+  var day = date.getDate();
+  var dateString = '' + year + '-' + month + '-' + day;
+  var datec = dateString + 'T' + timeString;
+  var combined = new Date(datec);
+
+  return combined;
+};
 }

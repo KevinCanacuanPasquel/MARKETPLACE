@@ -49,7 +49,7 @@ agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clienteId = req.query.clienteId;
     console.log(req.query.agrupId);
     var query = { cliente: clienteId };
@@ -58,6 +58,19 @@ agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, 
     res.json({
         ok: true,
         servicios
+    });
+}));
+//AGRUPACIONES - Obtener agrupaciones por usuario
+///
+agendaRoutes.get('/agendaByServicio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const servicioId = req.query.servicioId;
+    console.log(req.query.servicioId);
+    var query = { servicio: servicioId };
+    const agenda = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
+        .exec();
+    res.json({
+        ok: true,
+        agenda
     });
 }));
 //AGRUPACION - Crear
@@ -69,7 +82,7 @@ agendaRoutes.post('/crearAgenda', (req, res) => {
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
     agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
+        yield agendaDB.populate('servicio').populate('cliente').execPopulate();
         res.json({
             ok: true,
             agenda: agendaDB

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
 import { RegistrarEventoComponent } from 'src/app/components/registrar-evento/registrar-evento.component';
+import { AgendaService } from 'src/app/services/agenda.service';
 
 @Component({
   selector: 'app-agenda',
@@ -17,28 +18,27 @@ export class AgendaPage implements OnInit {
   img3 = '/assets/perro-3.jpg';
 
 
-  ngOnInit() {
+  async ngOnInit() {
+   await this.getAgendaByServicio();
   }
   item
   servicioId
   selectedDay = new Date()
   selectedObject
   eventSource = []
+  arrayTemporal = []
   viewTitle;
   isToday: boolean;
   fechita
-  calendarModes = [
-    { key: 'month', value: 'Month' },
-    { key: 'week', value: 'Week' },
-    { key: 'day', value: 'Day' },
-  ]
+  calendarModes = "month"
+  
   calendar = {
-    mode: (this.calendarModes[0].key),
+    mode: (this.calendarModes),
     currentDate: new Date()
   }; // these are the variable used by the calendar.
   constructor(public navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
-    private modalCtrl: ModalController, private router: Router) {
+    private modalCtrl: ModalController, private router: Router, private agendaService: AgendaService) {
 
       if (this.router.getCurrentNavigation().extras.state) {
 
@@ -75,6 +75,7 @@ export class AgendaPage implements OnInit {
     console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
       (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
     this.selectedObject = ev
+
     console.log("el evento", this.selectedObject) 
     // this.openActionSheet(ev)
     this.fechita = this.selectedObject.selectedTime
@@ -196,5 +197,30 @@ export class AgendaPage implements OnInit {
   }
 
 
-  
+
+  getAgendaByServicio(){
+
+    this.agendaService.getAgendaByServicio(this.servicioId).subscribe((data:any)=> {
+      
+      if(data.ok){
+        console.log("datilla", data.agenda)
+      this.arrayTemporal =   data.agenda.map(x=> {
+          var eventosCalendario = {
+          "startTime" : new Date(new Date(x.horaInicio).toISOString()),
+          "allDay": false,
+          "endTime": new Date( new Date(x.horaFin).toISOString()),
+          "title": x.nombre,
+        
+        }
+         
+        return eventosCalendario;
+        })
+      
+      this.eventSource= this.arrayTemporal
+      console.log(this.eventSource);
+    }
+    
+    }  )
+    
+}
 }

@@ -56,7 +56,7 @@ agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/serviciosByCliente',  async (req:any, res:Response) => {
+agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
     const clienteId = req.query.clienteId;
     console.log(req.query.agrupId)
     var query = {cliente : clienteId};
@@ -67,6 +67,23 @@ agendaRoutes.get('/serviciosByCliente',  async (req:any, res:Response) => {
     res.json({
         ok: true,
         servicios
+    });
+});
+
+
+//AGRUPACIONES - Obtener agrupaciones por usuario
+///
+agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
+    const servicioId = req.query.servicioId;
+    console.log(req.query.servicioId)
+    var query = {servicio : servicioId};
+    
+    const agenda = await Agenda.find(query).populate('servicio').populate('usuario')                      
+                                        .exec();
+
+    res.json({
+        ok: true,
+        agenda
     });
 });
 
@@ -85,7 +102,7 @@ agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
     Agenda.create(body).then ( async agendaDB => {
 
-        await agendaDB.populate('servicio').populate('usuario').execPopulate();
+        await agendaDB.populate('servicio').populate('cliente').execPopulate();
 
         res.json({
             ok: true,
