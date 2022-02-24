@@ -4,17 +4,23 @@ import { Schema, Document, model } from 'mongoose';
 //Modelo BDD
 const servicioSchema = new Schema({
 
-    hora: {
+    nombre: {
+        type: String
+    },
+    horaInicio: {
+        type: String
+    },
+    horaFin:{
         type: String
     },
     fechaAgenda: {
         type: String
     },
     location: {
-        type : String,
-        coordinates : [
-        ]
-        },
+        lat :{type: String},
+        lng: {type: String}
+
+    },
    
 
     //Relacion con Usuario
@@ -43,7 +49,8 @@ const servicioSchema = new Schema({
 
 // Tipado de datos
 interface IAgenda extends Document {
-    hora: string;
+    horaInicio: string;
+    horaFin: string;
     fechaAgenda: string;
     location: any;
     servicio: string;

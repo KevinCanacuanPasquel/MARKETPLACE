@@ -13,14 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const agenda_model_1 = require("../models/agenda.model");
-const agendaRoutes = express_1.Router();
+const agendaRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agencia', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+agendaRoutes.get('/agenda', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
@@ -50,7 +49,7 @@ agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clienteId = req.query.clienteId;
     console.log(req.query.agrupId);
     var query = { cliente: clienteId };
@@ -61,8 +60,21 @@ agendaRoutes.get('/serviciosByCliente', (req, res) => __awaiter(void 0, void 0, 
         servicios
     });
 }));
+//AGRUPACIONES - Obtener agrupaciones por usuario
+///
+agendaRoutes.get('/agendaByServicio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const servicioId = req.query.servicioId;
+    console.log(req.query.servicioId);
+    var query = { servicio: servicioId };
+    const agenda = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
+        .exec();
+    res.json({
+        ok: true,
+        agenda
+    });
+}));
 //AGRUPACION - Crear
-agendaRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res) => {
+agendaRoutes.post('/crearAgenda', (req, res) => {
     let body = req.body;
     body.servicio = req.body.servicio;
     body.cliente = req.body.cliente;
@@ -70,7 +82,7 @@ agendaRoutes.post('/crearServicio', [autenticacion_1.verificaToken], (req, res) 
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
     agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
+        yield agendaDB.populate('servicio').populate('cliente').execPopulate();
         res.json({
             ok: true,
             agenda: agendaDB

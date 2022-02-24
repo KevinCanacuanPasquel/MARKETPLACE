@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -18,13 +19,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import { IonicSelectableModule } from 'ionic-selectable';
 
+
 import { NgCalendarModule } from 'ionic2-calendar';
+
+
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+   
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -35,6 +40,8 @@ import { NgCalendarModule } from 'ionic2-calendar';
     NgCalendarModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
+    
+    
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
@@ -42,7 +49,8 @@ import { NgCalendarModule } from 'ionic2-calendar';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+ 
+  providers: [ { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }] ,
   bootstrap: [AppComponent],
 })
 export class AppModule {}

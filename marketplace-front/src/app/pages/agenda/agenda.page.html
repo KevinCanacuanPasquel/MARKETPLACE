@@ -11,30 +11,56 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="has-header">
+ 
+  <ion-segment [(ngModel)]="calendar.mode">
+    <ion-segment-button value="month">
+      <ion-label>Month</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="week">
+      <ion-label>Week</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="day">
+      <ion-label>Day</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-row>
+    <ion-col size="6">
+      <ion-title>    {{viewTitle}}</ion-title>
+    </ion-col>
+    <ion-col size="6">
+    <ion-buttons end>
+      <button ion-button [disabled]="isToday" (click)="today()">Hoy</button>
+    </ion-buttons>
+  </ion-col>
+  </ion-row>
+	<ion-row ion-content>
+		<ion-col col-9 offset="1">
+			<ion-button (click)="presentModal()">ADD EVENT</ion-button>
+		</ion-col>
+		<!-- <ion-col col-3>
+			<ion-select [(ngModel)]="calendar.mode" style="max-width: 100%">
+				<ion-select-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">{{mode.value}}
+				</ion-select-option>
+			</ion-select>
 
-  <div class="centrado">
-    <ion-button shape="round" color="warning" (click)="addNewEvent()">Reservar</ion-button>
-  </div>
-
-  <calendar [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        (onCurrentDateChanged)="onCurrentDateChanged($event)"
-        (onRangeChanged)="reloadSource(startTime, endTime)"
-        (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)"
-        [step]="calendar.step">
-        
-    </calendar>
   
-  
+		</ion-col> -->
+	</ion-row>
+	<!-- <p>{{selectedObject | json}}</p>
+        <p>{{eventSource | json}}</p> -->
+	<calendar 
+ 
+  [eventSource]="eventSource" [markDisabled]="markDisabled" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+	 (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+	 (onTimeSelected)="onTimeSelected($event)" >
+	</calendar>
 </ion-content>
+
+
 
 <ion-footer>
 
-     
   <app-footer></app-footer>
 
 </ion-footer>

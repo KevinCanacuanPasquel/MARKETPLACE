@@ -13,6 +13,8 @@ import { NgCalendarModule } from 'ionic2-calendar';
 
 
 
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,8 +22,11 @@ import { NgCalendarModule } from 'ionic2-calendar';
     IonicModule,
     ComponentsModule,
     AgendaPageRoutingModule,
-    NgCalendarModule
+    NgCalendarModule,
+
   ],
-  declarations: [AgendaPage]
+  declarations: [AgendaPage],
+ 
+ 
 })
 export class AgendaPageModule {}

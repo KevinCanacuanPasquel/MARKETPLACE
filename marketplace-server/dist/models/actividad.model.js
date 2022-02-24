@@ -18,4 +18,4 @@ const actividadSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Actividad = mongoose_1.model('Actividad', actividadSchema);
+exports.Actividad = (0, mongoose_1.model)('Actividad', actividadSchema);

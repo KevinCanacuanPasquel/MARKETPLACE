@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { SubirArchivoComponent } from './subir-archivo/subir-archivo.component';
 import { GaleriaImagenesComponent } from './galeria-imagenes/galeria-imagenes.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +25,8 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     FooterComponent,
     SubirArchivoComponent,
     GaleriaImagenesComponent,
-    GoogleMapsComponent
-   
-    
+    GoogleMapsComponent,
+    RegistrarEventoComponent,
     
   ],
   exports: [
@@ -33,7 +34,8 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     AvatarSelectorComponent,
     OpcionesMasComponent,
     FooterComponent,
-    GaleriaImagenesComponent
+    GaleriaImagenesComponent,
+    RegistrarEventoComponent
    
   ],
   imports: [
@@ -42,7 +44,7 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
     IonicModule,
     PipesModule,
     FormsModule,
-    MatDialogModule
+  
  
   ]
 })

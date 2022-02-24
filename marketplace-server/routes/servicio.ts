@@ -42,14 +42,14 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
 ///
 servicioRoutes.get('/servicioById',  async (req:any, res:Response) => {
     const id = req.query.id;
-    console.log(req.query.agrupId)
+    console.log(req.query.id)
     
-    const servicios = await Servicio.findById(id).populate('actividad').populate('agrupacion')                    
+    const servicio = await Servicio.findById(id).populate('actividad').populate('agrupacion')                    
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        servicio
     });
 });
 
