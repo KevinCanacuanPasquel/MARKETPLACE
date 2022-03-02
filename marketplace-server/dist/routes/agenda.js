@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
-const servicio_model_1 = require("../models/servicio.model");
 const agenda_model_1 = require("../models/agenda.model");
 const agendaRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
@@ -51,13 +50,13 @@ agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, 
 ///
 agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clienteId = req.query.clienteId;
-    console.log(req.query.agrupId);
+    console.log(req.query.clienteId);
     var query = { cliente: clienteId };
-    const servicios = yield servicio_model_1.Servicio.find(query).populate('servicio').populate('usuario')
+    const agendas = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
         .exec();
     res.json({
         ok: true,
-        servicios
+        agendas
     });
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario

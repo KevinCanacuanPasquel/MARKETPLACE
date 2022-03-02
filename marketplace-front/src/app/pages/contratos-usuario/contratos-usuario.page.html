@@ -13,16 +13,20 @@
 
 <ion-content>
  
-    <div class="centrado">
-      <ion-text>
-        <h1>NOMBRE DEL SERVICIO</h1>
-        <h2>FECHA</h2>
-        <ion-text color="tertiary">
-          <h4>ESTADO</h4>
-        </ion-text>
-      </ion-text>
-      <ion-button shape="round" color="warning" (click)="calificar()">CALIFICAR</ion-button>
-    </div>
+    <ion-card *ngFor="let contrato of contratos">
+<ion-row>
+  <h1>{{contrato.nombre}}</h1>
+  <h2>{{contrato.fechaAgenda}}</h2>
+  <h3>hora Inicio: {{contrato.horaInicio}}</h3>
+  <h3>hora Fin: {{contrato.horaInicio}}</h3>
+  <ion-text color="tertiary">
+    <h4>{{contrato.estado}}</h4>
+  </ion-text>
+</ion-row>
+        
+ 
+      <ion-button *ngIf="contrato.estado === 'FINALIZADO'" shape="round" color="warning" (click)="calificar()">CALIFICAR</ion-button>
+    </ion-card>
   
 </ion-content>
 

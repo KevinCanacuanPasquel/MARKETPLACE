@@ -58,15 +58,15 @@ agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
 ///
 agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
     const clienteId = req.query.clienteId;
-    console.log(req.query.agrupId)
+    console.log(req.query.clienteId)
     var query = {cliente : clienteId};
     
-    const servicios = await Servicio.find(query).populate('servicio').populate('usuario')                      
+    const agendas = await Agenda.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        agendas
     });
 });
 
@@ -81,6 +81,8 @@ agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
     const agenda = await Agenda.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
+    
+   
     res.json({
         ok: true,
         agenda

@@ -14,6 +14,8 @@ import { SubirArchivoComponent } from './subir-archivo/subir-archivo.component';
 import { GaleriaImagenesComponent } from './galeria-imagenes/galeria-imagenes.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
+import { ServicioComponent } from './servicio/servicio.component';
+import { ServiciosComponent } from './servicios/servicios.component';
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
     GaleriaImagenesComponent,
     GoogleMapsComponent,
     RegistrarEventoComponent,
+    ServicioComponent,
+    ServiciosComponent
     
   ],
   exports: [
@@ -35,7 +39,8 @@ import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.co
     OpcionesMasComponent,
     FooterComponent,
     GaleriaImagenesComponent,
-    RegistrarEventoComponent
+    RegistrarEventoComponent,
+    ServiciosComponent
    
   ],
   imports: [
