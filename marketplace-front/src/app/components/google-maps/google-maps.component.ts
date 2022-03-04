@@ -22,6 +22,7 @@ export class GoogleMapsComponent  {
   }
   address: string;
    htmlButton = '<button>Hello </button> ';
+   locationAgenda ;
 
   /*constructor(  private http: HttpClient) { }
 
@@ -52,6 +53,7 @@ export class GoogleMapsComponent  {
         }, (err) => {
             console.log(err);
         });
+        console.log(this.locationAgenda)
     }
     private init(): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -144,36 +146,53 @@ export class GoogleMapsComponent  {
     }
     private initMap(): Promise<any> {
         return new Promise((resolve, reject) => {
-            Geolocation.getCurrentPosition().then((ubication) => {
-                console.log(ubication);
-                let latLng = new google.maps.LatLng(ubication.coords.latitude, ubication.coords.longitude);
-                this.coordenadas.lat =  ubication.coords.latitude;
-                this.coordenadas.lng =  ubication.coords.longitude;
+            
+            if (this.locationAgenda ){
+                console.log("llega aca")
+                let latLng = new google.maps.LatLng(this.locationAgenda.lat, this.locationAgenda.lng);
+    
                 let mapOptions = {
                     center: latLng,
                     zoom: 15
                 };
                 this.map = new google.maps.Map(this.element.nativeElement, mapOptions);
-                this.addMarker(ubication.coords.latitude, ubication.coords.longitude)
-/*
-                new google.maps.Marker({
-                    position: latLng,
-                    map,
-                    title: "Hello World!",
-                  });*/
+                this.addMarker(this.locationAgenda.lat, this.locationAgenda.lng)
 
-                  google.maps.event.addListener(this.map, "click", (event) => {
-                    this.hideMarkers();
-                    this.markers = [];
-                    console.log( event.latLng.toJSON())
-                    let markerUbication =  event.latLng.toJSON()
-                    this.addMarker(markerUbication.lat, markerUbication.lng);
                 
-                  });
-                resolve(true);
-            }, (err) => {
-                reject('Could not initialise map');
-            });
+            }
+            else{
+                Geolocation.getCurrentPosition().then((ubication) => {
+                    console.log(ubication);
+                    let latLng = new google.maps.LatLng(ubication.coords.latitude, ubication.coords.longitude);
+                    this.coordenadas.lat =  ubication.coords.latitude;
+                    this.coordenadas.lng =  ubication.coords.longitude;
+                    let mapOptions = {
+                        center: latLng,
+                        zoom: 15
+                    };
+                    this.map = new google.maps.Map(this.element.nativeElement, mapOptions);
+                    this.addMarker(ubication.coords.latitude, ubication.coords.longitude)
+    /*
+                    new google.maps.Marker({
+                        position: latLng,
+                        map,
+                        title: "Hello World!",
+                      });*/
+    
+                      google.maps.event.addListener(this.map, "click", (event) => {
+                        this.hideMarkers();
+                        this.markers = [];
+                        console.log( event.latLng.toJSON())
+                        let markerUbication =  event.latLng.toJSON()
+                        this.addMarker(markerUbication.lat, markerUbication.lng);
+                    
+                      });
+                    resolve(true);
+                }, (err) => {
+                    reject('Could not initialise map');
+                });
+            }
+
         });
     }
     public addMarker(lat: number, lng: number): void {

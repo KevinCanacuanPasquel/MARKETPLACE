@@ -9,7 +9,7 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class ServicioService {
-
+  paginaServicios = 0
   headers;
 
   constructor(private http:HttpClient, private usuarioService: UsuarioService) {
@@ -55,4 +55,23 @@ export class ServicioService {
     let options = { headers: this.headers, params: params };
     return this.http.delete(URL + '/servicio/eliminarServicio',  options) ;
   }
+
+
+  
+  getServiciosByParams(actividad, arte, pull:boolean = false){
+    if ( pull ) {
+      this.paginaServicios = 0;
+    }
+
+    this.paginaServicios ++;
+    let params = new HttpParams();
+    params = params.set('actividad', actividad );
+    params = params.set('arte', arte );
+    params = params.set('estado', "ACTIVO" );
+    params = params.set('pagina', this.paginaServicios)
+    let options = { headers: this.headers, params: params};
+    return this.http.get( URL+ '/servicio/servicioByParametros',options );
+  }
+
+
 }

@@ -53,3 +53,13 @@ export interface DataUpload {
   fileBase64: string;
  
 }
+
+export interface Servicio {
+  nombre: string;
+  descripcion : string;
+  valorEstimado: string;
+  fotos: any;
+  agrupacion: any;
+  actividad: any;
+  estado : string; 
+}

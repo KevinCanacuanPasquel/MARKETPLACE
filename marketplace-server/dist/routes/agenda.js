@@ -51,13 +51,13 @@ agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, 
 ///
 agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clienteId = req.query.clienteId;
-    console.log(req.query.agrupId);
+    console.log(req.query.clienteId);
     var query = { cliente: clienteId };
-    const servicios = yield servicio_model_1.Servicio.find(query).populate('servicio').populate('usuario')
+    const agendas = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
         .exec();
     res.json({
         ok: true,
-        servicios
+        agendas
     });
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
@@ -67,6 +67,20 @@ agendaRoutes.get('/agendaByServicio', (req, res) => __awaiter(void 0, void 0, vo
     console.log(req.query.servicioId);
     var query = { servicio: servicioId };
     const agenda = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
+        .exec();
+    res.json({
+        ok: true,
+        agenda
+    });
+}));
+agendaRoutes.get('/agendaByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const agrupacionId = req.query.agrupacionId;
+    console.log(req.query.agrupacionId);
+    var query = { agrupacion: agrupacionId };
+    const servicios = yield servicio_model_1.Servicio.find(query).populate('agrupacion')
+        .exec();
+    const listIdServicios = servicios.map(x => { return x._id; });
+    const agenda = yield agenda_model_1.Agenda.find({ servicio: { $in: listIdServicios } }).populate('servicio').populate('usuario')
         .exec();
     res.json({
         ok: true,

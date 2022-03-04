@@ -1,0 +1,48 @@
+<div class= "servicio">
+
+  <ion-item lines="none">
+
+    <ion-avatar slot="start">
+      <!--img src="/assets/avatars/{{ agrupacion.usuario.foto }}" /-->
+     
+      <img height="40px" width="40px" src="{{'data:image/png;base64,' + servicio.agrupacion.fotos[0].fileBase64}}" class="img-responsive">
+    </ion-avatar>
+
+    <ion-label (click)="mostrarAgrupacionSeleccionada()">
+      <h3>{{ servicio.nombre }}</h3>
+      <h5>{{ servicio.agrupacion.nombre }} </h5>
+    </ion-label>
+    
+  </ion-item>
+
+
+  <!-- imagenes -->
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let foto of servicio.fotos">
+      <img height="250px" width="250px" src="{{'data:image/png;base64,' + foto.fileBase64}}" class="img-responsive">
+    </ion-slide>
+    
+  </ion-slides>
+
+ 
+
+
+
+
+  <ion-item lines="none">
+    <ion-icon slot="start" name="heart-outline"></ion-icon>
+    <ion-icon slot="end" name="bookmark"></ion-icon>
+  </ion-item>
+
+
+  <ion-item lines="none">
+    <ion-label text-warp>
+      {{ servicio.descripcion }}
+    </ion-label>
+    <ion-label text-warp>
+     Valor : {{ servicio.valorEstimado }}
+    </ion-label>
+  </ion-item>
+
+  
+</div>

@@ -118,6 +118,9 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     const nombre = req.query.actividad;
     const arte = req.query.arte;
     const estado = req.query.estado;
+    let pagina = Number(req.query.pagina) || 1;
+    let skip = pagina - 1;
+    skip = skip * 10;
     console.log(arte, nombre);
     let actividades;
     let listIdActividad;
@@ -132,9 +135,9 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     if (arte && nombre) {
         actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, arte: { $regex: arte }, estado: estado }).select('_id').exec();
         listIdActividad = actividades.map(x => { return x._id; });
-        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] });
-        //const servicios =  await Servicio.find(  {agrupacion: {$in: listIdAgrupaciones}})
-        //      console.log("servicios", servicios)
+        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
+            .skip(skip)
+            .limit(10);
         res.json({
             ok: true,
             servicios
@@ -143,7 +146,9 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     else if (nombre) {
         actividades = yield actividad_model_1.Actividad.find({ nombre: { $regex: nombre }, estado: estado }).select('_id').exec();
         listIdActividad = actividades.map(x => { return x._id; });
-        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] });
+        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
+            .skip(skip)
+            .limit(10);
         res.json({
             ok: true,
             servicios
@@ -152,7 +157,9 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     else if (arte) {
         actividades = yield actividad_model_1.Actividad.find({ arte: { $regex: arte }, estado: estado }).select('_id').exec();
         listIdActividad = actividades.map(x => { return x._id; });
-        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] });
+        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
+            .skip(skip)
+            .limit(10);
         res.json({
             ok: true,
             servicios
@@ -161,7 +168,9 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     else {
         actividades = yield actividad_model_1.Actividad.find({ estado: estado }).select('_id').exec();
         listIdActividad = actividades.map(x => { return x._id; });
-        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] });
+        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
+            .skip(skip)
+            .limit(10);
         res.json({
             ok: true,
             servicios

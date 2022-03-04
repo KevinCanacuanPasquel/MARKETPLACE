@@ -58,15 +58,15 @@ agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
 ///
 agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
     const clienteId = req.query.clienteId;
-    console.log(req.query.agrupId)
+    console.log(req.query.clienteId)
     var query = {cliente : clienteId};
     
-    const servicios = await Servicio.find(query).populate('servicio').populate('usuario')                      
+    const agendas = await Agenda.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        agendas
     });
 });
 
@@ -81,13 +81,32 @@ agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
     const agenda = await Agenda.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
+    
+   
     res.json({
         ok: true,
         agenda
     });
 });
 
+agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
+    const agrupacionId = req.query.agrupacionId;
+    console.log(req.query.agrupacionId)
+    var query = {agrupacion : agrupacionId};
 
+    
+    const servicios = await Servicio.find(query).populate('agrupacion')                  
+    .exec();
+    const listIdServicios =  servicios.map(x=>  { return x._id} )
+    const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
+    .exec();
+
+   
+    res.json({
+        ok: true,
+        agenda
+    });
+});
 
 
 //AGRUPACION - Crear

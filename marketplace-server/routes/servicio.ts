@@ -152,6 +152,9 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
     const nombre = req.query.actividad;
     const arte = req.query.arte;
     const estado = req.query.estado
+    let pagina = Number(req.query.pagina) || 1;
+    let skip = pagina - 1;
+    skip = skip * 10;
     console.log(arte, nombre)
     let actividades
     let listIdActividad
@@ -168,9 +171,10 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
         actividades = await Actividad.find( 
             {nombre: { $regex: nombre }, arte: { $regex: arte } , estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
-            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
-           //const servicios =  await Servicio.find(  {agrupacion: {$in: listIdAgrupaciones}})
-      //      console.log("servicios", servicios)
+            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
+            .skip( skip )
+            .limit(10)
+        
         res.json({
             ok: true,
             servicios
@@ -179,7 +183,9 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
         actividades = await Actividad.find( 
             {nombre: { $regex: nombre },  estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
-            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
+            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
+            .skip( skip )
+            .limit(10)
         res.json({
             ok: true,
             servicios
@@ -188,7 +194,9 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
         actividades = await Actividad.find( 
             {arte:  { $regex: arte } ,  estado:estado}).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
-            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
+            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
+            .skip( skip )
+            .limit(10)
     
         res.json({
             ok: true,
@@ -198,7 +206,9 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
         actividades = await Actividad.find( 
             { estado:estado }).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
-            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]})
+            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
+            .skip( skip )
+            .limit(10)
         res.json({
             ok: true,
             servicios

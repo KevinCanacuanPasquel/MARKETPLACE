@@ -39,4 +39,13 @@ export class AgendaService {
   
     return this.http.get( URL+ '/agenda/agendaByServicio',options );
   }
+
+  
+  getAgendaByAgrupacion(agrupacionId){
+    let params = new HttpParams();
+    params = params.set('agrupacionId', agrupacionId );
+    let options = { headers: this.headers, params: params };
+  
+    return this.http.get( URL+ '/agenda/agendaByAgrupacion',options );
+  }
 }

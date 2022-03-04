@@ -19,7 +19,7 @@ export class DetalleAgrupacionPage implements OnInit {
   img2 = '/assets/perro-2.jpg';
   img3 = '/assets/perro-3.jpg';
 
-  servicioId ="61d4cea7811b5d7a5817fe60"
+  servicioId 
   item
 
   servicio = {

@@ -38,7 +38,7 @@ export class RegistrarEventoComponent implements OnInit {
         lat : '',
         lng : '',
     },
-    estado: '',
+    estado: 'PENDIENTE',
     cliente: '',
     servicio:'', 
     fechaCreacion: '',
@@ -166,16 +166,4 @@ registrarEvento(){
 }
 
 
- CombineDateAndTime(date, time) {
-  var timeString = time.getHours() + ':' + time.getMinutes() + ':00';
-  var ampm = time.getHours() >= 12 ? 'PM' : 'AM';
-  var year = date.getFullYear();
-  var month = date.getMonth() + 1; // Jan is 0, dec is 11
-  var day = date.getDate();
-  var dateString = '' + year + '-' + month + '-' + day;
-  var datec = dateString + 'T' + timeString;
-  var combined = new Date(datec);
-
-  return combined;
-};
 }

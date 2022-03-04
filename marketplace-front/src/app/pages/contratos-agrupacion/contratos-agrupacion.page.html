@@ -12,7 +12,25 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-card *ngFor="let item of listAgenda">
+    <ion-card-content>
+      <ion-item> 
+        <ion-label> {{item.nombre}}</ion-label>
+        <ion-label> {{item.fechaAgenda}}</ion-label>
+        <ion-label> {{item.horaInicio}}</ion-label>
+        <ion-label> {{item.horaFin}}</ion-label>
+        <ion-label> {{item.estado}}</ion-label>
+        <ion-button (click)="verUbicacion(item)"> Ver ubicacion</ion-button>
+      </ion-item> 
+      <div class="centrado">  
+        <ion-button shape="round" color="success" *ngIf="item.estado==='PENDIENTE'" (click)="aceptarEvento()">ACEPTAR</ion-button>
+        <ion-button shape="round" color="danger"   *ngIf="item.estado==='PENDIENTE'" (click)="rechazarEvento()">RECHAZAR</ion-button>
+        <ion-button shape="round" color="warning" *ngIf="validarSiYaFinalizo(item.horaFin) " (click)="finalizarEvento()">FINALIZAR</ion-button>
+      </div>
+    </ion-card-content>
+  
+  </ion-card>
+<!-- 
   <div><calendar [eventSource]="eventSource"
         [calendarMode]="calendar.mode"
         [currentDate]="calendar.currentDate"
@@ -23,14 +41,9 @@
         (onTimeSelected)="onTimeSelected($event)"
         [step]="calendar.step">
         
-    </calendar></div>
+    </calendar></div> -->
 
  
-    <div class="centrado">
-      <ion-button shape="round" color="success" (click)="addNewEvent()">ACEPTAR</ion-button>
-      <ion-button shape="round" color="danger" (click)="addNewEvent()">RECHAZAR</ion-button>
-      <ion-button shape="round" color="warning" (click)="addNewEvent()">FINALIZAR</ion-button>
-    </div>
   
 </ion-content>
 
