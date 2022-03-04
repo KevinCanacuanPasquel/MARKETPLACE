@@ -193,7 +193,9 @@ export class AgendaPage implements OnInit {
         'cliente': localStorage.getItem('id')
       }
     });
+    
     return await modal.present();
+    
   }
 
 

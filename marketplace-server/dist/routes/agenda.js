@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
+const servicio_model_1 = require("../models/servicio.model");
 const agenda_model_1 = require("../models/agenda.model");
 const agendaRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
@@ -66,6 +67,20 @@ agendaRoutes.get('/agendaByServicio', (req, res) => __awaiter(void 0, void 0, vo
     console.log(req.query.servicioId);
     var query = { servicio: servicioId };
     const agenda = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
+        .exec();
+    res.json({
+        ok: true,
+        agenda
+    });
+}));
+agendaRoutes.get('/agendaByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const agrupacionId = req.query.agrupacionId;
+    console.log(req.query.agrupacionId);
+    var query = { agrupacion: agrupacionId };
+    const servicios = yield servicio_model_1.Servicio.find(query).populate('agrupacion')
+        .exec();
+    const listIdServicios = servicios.map(x => { return x._id; });
+    const agenda = yield agenda_model_1.Agenda.find({ servicio: { $in: listIdServicios } }).populate('servicio').populate('usuario')
         .exec();
     res.json({
         ok: true,

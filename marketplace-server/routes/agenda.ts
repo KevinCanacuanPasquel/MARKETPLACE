@@ -89,7 +89,24 @@ agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
     });
 });
 
+agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
+    const agrupacionId = req.query.agrupacionId;
+    console.log(req.query.agrupacionId)
+    var query = {agrupacion : agrupacionId};
 
+    
+    const servicios = await Servicio.find(query).populate('agrupacion')                  
+    .exec();
+    const listIdServicios =  servicios.map(x=>  { return x._id} )
+    const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
+    .exec();
+
+   
+    res.json({
+        ok: true,
+        agenda
+    });
+});
 
 
 //AGRUPACION - Crear
