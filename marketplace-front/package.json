@@ -27,10 +27,13 @@
     "@capacitor/camera": "^1.1.2",
     "@capacitor/core": "3.1.2",
     "@capacitor/geolocation": "^1.2.0",
+    "@capacitor/network": "^1.0.7",
     "@ionic/angular": "^5.5.2",
     "@ionic/pwa-elements": "^3.0.2",
+    "@types/google.maps": "^3.48.1",
     "ionic-selectable": "^4.8.0",
     "ionic2-calendar": "^0.6.9",
+    "ionic4-star-rating": "^1.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

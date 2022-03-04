@@ -4,7 +4,6 @@ import { DOCUMENT } from '@angular/common';
 import { Geolocation} from '@capacitor/geolocation';
 import {Network} from '@capacitor/network';
 import { ModalController } from '@ionic/angular';
-import { SubirArchivoComponent } from '../subir-archivo/subir-archivo.component';
 import { DataService } from 'src/app/services/data.service';
 
 
