@@ -1,3 +1,11 @@
-<p>
-  stars works!
-</p>
+<div style="text-align:center">
+  <h1>
+    Califique la calidad dele servicio
+  </h1>
+  <star-rating [value]="wrapperCalificacion.valor" [totalstars]="5" [checkedcolor]="'red'" [uncheckedcolor]="'black'" size="24px" [readonly]="false" (rate)="onRate($event)"></star-rating>
+
+  <ion-label> Comentario</ion-label>
+  <ion-textarea [(ngModel)]="wrapperCalificacion.comentario" placeholder="Como te pareció el servicio?"> </ion-textarea>
+
+  <ion-button (click)="guardarCalificacion()"> Guardar</ion-button>
+</div>

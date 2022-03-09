@@ -121,7 +121,7 @@ agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
     Agenda.create(body).then ( async agendaDB => {
 
-        await agendaDB.populate('servicio').populate('cliente').execPopulate();
+        await agendaDB.populate('servicio').populate('usuario').execPopulate();
 
         res.json({
             ok: true,

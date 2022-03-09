@@ -96,7 +96,7 @@ agendaRoutes.post('/crearAgenda', (req, res) => {
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
     agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield agendaDB.populate('servicio').populate('cliente').execPopulate();
+        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
         res.json({
             ok: true,
             agenda: agendaDB

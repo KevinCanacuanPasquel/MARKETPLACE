@@ -34,6 +34,7 @@
     "ionic-selectable": "^4.8.0",
     "ionic2-calendar": "^0.6.9",
     "ionic4-star-rating": "^1.1.1",
+    "ng-starrating": "^1.0.20",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
