@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { StarRatingComponent } from 'ng-starrating';
 import { BehaviorSubject } from 'rxjs';
+import { StarsComponent } from 'src/app/components/stars/stars.component';
 import { AgendaService } from 'src/app/services/agenda.service';
+import { CalificacionService } from 'src/app/services/calificacion.service';
 
 @Component({
   selector: 'app-contratos-usuario',
@@ -10,10 +14,19 @@ import { AgendaService } from 'src/app/services/agenda.service';
 export class ContratosUsuarioPage implements OnInit {
 
   idCliente;
+  calificacion = {
+    numEstrellas: 0,
+    comentario : '',
+    servicio : '',
+    usuario : '',
+    estado : 'ACTIVO',
+    fechaCreacion: new Date()
+
+  }
   contratos = []
   enableCalificarButton;
   enableCalificar = new BehaviorSubject<boolean>(false);
-  constructor(private agendaService: AgendaService) { }
+  constructor(private agendaService: AgendaService, private calificacionService: CalificacionService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.idCliente = localStorage.getItem("id")
@@ -33,9 +46,43 @@ export class ContratosUsuarioPage implements OnInit {
     })
   }
 
-  calificar() {
-    console.log("contratos");
-  }
+
+  async calificar(contrato) {
+    const modal = await this.modalCtrl.create({
+      component: StarsComponent,
+      componentProps: { 
+        agenda: contrato
+      }
+    /*  componentProps: {
+        'nombre': 'Aitor',
+        'apellidos': 'Sánchez',
+        'locale': 'es_ES'
+      }*/
+    });
+
+    modal.onDidDismiss()
+    .then((data:any) => {
+      console.log("el contrato", contrato)
+     
+      this.calificacion.servicio =  contrato.servicio
+      this.calificacion.usuario =  contrato.cliente
+      this.calificacion.numEstrellas  = data.data.valor 
+      this.calificacion.comentario = data.data.comentario 
+
+    
+      let wrapperEnvio = { 
+        calificacion : this.calificacion,
+        agenda : contrato
+      }
+       this.calificacionService.crearCalificacion(wrapperEnvio).subscribe((resp: any)=> {
+         console.log(resp)
+       })
+      console.log("calificacion", this.calificacion)
+      console.log( data," data")
+          // Here's your selected user!
+  });
+  return await modal.present();
+}
 
 
 

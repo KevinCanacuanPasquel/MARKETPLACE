@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { RatingModule } from 'ng-starrating';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -18,8 +18,6 @@ import { environment } from '../environments/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import { IonicSelectableModule } from 'ionic-selectable';
-
-
 import { NgCalendarModule } from 'ionic2-calendar';
 
 
@@ -40,8 +38,7 @@ import { NgCalendarModule } from 'ionic2-calendar';
     NgCalendarModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
-    
-    
+    RatingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

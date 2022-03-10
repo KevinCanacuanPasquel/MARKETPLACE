@@ -25,7 +25,7 @@
 </ion-row>
         
  
-      <ion-button *ngIf="contrato.estado === 'FINALIZADO'" shape="round" color="warning" (click)="calificar()">CALIFICAR</ion-button>
+      <ion-button *ngIf="contrato.estado === 'FINALIZADO'" shape="round" color="warning" (click)="calificar(contrato)">CALIFICAR</ion-button>
     </ion-card>
   
 </ion-content>

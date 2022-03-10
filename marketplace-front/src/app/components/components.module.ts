@@ -16,6 +16,8 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { RegistrarEventoComponent } from './registrar-evento/registrar-evento.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { ServiciosComponent } from './servicios/servicios.component';
+import { StarsComponent } from './stars/stars.component';
+import { RatingModule } from 'ng-starrating';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { ServiciosComponent } from './servicios/servicios.component';
     GoogleMapsComponent,
     RegistrarEventoComponent,
     ServicioComponent,
-    ServiciosComponent
+    ServiciosComponent,
+    StarsComponent,
+    
     
   ],
   exports: [
@@ -40,7 +44,8 @@ import { ServiciosComponent } from './servicios/servicios.component';
     FooterComponent,
     GaleriaImagenesComponent,
     RegistrarEventoComponent,
-    ServiciosComponent
+    ServiciosComponent,
+    StarsComponent
    
   ],
   imports: [
@@ -49,6 +54,7 @@ import { ServiciosComponent } from './servicios/servicios.component';
     IonicModule,
     PipesModule,
     FormsModule,
+    RatingModule
   
  
   ]

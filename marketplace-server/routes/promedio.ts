@@ -10,21 +10,23 @@ import { Servicio } from "../models/servicio.model";
 import { Actividad } from "../models/actividad.model";
 import { Suscripcion } from "../models/suscripcion.model";
 import { Agenda } from "../models/agenda.model";
+import { Calificacion } from "../models/calificacion.model";
+import { Promedio } from "../models/promedio.model";
 
 
-const agendaRoutes = Router();
+const promedioRoutes = Router();
 const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedio',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const agenda = await Agenda.find()
+    const promedio = await Promedio.find()
                                         .sort({ _id: -1 })
                                         .skip( skip )
                                         .limit(10)
@@ -33,7 +35,7 @@ agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
     res.json({
         ok: true,
         pagina,
-        agenda
+        promedio
     });
 });
 
@@ -41,53 +43,41 @@ agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener servicio by id
 ///
-agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedioById',  async (req:any, res:Response) => {
     const id = req.query.id;
-    console.log(req.query.agrupId)
+ 
     
-    const servicios = await Agenda.findById(id).populate('').populate('agrupacion')                    
+    const promedio = await Promedio.findById(id)                
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        promedio
     });
 });
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
-///
-agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
-    const clienteId = req.query.clienteId;
-    console.log(req.query.clienteId)
-    var query = {$and:[{cliente : clienteId}, { estado: {$ne : "CALIFICADO"} }]};   
-    const agendas = await Agenda.find(query).populate('servicio').populate('usuario')                      
-                                        .exec();
 
-    res.json({
-        ok: true,
-        agendas
-    });
-});
 
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedioByServicio',  async (req:any, res:Response) => {
     const servicioId = req.query.servicioId;
     console.log(req.query.servicioId)
     var query = {servicio : servicioId};
     
-    const agenda = await Agenda.find(query).populate('servicio').populate('usuario')                      
+    const promedio = await Promedio.find(query).populate('servicio')                    
                                         .exec();
 
     
    
     res.json({
         ok: true,
-        agenda
+        promedio
     });
 });
-
+/*
 agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     const agrupacionId = req.query.agrupacionId;
     console.log(req.query.agrupacionId)
@@ -96,8 +86,6 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     
     const servicios = await Servicio.find(query).populate('agrupacion')                  
     .exec();
-
-    
     const listIdServicios =  servicios.map(x=>  { return x._id} )
     const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
     .exec();
@@ -107,26 +95,25 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
         ok: true,
         agenda
     });
-});
+});*/
 
 
 //AGRUPACION - Crear
-agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
+promedioRoutes.post('/crearPromedio',   (req:any, res:Response) => {
 
     let body = req.body;
     body.servicio = req.body.servicio;
-    body.cliente =req.body.cliente;
     console.log("el body", body)
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    Agenda.create(body).then ( async agendaDB => {
+    Promedio.create(body).then ( async promedioDB => {
 
-        await agendaDB.populate('servicio').populate('usuario').execPopulate();
+        await promedioDB.populate('servicio').execPopulate();
 
         res.json({
             ok: true,
-            agenda: agendaDB
+            promedio: promedioDB
         });
 
     }).catch( err => {
@@ -135,15 +122,15 @@ agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
 
 });
-
+/*
 ///ACTUALIZAR
 //USUARIO - Actualizar
-agendaRoutes.put('/actualizarAgenda',   (req: any, res: Response) => {
+servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
     console.log("llega el servicio desde arriba" ,  req.body)
-    const agenda =  req.body
-    agenda._id = req.body._id
-    console.log("llega el servicio" , agenda)
-    Servicio.findByIdAndUpdate( agenda._id, agenda, { new: true }, ( err, servicioDB ) => {
+    const servicio =  req.body
+    servicio._id = req.body._id
+    console.log("llega el servicio" , servicio)
+    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
 
@@ -165,7 +152,7 @@ agendaRoutes.put('/actualizarAgenda',   (req: any, res: Response) => {
     });
 
 });
-/*
+
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(
@@ -250,5 +237,5 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
 
 
 */
-export default agendaRoutes;
+export default promedioRoutes;
 

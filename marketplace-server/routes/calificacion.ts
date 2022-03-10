@@ -10,21 +10,23 @@ import { Servicio } from "../models/servicio.model";
 import { Actividad } from "../models/actividad.model";
 import { Suscripcion } from "../models/suscripcion.model";
 import { Agenda } from "../models/agenda.model";
+import { Calificacion } from "../models/calificacion.model";
+import { Promedio } from "../models/promedio.model";
 
 
-const agendaRoutes = Router();
+const calificacionRoutes = Router();
 const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
+calificacionRoutes.get('/calificacion',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const agenda = await Agenda.find()
+    const calificacion = await Calificacion.find()
                                         .sort({ _id: -1 })
                                         .skip( skip )
                                         .limit(10)
@@ -33,7 +35,7 @@ agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
     res.json({
         ok: true,
         pagina,
-        agenda
+        calificacion
     });
 });
 
@@ -41,53 +43,54 @@ agendaRoutes.get('/agenda',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener servicio by id
 ///
-agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
+calificacionRoutes.get('/calificacionById',  async (req:any, res:Response) => {
     const id = req.query.id;
-    console.log(req.query.agrupId)
+ 
     
-    const servicios = await Agenda.findById(id).populate('').populate('agrupacion')                    
+    const calificacion = await Calificacion.findById(id).populate('servicio').populate('usuario')                    
                                         .exec();
 
     res.json({
         ok: true,
-        servicios
+        calificacion
     });
 });
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
+calificacionRoutes.get('/calificacionByCliente',  async (req:any, res:Response) => {
     const clienteId = req.query.clienteId;
     console.log(req.query.clienteId)
-    var query = {$and:[{cliente : clienteId}, { estado: {$ne : "CALIFICADO"} }]};   
-    const agendas = await Agenda.find(query).populate('servicio').populate('usuario')                      
+    var query = {cliente : clienteId};
+    
+    const calificaciones = await Calificacion.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
     res.json({
         ok: true,
-        agendas
+        calificaciones
     });
 });
 
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
+calificacionRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
     const servicioId = req.query.servicioId;
     console.log(req.query.servicioId)
     var query = {servicio : servicioId};
     
-    const agenda = await Agenda.find(query).populate('servicio').populate('usuario')                      
+    const calificaciones = await Calificacion.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
     
    
     res.json({
         ok: true,
-        agenda
+        calificaciones
     });
 });
-
+/*
 agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     const agrupacionId = req.query.agrupacionId;
     console.log(req.query.agrupacionId)
@@ -96,8 +99,6 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     
     const servicios = await Servicio.find(query).populate('agrupacion')                  
     .exec();
-
-    
     const listIdServicios =  servicios.map(x=>  { return x._id} )
     const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
     .exec();
@@ -107,26 +108,96 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
         ok: true,
         agenda
     });
-});
+});*/
 
 
-//AGRUPACION - Crear
-agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
+function  average(accumulator: number, item: any ) {
+    return accumulator + item.numEstrellas;
+  }
+//AGRUPACION - Crear 
+//incluye el registro o actualizacion del promedio 
+calificacionRoutes.post('/crearCalificacion',   (req:any, res:Response) => {
 
-    let body = req.body;
-    body.servicio = req.body.servicio;
-    body.cliente =req.body.cliente;
-    console.log("el body", body)
+    let calificacion = req.body.calificacion;
+    let agenda = req.body.agenda;
+    let respuestaPromedio :any;
+    let respuestaAgenda: any ;
+
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    Agenda.create(body).then ( async agendaDB => {
+    
+    Calificacion.create(calificacion).then ( async calificacionDB => {
+        const calificaciones = await Calificacion.find({servicio: calificacionDB.servicio})                 
+        .exec();
+        const divisor = calificaciones.length
 
-        await agendaDB.populate('servicio').populate('usuario').execPopulate();
+      //  console.log("calificaciones ", calificaciones)
+        const sumatoria = calificaciones.reduce(average, 0)
+        const valorPromedio = (sumatoria / divisor).toFixed(2)
+        console.log (valorPromedio)
+
+         const promedio = await Promedio.find({servicio:  calificacionDB.servicio}).exec()
+        console.log("xd afa", promedio)
+        if(promedio.length == 0){
+            console.log("entro aca")
+            let promedioNew = {
+                numEstrellas : valorPromedio,
+                servicio : calificacionDB.servicio,
+                estado : "ACTIVO",
+                fechaCreacion: new Date()
+            }
+
+            Promedio.create(promedioNew).then (async promedioDB =>{
+                respuestaPromedio = promedioDB
+            }).catch( err=> {
+                res.json(err)
+            })
+        }else{
+          
+            promedio[0].numEstrellas = Number(valorPromedio);
+            console.log(promedio[0])
+            Promedio.findByIdAndUpdate( promedio[0]._id, promedio[0] ,{ new: true }, ( err, promedioDB ) => {
+                if ( err ) throw err;
+
+                if ( !promedioDB ) {
+                    return res.json({
+                        ok: false,
+                        mensaje: 'No existe un servicio con ese ID'
+                    });
+                }
+        
+                //Token
+              
+                respuestaPromedio=  promedioDB
+        
+            });
+
+        }
+        agenda.estado = "CALIFICADO"
+        Agenda.findByIdAndUpdate( agenda._id, agenda ,{ new: true }, ( err, AgendaDB ) => {
+            if ( err ) throw err;
+
+            if ( !AgendaDB ) {
+                return res.json({
+                    ok: false,
+                    mensaje: 'No existe una agenda con ese ID'
+                });
+            }
+    
+            //Token
+          
+            respuestaAgenda=  AgendaDB
+    
+        });            
+        
+       
+        await calificacionDB.populate('servicio').populate('usuario').execPopulate();
 
         res.json({
             ok: true,
-            agenda: agendaDB
+            calificacion: calificacionDB,
+            promedio: respuestaPromedio
         });
 
     }).catch( err => {
@@ -136,14 +207,16 @@ agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
 });
 
+
+/*
 ///ACTUALIZAR
 //USUARIO - Actualizar
-agendaRoutes.put('/actualizarAgenda',   (req: any, res: Response) => {
+servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
     console.log("llega el servicio desde arriba" ,  req.body)
-    const agenda =  req.body
-    agenda._id = req.body._id
-    console.log("llega el servicio" , agenda)
-    Servicio.findByIdAndUpdate( agenda._id, agenda, { new: true }, ( err, servicioDB ) => {
+    const servicio =  req.body
+    servicio._id = req.body._id
+    console.log("llega el servicio" , servicio)
+    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
 
@@ -165,7 +238,7 @@ agendaRoutes.put('/actualizarAgenda',   (req: any, res: Response) => {
     });
 
 });
-/*
+
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(
@@ -250,5 +323,5 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
 
 
 */
-export default agendaRoutes;
+export default calificacionRoutes;
 

@@ -52,7 +52,7 @@ agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, 
 agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clienteId = req.query.clienteId;
     console.log(req.query.clienteId);
-    var query = { $and: [{ cliente: clienteId }, { estado: { $ne: "CALIFICADO" } }] };
+    var query = { cliente: clienteId };
     const agendas = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
         .exec();
     res.json({
@@ -96,7 +96,7 @@ agendaRoutes.post('/crearAgenda', (req, res) => {
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
     agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
+        yield agendaDB.populate('servicio').populate('cliente').execPopulate();
         res.json({
             ok: true,
             agenda: agendaDB
@@ -105,30 +105,37 @@ agendaRoutes.post('/crearAgenda', (req, res) => {
         res.json(err);
     });
 });
+/*
 ///ACTUALIZAR
 //USUARIO - Actualizar
-agendaRoutes.put('/actualizarAgenda', (req, res) => {
-    console.log("llega el servicio desde arriba", req.body);
-    const agenda = req.body;
-    agenda._id = req.body._id;
-    console.log("llega el servicio", agenda);
-    servicio_model_1.Servicio.findByIdAndUpdate(agenda._id, agenda, { new: true }, (err, servicioDB) => {
-        if (err)
-            throw err;
-        if (!servicioDB) {
+servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
+    console.log("llega el servicio desde arriba" ,  req.body)
+    const servicio =  req.body
+    servicio._id = req.body._id
+    console.log("llega el servicio" , servicio)
+    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
+
+        if ( err ) throw err;
+
+        if ( !servicioDB ) {
             return res.json({
                 ok: false,
                 mensaje: 'No existe un servicio con ese ID'
             });
         }
+
         //Token
-        res.json({
-            ok: true,
-            servicio: servicioDB
-        });
+     
+            
+            res.json({
+                ok: true,
+                servicio: servicioDB
+            });
+
     });
+
 });
-/*
+
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(
