@@ -59,8 +59,7 @@ agendaRoutes.get('/agendaById',  async (req:any, res:Response) => {
 agendaRoutes.get('/agendaByCliente',  async (req:any, res:Response) => {
     const clienteId = req.query.clienteId;
     console.log(req.query.clienteId)
-    var query = {cliente : clienteId};
-    
+    var query = {$and:[{cliente : clienteId}, { estado: {$ne : "CALIFICADO"} }]};   
     const agendas = await Agenda.find(query).populate('servicio').populate('usuario')                      
                                         .exec();
 
@@ -97,6 +96,8 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     
     const servicios = await Servicio.find(query).populate('agrupacion')                  
     .exec();
+
+    
     const listIdServicios =  servicios.map(x=>  { return x._id} )
     const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
     .exec();
@@ -134,15 +135,15 @@ agendaRoutes.post('/crearAgenda',   (req:any, res:Response) => {
 
 
 });
-/*
+
 ///ACTUALIZAR
 //USUARIO - Actualizar
-servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
+agendaRoutes.put('/actualizarAgenda',   (req: any, res: Response) => {
     console.log("llega el servicio desde arriba" ,  req.body)
-    const servicio =  req.body
-    servicio._id = req.body._id
-    console.log("llega el servicio" , servicio)
-    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
+    const agenda =  req.body
+    agenda._id = req.body._id
+    console.log("llega el servicio" , agenda)
+    Servicio.findByIdAndUpdate( agenda._id, agenda, { new: true }, ( err, servicioDB ) => {
 
         if ( err ) throw err;
 
@@ -164,7 +165,7 @@ servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
     });
 
 });
-
+/*
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(

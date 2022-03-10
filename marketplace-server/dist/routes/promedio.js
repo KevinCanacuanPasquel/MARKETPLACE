@@ -14,17 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
-const servicio_model_1 = require("../models/servicio.model");
-const agenda_model_1 = require("../models/agenda.model");
-const agendaRoutes = (0, express_1.Router)();
+const promedio_model_1 = require("../models/promedio.model");
+const promedioRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-agendaRoutes.get('/agenda', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+promedioRoutes.get('/promedio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const agenda = yield agenda_model_1.Agenda.find()
+    const promedio = yield promedio_model_1.Promedio.find()
         .sort({ _id: -1 })
         .skip(skip)
         .limit(10)
@@ -32,103 +31,101 @@ agendaRoutes.get('/agenda', (req, res) => __awaiter(void 0, void 0, void 0, func
     res.json({
         ok: true,
         pagina,
-        agenda
+        promedio
     });
 }));
 //AGRUPACIONES - Obtener servicio by id
 ///
-agendaRoutes.get('/agendaById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+promedioRoutes.get('/promedioById', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
-    console.log(req.query.agrupId);
-    const servicios = yield agenda_model_1.Agenda.findById(id).populate('').populate('agrupacion')
+    const promedio = yield promedio_model_1.Promedio.findById(id)
         .exec();
     res.json({
         ok: true,
-        servicios
+        promedio
     });
 }));
 //AGRUPACIONES - Obtener agrupaciones por usuario
-///
-agendaRoutes.get('/agendaByCliente', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const clienteId = req.query.clienteId;
-    console.log(req.query.clienteId);
-    var query = { $and: [{ cliente: clienteId }, { estado: { $ne: "CALIFICADO" } }] };
-    const agendas = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
-        .exec();
-    res.json({
-        ok: true,
-        agendas
-    });
-}));
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-agendaRoutes.get('/agendaByServicio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+promedioRoutes.get('/promedioByServicio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const servicioId = req.query.servicioId;
     console.log(req.query.servicioId);
     var query = { servicio: servicioId };
-    const agenda = yield agenda_model_1.Agenda.find(query).populate('servicio').populate('usuario')
+    const promedio = yield promedio_model_1.Promedio.find(query).populate('servicio')
         .exec();
     res.json({
         ok: true,
-        agenda
+        promedio
     });
 }));
-agendaRoutes.get('/agendaByAgrupacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+/*
+agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
     const agrupacionId = req.query.agrupacionId;
-    console.log(req.query.agrupacionId);
-    var query = { agrupacion: agrupacionId };
-    const servicios = yield servicio_model_1.Servicio.find(query).populate('agrupacion')
-        .exec();
-    const listIdServicios = servicios.map(x => { return x._id; });
-    const agenda = yield agenda_model_1.Agenda.find({ servicio: { $in: listIdServicios } }).populate('servicio').populate('usuario')
-        .exec();
+    console.log(req.query.agrupacionId)
+    var query = {agrupacion : agrupacionId};
+
+    
+    const servicios = await Servicio.find(query).populate('agrupacion')
+    .exec();
+    const listIdServicios =  servicios.map(x=>  { return x._id} )
+    const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')
+    .exec();
+
+   
     res.json({
         ok: true,
         agenda
     });
-}));
+});*/
 //AGRUPACION - Crear
-agendaRoutes.post('/crearAgenda', (req, res) => {
+promedioRoutes.post('/crearPromedio', (req, res) => {
     let body = req.body;
     body.servicio = req.body.servicio;
-    body.cliente = req.body.cliente;
     console.log("el body", body);
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
-    agenda_model_1.Agenda.create(body).then((agendaDB) => __awaiter(void 0, void 0, void 0, function* () {
-        yield agendaDB.populate('servicio').populate('usuario').execPopulate();
+    promedio_model_1.Promedio.create(body).then((promedioDB) => __awaiter(void 0, void 0, void 0, function* () {
+        yield promedioDB.populate('servicio').execPopulate();
         res.json({
             ok: true,
-            agenda: agendaDB
+            promedio: promedioDB
         });
     })).catch(err => {
         res.json(err);
     });
 });
+/*
 ///ACTUALIZAR
 //USUARIO - Actualizar
-agendaRoutes.put('/actualizarAgenda', (req, res) => {
-    console.log("llega el servicio desde arriba", req.body);
-    const agenda = req.body;
-    agenda._id = req.body._id;
-    console.log("llega el servicio", agenda);
-    servicio_model_1.Servicio.findByIdAndUpdate(agenda._id, agenda, { new: true }, (err, servicioDB) => {
-        if (err)
-            throw err;
-        if (!servicioDB) {
+servicioRoutes.put('/actualizarServicio',   (req: any, res: Response) => {
+    console.log("llega el servicio desde arriba" ,  req.body)
+    const servicio =  req.body
+    servicio._id = req.body._id
+    console.log("llega el servicio" , servicio)
+    Servicio.findByIdAndUpdate( servicio._id, servicio, { new: true }, ( err, servicioDB ) => {
+
+        if ( err ) throw err;
+
+        if ( !servicioDB ) {
             return res.json({
                 ok: false,
                 mensaje: 'No existe un servicio con ese ID'
             });
         }
+
         //Token
-        res.json({
-            ok: true,
-            servicio: servicioDB
-        });
+     
+            
+            res.json({
+                ok: true,
+                servicio: servicioDB
+            });
+
     });
+
 });
-/*
+
 servicioRoutes.delete('/eliminarServicio', (req: any, res: Response) => {
     
     Servicio.deleteOne(
@@ -213,4 +210,4 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
 
 
 */
-exports.default = agendaRoutes;
+exports.default = promedioRoutes;

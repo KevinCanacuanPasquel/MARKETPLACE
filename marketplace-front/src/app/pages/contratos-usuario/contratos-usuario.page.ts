@@ -63,11 +63,18 @@ export class ContratosUsuarioPage implements OnInit {
     modal.onDidDismiss()
     .then((data:any) => {
       console.log("el contrato", contrato)
+     
       this.calificacion.servicio =  contrato.servicio
       this.calificacion.usuario =  contrato.cliente
       this.calificacion.numEstrellas  = data.data.valor 
       this.calificacion.comentario = data.data.comentario 
-       this.calificacionService.crearCalificacion(this.calificacion).subscribe((resp: any)=> {
+
+    
+      let wrapperEnvio = { 
+        calificacion : this.calificacion,
+        agenda : contrato
+      }
+       this.calificacionService.crearCalificacion(wrapperEnvio).subscribe((resp: any)=> {
          console.log(resp)
        })
       console.log("calificacion", this.calificacion)

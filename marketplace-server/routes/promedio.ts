@@ -14,19 +14,19 @@ import { Calificacion } from "../models/calificacion.model";
 import { Promedio } from "../models/promedio.model";
 
 
-const calificacionRoutes = Router();
+const promedioRoutes = Router();
 const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-calificacionRoutes.get('/calificacion',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedio',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const calificacion = await Calificacion.find()
+    const promedio = await Promedio.find()
                                         .sort({ _id: -1 })
                                         .skip( skip )
                                         .limit(10)
@@ -35,7 +35,7 @@ calificacionRoutes.get('/calificacion',  async (req:any, res:Response) => {
     res.json({
         ok: true,
         pagina,
-        calificacion
+        promedio
     });
 });
 
@@ -43,51 +43,38 @@ calificacionRoutes.get('/calificacion',  async (req:any, res:Response) => {
 
 //AGRUPACIONES - Obtener servicio by id
 ///
-calificacionRoutes.get('/calificacionById',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedioById',  async (req:any, res:Response) => {
     const id = req.query.id;
  
     
-    const calificacion = await Calificacion.findById(id).populate('servicio').populate('usuario')                    
+    const promedio = await Promedio.findById(id)                
                                         .exec();
 
     res.json({
         ok: true,
-        calificacion
+        promedio
     });
 });
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
-///
-calificacionRoutes.get('/calificacionByCliente',  async (req:any, res:Response) => {
-    const clienteId = req.query.clienteId;
-    console.log(req.query.clienteId)
-    var query = {cliente : clienteId};
-    
-    const calificaciones = await Calificacion.find(query).populate('servicio').populate('usuario')                      
-                                        .exec();
 
-    res.json({
-        ok: true,
-        calificaciones
-    });
-});
 
 
 //AGRUPACIONES - Obtener agrupaciones por usuario
 ///
-calificacionRoutes.get('/agendaByServicio',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedioByServicio',  async (req:any, res:Response) => {
     const servicioId = req.query.servicioId;
     console.log(req.query.servicioId)
     var query = {servicio : servicioId};
     
-    const calificaciones = await Calificacion.find(query).populate('servicio').populate('usuario')                      
+    const promedio = await Promedio.find(query).populate('servicio')                    
                                         .exec();
 
     
    
     res.json({
         ok: true,
-        calificaciones
+        promedio
     });
 });
 /*
@@ -111,93 +98,22 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
 });*/
 
 
-function  average(accumulator: number, item: any ) {
-    return accumulator + item.numEstrellas;
-  }
-//AGRUPACION - Crear 
-//incluye el registro o actualizacion del promedio 
-calificacionRoutes.post('/crearCalificacion',   (req:any, res:Response) => {
+//AGRUPACION - Crear
+promedioRoutes.post('/crearPromedio',   (req:any, res:Response) => {
 
-    let calificacion = req.body.calificacion;
-    let agenda = req.body.agenda;
-    let respuestaPromedio :any;
-    let respuestaAgenda: any ;
-
+    let body = req.body;
+    body.servicio = req.body.servicio;
+    console.log("el body", body)
    // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
 
-    
-    Calificacion.create(calificacion).then ( async calificacionDB => {
-        const calificaciones = await Calificacion.find({servicio: calificacionDB.servicio})                 
-        .exec();
-        const divisor = calificaciones.length
+    Promedio.create(body).then ( async promedioDB => {
 
-      //  console.log("calificaciones ", calificaciones)
-        const sumatoria = calificaciones.reduce(average, 0)
-        const valorPromedio = (sumatoria / divisor).toFixed(2)
-        console.log (valorPromedio)
-
-         const promedio = await Promedio.find({servicio:  calificacionDB.servicio}).exec()
-        console.log("xd afa", promedio)
-        if(promedio.length == 0){
-            console.log("entro aca")
-            let promedioNew = {
-                numEstrellas : valorPromedio,
-                servicio : calificacionDB.servicio,
-                estado : "ACTIVO",
-                fechaCreacion: new Date()
-            }
-
-            Promedio.create(promedioNew).then (async promedioDB =>{
-                respuestaPromedio = promedioDB
-            }).catch( err=> {
-                res.json(err)
-            })
-        }else{
-          
-            promedio[0].numEstrellas = Number(valorPromedio);
-            console.log(promedio[0])
-            Promedio.findByIdAndUpdate( promedio[0]._id, promedio[0] ,{ new: true }, ( err, promedioDB ) => {
-                if ( err ) throw err;
-
-                if ( !promedioDB ) {
-                    return res.json({
-                        ok: false,
-                        mensaje: 'No existe un servicio con ese ID'
-                    });
-                }
-        
-                //Token
-              
-                respuestaPromedio=  promedioDB
-        
-            });
-
-        }
-        agenda.estado = "CALIFICADO"
-        Agenda.findByIdAndUpdate( agenda._id, agenda ,{ new: true }, ( err, AgendaDB ) => {
-            if ( err ) throw err;
-
-            if ( !AgendaDB ) {
-                return res.json({
-                    ok: false,
-                    mensaje: 'No existe una agenda con ese ID'
-                });
-            }
-    
-            //Token
-          
-            respuestaAgenda=  AgendaDB
-    
-        });            
-        
-       
-        await calificacionDB.populate('servicio').populate('usuario').execPopulate();
+        await promedioDB.populate('servicio').execPopulate();
 
         res.json({
             ok: true,
-            calificacion: calificacionDB,
-            promedio: respuestaPromedio
+            promedio: promedioDB
         });
 
     }).catch( err => {
@@ -206,8 +122,6 @@ calificacionRoutes.post('/crearCalificacion',   (req:any, res:Response) => {
 
 
 });
-
-
 /*
 ///ACTUALIZAR
 //USUARIO - Actualizar
@@ -323,5 +237,5 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
 
 
 */
-export default calificacionRoutes;
+export default promedioRoutes;
 

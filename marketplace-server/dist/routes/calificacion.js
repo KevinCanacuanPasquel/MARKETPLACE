@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
+const agenda_model_1 = require("../models/agenda.model");
 const calificacion_model_1 = require("../models/calificacion.model");
+const promedio_model_1 = require("../models/promedio.model");
 const calificacionRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
@@ -90,19 +92,76 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
         agenda
     });
 });*/
-//AGRUPACION - Crear
+function average(accumulator, item) {
+    return accumulator + item.numEstrellas;
+}
+//AGRUPACION - Crear 
+//incluye el registro o actualizacion del promedio 
 calificacionRoutes.post('/crearCalificacion', (req, res) => {
-    let body = req.body;
-    body.servicio = req.body.servicio;
-    body.usuario = req.body.usuario;
-    console.log("el body", body);
+    let calificacion = req.body.calificacion;
+    let agenda = req.body.agenda;
+    let respuestaPromedio;
+    let respuestaAgenda;
     // const imagenes = fileSystem.imagenesDeTempHaciaAgrupaciones( req.usuario._id );
     //body.fotos = imagenes;
-    calificacion_model_1.Calificacion.create(body).then((calificacionDB) => __awaiter(void 0, void 0, void 0, function* () {
+    calificacion_model_1.Calificacion.create(calificacion).then((calificacionDB) => __awaiter(void 0, void 0, void 0, function* () {
+        const calificaciones = yield calificacion_model_1.Calificacion.find({ servicio: calificacionDB.servicio })
+            .exec();
+        const divisor = calificaciones.length;
+        //  console.log("calificaciones ", calificaciones)
+        const sumatoria = calificaciones.reduce(average, 0);
+        const valorPromedio = (sumatoria / divisor).toFixed(2);
+        console.log(valorPromedio);
+        const promedio = yield promedio_model_1.Promedio.find({ servicio: calificacionDB.servicio }).exec();
+        console.log("xd afa", promedio);
+        if (promedio.length == 0) {
+            console.log("entro aca");
+            let promedioNew = {
+                numEstrellas: valorPromedio,
+                servicio: calificacionDB.servicio,
+                estado: "ACTIVO",
+                fechaCreacion: new Date()
+            };
+            promedio_model_1.Promedio.create(promedioNew).then((promedioDB) => __awaiter(void 0, void 0, void 0, function* () {
+                respuestaPromedio = promedioDB;
+            })).catch(err => {
+                res.json(err);
+            });
+        }
+        else {
+            promedio[0].numEstrellas = Number(valorPromedio);
+            console.log(promedio[0]);
+            promedio_model_1.Promedio.findByIdAndUpdate(promedio[0]._id, promedio[0], { new: true }, (err, promedioDB) => {
+                if (err)
+                    throw err;
+                if (!promedioDB) {
+                    return res.json({
+                        ok: false,
+                        mensaje: 'No existe un servicio con ese ID'
+                    });
+                }
+                //Token
+                respuestaPromedio = promedioDB;
+            });
+        }
+        agenda.estado = "CALIFICADO";
+        agenda_model_1.Agenda.findByIdAndUpdate(agenda._id, agenda, { new: true }, (err, AgendaDB) => {
+            if (err)
+                throw err;
+            if (!AgendaDB) {
+                return res.json({
+                    ok: false,
+                    mensaje: 'No existe una agenda con ese ID'
+                });
+            }
+            //Token
+            respuestaAgenda = AgendaDB;
+        });
         yield calificacionDB.populate('servicio').populate('usuario').execPopulate();
         res.json({
             ok: true,
-            calificacion: calificacionDB
+            calificacion: calificacionDB,
+            promedio: respuestaPromedio
         });
     })).catch(err => {
         res.json(err);
