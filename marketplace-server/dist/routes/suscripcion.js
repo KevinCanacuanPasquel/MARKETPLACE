@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const suscripcion_model_1 = require("../models/suscripcion.model");
-const suscripcionRoutes = (0, express_1.Router)();
+const suscripcionRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 suscripcionRoutes.get('/suscripcion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

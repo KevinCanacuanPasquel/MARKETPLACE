@@ -29,4 +29,4 @@ const calificacionSchema = new mongoose_1.Schema({
     },
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Calificacion = (0, mongoose_1.model)('Calificacion', calificacionSchema);
+exports.Calificacion = mongoose_1.model('Calificacion', calificacionSchema);

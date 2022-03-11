@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const parametro_model_1 = require("../models/parametro.model");
-const parametroRoutes = (0, express_1.Router)();
+const parametroRoutes = express_1.Router();
 //AGRUPACION - Obtener agrupaciones paginadas
 parametroRoutes.get('/getparametro', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const actividades = yield parametro_model_1.Parametro.find()

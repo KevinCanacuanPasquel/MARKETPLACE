@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const actividad_model_1 = require("../models/actividad.model");
-const actividadRoutes = (0, express_1.Router)();
+const actividadRoutes = express_1.Router();
 //AGRUPACION - Obtener agrupaciones paginadas
 actividadRoutes.get('/getActividad', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const actividades = yield actividad_model_1.Actividad.find()

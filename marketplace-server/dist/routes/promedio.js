@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const file_system_1 = __importDefault(require("../classes/file-system"));
 const promedio_model_1 = require("../models/promedio.model");
-const promedioRoutes = (0, express_1.Router)();
+const promedioRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 promedioRoutes.get('/promedio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -42,4 +42,4 @@ const servicioSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Agenda = (0, mongoose_1.model)('Agenda', servicioSchema);
+exports.Agenda = mongoose_1.model('Agenda', servicioSchema);

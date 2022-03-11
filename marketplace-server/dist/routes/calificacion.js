@@ -17,7 +17,7 @@ const file_system_1 = __importDefault(require("../classes/file-system"));
 const agenda_model_1 = require("../models/agenda.model");
 const calificacion_model_1 = require("../models/calificacion.model");
 const promedio_model_1 = require("../models/promedio.model");
-const calificacionRoutes = (0, express_1.Router)();
+const calificacionRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
 calificacionRoutes.get('/calificacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -21,4 +21,4 @@ const promedioSchema = new mongoose_1.Schema({
     },
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Promedio = (0, mongoose_1.model)('Promedio', promedioSchema);
+exports.Promedio = mongoose_1.model('Promedio', promedioSchema);

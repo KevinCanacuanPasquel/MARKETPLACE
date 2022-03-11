@@ -43,4 +43,4 @@ const servicioSchema = new mongoose_1.Schema({
     }
 });
 // model -> Ayuda con la interaccion con la Base de Datos
-exports.Servicio = (0, mongoose_1.model)('Servicio', servicioSchema);
+exports.Servicio = mongoose_1.model('Servicio', servicioSchema);
