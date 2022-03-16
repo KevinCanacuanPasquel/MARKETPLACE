@@ -22,4 +22,10 @@ export class CalificacionService {
         return this.http.post(URL + '/calificacion/crearCalificacion', calificacion, options) ;
       }
 
+
+      getPromedios(){
+        let options = { headers: this.headers };
+  
+        return this.http.get( URL+ '/promedio/promedios', options );
+      }
 }

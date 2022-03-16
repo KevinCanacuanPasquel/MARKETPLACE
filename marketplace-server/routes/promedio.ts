@@ -19,18 +19,14 @@ const fileSystem = new FileSystem();
 
 
 //AGRUPACION - Obtener agrupaciones paginadas
-promedioRoutes.get('/promedio',  async (req:any, res:Response) => {
+promedioRoutes.get('/promedios',  async (req:any, res:Response) => {
 
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
 
-    const promedio = await Promedio.find()
-                                        .sort({ _id: -1 })
-                                        .skip( skip )
-                                        .limit(10)
-                                        .exec();
+    const promedio = await Promedio.find().exec();
 
     res.json({
         ok: true,

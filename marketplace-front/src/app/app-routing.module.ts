@@ -79,6 +79,10 @@ const routes: Routes = [
   {
     path: 'contratos-usuario',
     loadChildren: () => import('./pages/contratos-usuario/contratos-usuario.module').then( m => m.ContratosUsuarioPageModule)
+  },
+  {
+    path: 'administrador',
+    loadChildren: () => import('./pages/administrador/administrador.module').then( m => m.AdministradorPageModule)
   }
 
 

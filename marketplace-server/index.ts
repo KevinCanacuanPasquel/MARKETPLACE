@@ -14,6 +14,7 @@ import parametroRoutes from './routes/parametro';
 import suscripcionRoutes from './routes/suscripcion';
 import agendaRoutes from './routes/agenda';
 import calificacionRoutes from './routes/calificacion';
+import promedioRoutes from './routes/promedio';
 
 const server = new Server();
 export let UPLOAD_PATH = 'uploads'
@@ -43,6 +44,7 @@ server.app.use('/parametro', parametroRoutes);
 server.app.use('/suscripcion', suscripcionRoutes);
 server.app.use('/agenda', agendaRoutes);
 server.app.use('/calificacion', calificacionRoutes);
+server.app.use('/promedio', promedioRoutes);
 //Conectar BD
 mongoose.connect('mongodb://localhost:27017/marketplace',
                  { useNewUrlParser: true, useCreateIndex: true}, (error => {    //Poder trabajar con los indices
