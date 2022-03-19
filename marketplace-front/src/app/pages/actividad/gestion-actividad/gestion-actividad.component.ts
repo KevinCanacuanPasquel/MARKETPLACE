@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { ActividadService } from 'src/app/services/actividad.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
+import { FooterComponent } from 'src/app/components/footer/footer.component';
 
 @Component({
   selector: 'app-gestion-actividad',

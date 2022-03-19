@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
+import { CalendarMode } from 'ionic2-calendar/calendar';
 import { RegistrarEventoComponent } from 'src/app/components/registrar-evento/registrar-evento.component';
 import { AgendaService } from 'src/app/services/agenda.service';
 
@@ -30,7 +31,7 @@ export class AgendaPage implements OnInit {
   viewTitle;
   isToday: boolean;
   fechita
-  calendarModes = "month"
+  calendarModes: CalendarMode = 'month'
   
   calendar = {
     mode: (this.calendarModes),

@@ -9,8 +9,9 @@ import { ActividadPageRoutingModule } from './actividad-routing.module';
 import { ActividadPage } from './actividad.page';
 import { GestionActividadComponent } from './gestion-actividad/gestion-actividad.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
-import { FooterComponent } from 'src/app/components/footer/footer.component';
+
 import { MatTableModule } from '@angular/material/table';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -20,8 +21,9 @@ import { MatTableModule } from '@angular/material/table';
     IonicModule,
     ActividadPageRoutingModule,
     MatTableModule,
+    ComponentsModule
   
   ],
-  declarations: [ActividadPage, GestionActividadComponent, CrearActividadComponent,  FooterComponent]
+  declarations: [ActividadPage, GestionActividadComponent, CrearActividadComponent]
 })
 export class ActividadPageModule {}
