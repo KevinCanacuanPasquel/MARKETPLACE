@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AgrupacionesService } from '../../services/agrupaciones.service';
-import { Agrupacion, Servicio } from '../../interfaces/interfaces';
+import { Agrupacion, Promedio, Servicio } from '../../interfaces/interfaces';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NavController } from '@ionic/angular';
 import { UiServiceService } from 'src/app/services/ui-service.service';
 import { PopoverController } from '@ionic/angular';
 import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-mas.component';
 import { ServicioService } from 'src/app/services/servicio.service';
+import { CalificacionService } from 'src/app/services/calificacion.service';
 
 @Component({
   selector: 'app-explorar_agrupaciones',
@@ -17,7 +18,7 @@ export class ExplorarAgrupacionesPage implements OnInit {
 
   agrupaciones: Agrupacion[] = [];
   servicios: Servicio[]= [];
-
+  promedios: Promedio[]= []
   habilitado = true;
   artevalue ='';
   actividad =''; 
@@ -27,10 +28,11 @@ export class ExplorarAgrupacionesPage implements OnInit {
                 private navCtrl: NavController ,
                 private serCtrl: ServicioService,
                 private uiService: UiServiceService,
-                private popoverCtrl: PopoverController ) {}
+                private popoverCtrl: PopoverController,
+                private calificacionService: CalificacionService ) {}
 
   ngOnInit() {
-
+    this.getPromedios();
     this.siguientes();
     this.siguientesServicios();
   }
@@ -84,7 +86,11 @@ export class ExplorarAgrupacionesPage implements OnInit {
     this.navCtrl.navigateRoot( '/contratos-usuario', { animated: true });
   }
 
-  
+  getPromedios(){
+    this.calificacionService.getPromedios().subscribe((data:any)=>{
+      this.promedios =data.promedio 
+    })
+  }
 
 
 }
