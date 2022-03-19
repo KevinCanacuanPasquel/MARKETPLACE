@@ -28,9 +28,6 @@ servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0,
     let skip = pagina - 1;
     skip = skip * 10;
     const servicios = yield servicio_model_1.Servicio.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
         .exec();
     res.json({
         ok: true,

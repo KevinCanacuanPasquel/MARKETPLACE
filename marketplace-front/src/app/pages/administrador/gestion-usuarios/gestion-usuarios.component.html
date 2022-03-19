@@ -1,3 +1,10 @@
-<p>
-  gestion-usuarios works!
-</p>
+
+<ion-card *ngFor="let usuario of usuarios">
+  <ion-item>
+  <ion-label>Correo: {{usuario.correo}} </ion-label> 
+
+  <ion-button (click)="eliminarUsuario()"> Eliminar Usuario </ion-button>
+  </ion-item>
+
+ 
+</ion-card>
