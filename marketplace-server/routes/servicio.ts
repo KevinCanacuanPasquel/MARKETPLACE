@@ -25,9 +25,7 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
     skip = skip * 10;
 
     const servicios = await Servicio.find()
-                                        .sort({ _id: -1 })
-                                        .skip( skip )
-                                        .limit(10)
+                                        
                                         .exec();
 
     res.json({

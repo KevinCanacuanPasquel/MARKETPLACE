@@ -1,3 +1,10 @@
-<p>
-  gestion-servicios works!
-</p>
+
+<ion-card *ngFor="let servicio of servicios">
+  <ion-item>
+  <ion-label>Correo: {{servicio.nombre}} </ion-label> 
+
+  <ion-button (click)="eliminarServicio(servicio)"> Eliminar Servicio </ion-button>
+  </ion-item>
+
+ 
+</ion-card>

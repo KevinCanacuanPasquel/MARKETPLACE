@@ -15,12 +15,12 @@ const routes: Routes = [
 
       {
 				path: '',
-				redirectTo: 'gestion-usuario',
+				redirectTo: 'gestion-usuarios',
 				pathMatch: 'full'
 			},
 
       {
-				path: 'gestion-usuario',
+				path: 'gestion-usuarios',
 				component: GestionUsuariosComponent
 			},
 			{

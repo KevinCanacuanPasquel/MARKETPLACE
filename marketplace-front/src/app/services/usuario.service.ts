@@ -182,4 +182,12 @@ getUsuarioById(userId){
 
   return this.http.get<RespuestaUsuario>( URL+ '/user/getUsuarioById',options );
 }
+
+
+
+getUsuarios(){
+  let options = { headers: this.headers };
+
+  return this.http.get( URL+ '/user/usuarios', options );
+}
 }

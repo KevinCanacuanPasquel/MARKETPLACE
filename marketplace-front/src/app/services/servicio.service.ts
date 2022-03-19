@@ -74,4 +74,10 @@ export class ServicioService {
   }
 
 
+  getServicios(){
+    let options = { headers: this.headers };
+  
+    return this.http.get( URL+ '/servicio/servicios', options );
+  }
+
 }
