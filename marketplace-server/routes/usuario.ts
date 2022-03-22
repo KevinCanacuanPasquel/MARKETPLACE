@@ -165,6 +165,7 @@ userRotes.post('/actualizarUsuario', [verificaToken],  (req: any, res: Response)
 
 
 //USUARIO - Eliminar
+/*
 userRotes.delete('/eliminarUsuario', [verificaToken], async (req: any, res: Response) => {
 
     //console.log(req.usuario._id);
@@ -184,7 +185,23 @@ userRotes.delete('/eliminarUsuario', [verificaToken], async (req: any, res: Resp
     
    
 
-});
+});*/
+
+
+userRotes.delete('/eliminarUsuario', (req: any, res: Response) => {
+    
+    Usuario.deleteOne(
+      { _id: req.query.id }
+      
+    ).then(result => {
+        if (result.deletedCount === 0) {
+          return res.json('No se encontro el usuario')
+        }
+        res.json( "Se elmino el servicio")
+      })
+      .catch(error => console.error(error))
+
+  })
 
 
 //Mostrar Token Usuario
@@ -198,6 +215,25 @@ userRotes.get('/', verificaToken, (req: any, res: Response) => {
     });
 
 });
+
+
+
+userRotes.get('/usuarios',  async (req:any, res:Response) => {
+
+    //Buscar por paginas
+    let pagina = Number(req.query.pagina) || 1;
+    let skip = pagina - 1;
+    skip = skip * 10;
+
+    const usuarios = await Usuario.find({}, {projection: {correos:0, nombres:0, apellidos:0}} ).exec();
+
+    res.json({
+        ok: true,
+        usuarios
+    });
+});
+
+
 
 export default userRotes;
 

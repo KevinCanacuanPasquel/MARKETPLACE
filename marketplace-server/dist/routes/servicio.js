@@ -18,6 +18,7 @@ const file_system_1 = __importDefault(require("../classes/file-system"));
 const servicio_model_1 = require("../models/servicio.model");
 const actividad_model_1 = require("../models/actividad.model");
 const suscripcion_model_1 = require("../models/suscripcion.model");
+const promedio_model_1 = require("../models/promedio.model");
 const servicioRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
@@ -27,9 +28,6 @@ servicioRoutes.get('/servicios', (req, res) => __awaiter(void 0, void 0, void 0,
     let skip = pagina - 1;
     skip = skip * 10;
     const servicios = yield servicio_model_1.Servicio.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
         .exec();
     res.json({
         ok: true,
@@ -122,8 +120,13 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     let skip = pagina - 1;
     skip = skip * 10;
     console.log(arte, nombre);
+    let wrapperEnvio = {
+        servicio: servicio_model_1.Servicio,
+        promedio: 0
+    };
     let actividades;
     let listIdActividad;
+    let listIdServicios;
     let listIdAgrupaciones;
     let fechaActual = new Date().toISOString();
     let query = { $and: [{ fechaFin: { $gte: fechaActual } }, { fechaInicio: { $lt: fechaActual } }] };
@@ -138,6 +141,12 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
         const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
             .skip(skip)
             .limit(10);
+        listIdServicios = servicios.map(x => { return x._id; });
+        const promedios = yield promedio_model_1.Promedio.find({ servicio: { $in: listIdServicios } });
+        servicios.map(x => {
+            console.log(promedios.filter(prom => prom.servicio === x._id));
+            //   if( )
+        });
         res.json({
             ok: true,
             servicios
@@ -168,7 +177,7 @@ servicioRoutes.get('/servicioByParametros', (req, res) => __awaiter(void 0, void
     else {
         actividades = yield actividad_model_1.Actividad.find({ estado: estado }).select('_id').exec();
         listIdActividad = actividades.map(x => { return x._id; });
-        const servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
+        var servicios = yield servicio_model_1.Servicio.find({ $and: [{ actividad: { $in: listIdActividad } }, { agrupacion: { $in: listIdAgrupaciones } }] }).populate("agrupacion").sort({ _id: -1 })
             .skip(skip)
             .limit(10);
         res.json({

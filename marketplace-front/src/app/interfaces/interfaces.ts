@@ -55,6 +55,7 @@ export interface DataUpload {
 }
 
 export interface Servicio {
+  _id: string;
   nombre: string;
   descripcion : string;
   valorEstimado: string;
@@ -62,4 +63,11 @@ export interface Servicio {
   agrupacion: any;
   actividad: any;
   estado : string; 
+}
+
+export interface Promedio {
+  numEstrellas: Number;
+  servicio: string;
+  estado: string; 
+  fechaCreacion: string; 
 }

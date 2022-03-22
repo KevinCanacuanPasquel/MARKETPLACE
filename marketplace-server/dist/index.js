@@ -18,6 +18,7 @@ const parametro_1 = __importDefault(require("./routes/parametro"));
 const suscripcion_1 = __importDefault(require("./routes/suscripcion"));
 const agenda_1 = __importDefault(require("./routes/agenda"));
 const calificacion_1 = __importDefault(require("./routes/calificacion"));
+const promedio_1 = __importDefault(require("./routes/promedio"));
 const server = new server_1.Server();
 exports.UPLOAD_PATH = 'uploads';
 //Middleware para utilizar JS - bodyParser
@@ -38,6 +39,7 @@ server.app.use('/parametro', parametro_1.default);
 server.app.use('/suscripcion', suscripcion_1.default);
 server.app.use('/agenda', agenda_1.default);
 server.app.use('/calificacion', calificacion_1.default);
+server.app.use('/promedio', promedio_1.default);
 //Conectar BD
 mongoose_1.default.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true, useCreateIndex: true }, (error => {
     if (error)

@@ -9,6 +9,7 @@ import FileSystem from "../classes/file-system";
 import { Servicio } from "../models/servicio.model";
 import { Actividad } from "../models/actividad.model";
 import { Suscripcion } from "../models/suscripcion.model";
+import { Promedio } from "../models/promedio.model";
 
 
 const servicioRoutes = Router();
@@ -24,9 +25,7 @@ servicioRoutes.get('/servicios',  async (req:any, res:Response) => {
     skip = skip * 10;
 
     const servicios = await Servicio.find()
-                                        .sort({ _id: -1 })
-                                        .skip( skip )
-                                        .limit(10)
+                                        
                                         .exec();
 
     res.json({
@@ -156,8 +155,15 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
     let skip = pagina - 1;
     skip = skip * 10;
     console.log(arte, nombre)
+    let wrapperEnvio = {
+        servicio: Servicio,
+        promedio: 0
+
+        
+    }
     let actividades
     let listIdActividad
+    let listIdServicios
     let listIdAgrupaciones
     let fechaActual = new Date().toISOString();
     let query =  { $and: [ { fechaFin: {$gte: fechaActual} }, {fechaInicio :{$lt: fechaActual } }]}
@@ -174,7 +180,12 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
             const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
             .skip( skip )
             .limit(10)
-        
+            listIdServicios = servicios.map(x=>  { return x._id} )
+            const promedios = await Promedio.find({servicio: {$in:listIdServicios}})
+            servicios.map(x=> {
+                console.log(promedios.filter(prom=> prom.servicio === x._id))
+             //   if( )
+            })
         res.json({
             ok: true,
             servicios
@@ -206,9 +217,11 @@ servicioRoutes.get('/servicioByParametros', async (req:any, res:Response)=>{
         actividades = await Actividad.find( 
             { estado:estado }).select('_id').exec();
             listIdActividad =  actividades.map(x=>  { return x._id} )
-            const servicios =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
+           
+            var servicios  =  await Servicio.find({$and:[{actividad: {$in: listIdActividad}},  {agrupacion: {$in: listIdAgrupaciones}}]}).populate("agrupacion").sort({ _id: -1 })
             .skip( skip )
             .limit(10)
+            
         res.json({
             ok: true,
             servicios

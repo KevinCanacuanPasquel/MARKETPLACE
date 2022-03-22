@@ -136,22 +136,36 @@ userRotes.post('/actualizarUsuario', [autenticacion_1.verificaToken], (req, res)
     });
 });
 //USUARIO - Eliminar
-userRotes.delete('/eliminarUsuario', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+/*
+userRotes.delete('/eliminarUsuario', [verificaToken], async (req: any, res: Response) => {
+
     //console.log(req.usuario._id);
     if (!req.usuario._id) {
         res.json({
             ok: false,
             mensaje: 'No existe el usuario'
         });
-    }
-    else {
-        yield usuario_model_1.Usuario.findByIdAndRemove({ _id: req.usuario._id });
+    } else {
+        await Usuario.findByIdAndRemove({ _id: req.usuario._id });
         res.json({
             ok: true,
             mensaje: 'Usuario eliminado.'
         });
     }
-}));
+    
+    
+   
+
+});*/
+userRotes.delete('/eliminarUsuario', (req, res) => {
+    usuario_model_1.Usuario.deleteOne({ _id: req.query.id }).then(result => {
+        if (result.deletedCount === 0) {
+            return res.json('No se encontro el usuario');
+        }
+        res.json("Se elmino el servicio");
+    })
+        .catch(error => console.error(error));
+});
 //Mostrar Token Usuario
 userRotes.get('/', autenticacion_1.verificaToken, (req, res) => {
     const usuario = req.usuario;
@@ -160,4 +174,15 @@ userRotes.get('/', autenticacion_1.verificaToken, (req, res) => {
         usuario
     });
 });
+userRotes.get('/usuarios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //Buscar por paginas
+    let pagina = Number(req.query.pagina) || 1;
+    let skip = pagina - 1;
+    skip = skip * 10;
+    const usuarios = yield usuario_model_1.Usuario.find({}, { projection: { correos: 0, nombres: 0, apellidos: 0 } }).exec();
+    res.json({
+        ok: true,
+        usuarios
+    });
+}));
 exports.default = userRotes;

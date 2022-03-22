@@ -18,16 +18,12 @@ const promedio_model_1 = require("../models/promedio.model");
 const promedioRoutes = express_1.Router();
 const fileSystem = new file_system_1.default();
 //AGRUPACION - Obtener agrupaciones paginadas
-promedioRoutes.get('/promedio', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+promedioRoutes.get('/promedios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscar por paginas
     let pagina = Number(req.query.pagina) || 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const promedio = yield promedio_model_1.Promedio.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
-        .exec();
+    const promedio = yield promedio_model_1.Promedio.find().exec();
     res.json({
         ok: true,
         pagina,

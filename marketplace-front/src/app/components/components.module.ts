@@ -18,6 +18,7 @@ import { ServicioComponent } from './servicio/servicio.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { StarsComponent } from './stars/stars.component';
 import { RatingModule } from 'ng-starrating';
+import { OpcionesServicioInfoComponent } from './opciones-servicio-info/opciones-servicio-info.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { RatingModule } from 'ng-starrating';
     ServicioComponent,
     ServiciosComponent,
     StarsComponent,
+    OpcionesServicioInfoComponent
     
     
   ],

@@ -50,13 +50,15 @@ const servicioSchema = new Schema({
 
 // Tipado de datos
 interface Iservicio extends Document {
+    promedio: Number ;
     nombre: string;
     descripcion: string;
     valorEstimado: number;
     fotos: string[];
     agrupacion:string;
     actividad: string;
-    estado: string; 
+    estado: string;
+    
 
 }
 
