@@ -27,7 +27,8 @@ server.app.use(express_1.default.urlencoded({ limit: '50mb', extended: true, par
 //File Upload - Toma los archivos que se sube
 server.app.use((0, express_fileupload_1.default)());
 // Configuracion CORS - front
-server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
+server.app.use((0, cors_1.default)({ origin: true, methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "*", credentials: true }));
 // routes/usuario.ts - Definir una ruta en particula "middleware"
 // Rutas de las APP
 server.app.use('/user', usuario_1.default);

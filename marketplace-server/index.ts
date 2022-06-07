@@ -30,7 +30,8 @@ server.app.use( fileUpload() ) ;
 
 
 // Configuracion CORS - front
-server.app.use( cors({ origin: true, credentials: true }) );
+server.app.use( cors({origin: true,  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "*", credentials: true }) );
 
 
 // routes/usuario.ts - Definir una ruta en particula "middleware"

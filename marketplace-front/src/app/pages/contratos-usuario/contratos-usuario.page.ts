@@ -53,11 +53,7 @@ export class ContratosUsuarioPage implements OnInit {
       componentProps: { 
         agenda: contrato
       }
-    /*  componentProps: {
-        'nombre': 'Aitor',
-        'apellidos': 'Sánchez',
-        'locale': 'es_ES'
-      }*/
+   
     });
 
     modal.onDidDismiss()
