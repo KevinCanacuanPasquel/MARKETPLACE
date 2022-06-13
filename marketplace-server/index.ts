@@ -3,7 +3,7 @@ import * as multer from 'multer'
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
-import cors from 'cors';
+//import cors from 'cors';
 import express from 'express';
 import userRotes from './routes/usuario';
 import agrupacionRoutes from './routes/agrupacion';
@@ -18,7 +18,7 @@ import promedioRoutes from './routes/promedio';
 
 const server = new Server();
 export let UPLOAD_PATH = 'uploads'
-
+const cors = require('cors');
 //Middleware para utilizar JS - bodyParser
 
 
@@ -32,6 +32,10 @@ server.app.use( fileUpload() ) ;
 // Configuracion CORS - front
 server.app.use( cors({ origin: true, credentials: true }) );
 
+
+
+server.app.use(cors());
+server.app.options('*', cors());
 
 // routes/usuario.ts - Definir una ruta en particula "middleware"
 // Rutas de las APP

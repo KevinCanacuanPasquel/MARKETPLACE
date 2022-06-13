@@ -7,7 +7,7 @@ exports.UPLOAD_PATH = void 0;
 const server_1 = require("./classes/server");
 const mongoose_1 = __importDefault(require("mongoose"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
-const cors_1 = __importDefault(require("cors"));
+//import cors from 'cors';
 const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("./routes/usuario"));
 const agrupacion_1 = __importDefault(require("./routes/agrupacion"));
@@ -21,13 +21,16 @@ const calificacion_1 = __importDefault(require("./routes/calificacion"));
 const promedio_1 = __importDefault(require("./routes/promedio"));
 const server = new server_1.Server();
 exports.UPLOAD_PATH = 'uploads';
+const cors = require('cors');
 //Middleware para utilizar JS - bodyParser
 server.app.use(express_1.default.json({ limit: '50mb' }));
 server.app.use(express_1.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 //File Upload - Toma los archivos que se sube
 server.app.use((0, express_fileupload_1.default)());
 // Configuracion CORS - front
-server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
+server.app.use(cors({ origin: true, credentials: true }));
+server.app.use(cors());
+server.app.options('*', cors());
 // routes/usuario.ts - Definir una ruta en particula "middleware"
 // Rutas de las APP
 server.app.use('/user', usuario_1.default);
