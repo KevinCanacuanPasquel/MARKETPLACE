@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-    url: 'https://67ec-181-175-240-250.ngrok.io' 
+    url: 'https://mercaditoback.herokuapp.com' 
       // url: 'http://localhost:3000'
 };
