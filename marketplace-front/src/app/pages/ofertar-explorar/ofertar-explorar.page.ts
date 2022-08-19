@@ -37,10 +37,16 @@ export class OfertarExplorarPage implements OnInit {
 
   
   getDatosUsuario(){
-    this.usuarioService.getUsuario().then(p=>{
-      console.log("p", p)
-     this.usuario= p;
-     localStorage.setItem("id", this.usuario._id);
-   });
+ 
+    if( localStorage.getItem("id")== undefined ){
+
+      this.usuarioService.getUsuario().then(p=>{
+        console.log("p", p)
+       this.usuario= p;
+       localStorage.setItem("id", this.usuario._id);
+       console.log(localStorage.getItem("id"))
+     });
+    }
+ 
   }
 }

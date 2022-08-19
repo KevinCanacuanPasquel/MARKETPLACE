@@ -18,7 +18,7 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-label position="stacked">Arte:</ion-label>
+    <ion-label position="stacked">Banco:</ion-label>
     <ion-select [(ngModel)]="cuentaBancaria.banco" placeholder ="Seleccione el banco" >
       <ion-select-option  *ngFor="let banco of bancos" [value]="banco" >
         {{banco}}

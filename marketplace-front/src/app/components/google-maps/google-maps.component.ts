@@ -183,6 +183,9 @@ export class GoogleMapsComponent  {
                         this.markers = [];
                         console.log( event.latLng.toJSON())
                         let markerUbication =  event.latLng.toJSON()
+                        console.log( "la ubicacion", markerUbication)
+                        this.coordenadas.lat =  markerUbication.lat
+                        this.coordenadas.lng = markerUbication.lng
                         this.addMarker(markerUbication.lat, markerUbication.lng);
                     
                       });
@@ -203,6 +206,7 @@ export class GoogleMapsComponent  {
         });
    
         console.log(marker)
+        
         this.markers.push(marker);
         
     }

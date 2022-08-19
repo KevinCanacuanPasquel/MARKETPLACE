@@ -22,6 +22,7 @@ export class CrearCuentabancariaPage implements OnInit {
     tipoCuenta: "",
     cuentaBancaria: "",
     CIBancaria: "",
+    usuario: "",
     estado: "",
   }
 
@@ -59,7 +60,7 @@ export class CrearCuentabancariaPage implements OnInit {
    }
 
   ngOnInit() {
-
+    this.cuentaBancaria.usuario = localStorage.getItem("id")
 }
 
   tipodeCuenta() {
@@ -68,6 +69,7 @@ export class CrearCuentabancariaPage implements OnInit {
 
   crearCuentaBancaria(){
     console.log("a  crear" ,this.cuentaBancaria)
+    
     this.cbService.crearCuentaBancaria(this.cuentaBancaria).subscribe((data:any)=>{
       if(data){
         console.log(data)

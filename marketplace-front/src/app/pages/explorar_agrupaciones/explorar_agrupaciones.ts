@@ -8,6 +8,8 @@ import { PopoverController } from '@ionic/angular';
 import { OpcionesMasComponent } from 'src/app/components/opciones-mas/opciones-mas.component';
 import { ServicioService } from 'src/app/services/servicio.service';
 import { CalificacionService } from 'src/app/services/calificacion.service';
+import { IonicSelectableComponent } from 'ionic-selectable';
+import { ActividadService } from 'src/app/services/actividad.service';
 
 @Component({
   selector: 'app-explorar_agrupaciones',
@@ -20,27 +22,33 @@ export class ExplorarAgrupacionesPage implements OnInit {
   servicios: Servicio[]= [];
   promedios: Promedio[]= []
   habilitado = true;
-  artevalue ='';
-  actividad =''; 
+  arteValue ='';
+  actividadValue =''; 
+  catalogoArtes;
+  catalogoActividades;
 
   constructor( private agrupacionesService: AgrupacionesService,
     private usuarioService: UsuarioService,
                 private navCtrl: NavController ,
-                private serCtrl: ServicioService,
+                private servicioService: ServicioService,
                 private uiService: UiServiceService,
                 private popoverCtrl: PopoverController,
+                private actividadService: ActividadService,
                 private calificacionService: CalificacionService ) {}
 
   ngOnInit() {
     this.getPromedios();
-    this.siguientes();
+   // this.siguientes();
     this.siguientesServicios();
+    this.getArtes();
+    this.getActividades(null);
+
   }
 
   //Metodo para cargar nuevas agrupaciones creadas
   recargar( event ) {
 
-    this.siguientes( event, true);
+   // this.siguientes( event, true);
     this.siguientesServicios(event, true);
     this.agrupaciones = [];
     this.habilitado = true;
@@ -48,7 +56,7 @@ export class ExplorarAgrupacionesPage implements OnInit {
   }
 
   //Metodo para cargar el infinite scroll
-  siguientes( event?, pull:boolean = false ) {
+ /* siguientes( event?, pull:boolean = false ) {
 
     this.agrupacionesService.getAgrupaciones( pull )
       .subscribe( resp => {
@@ -63,11 +71,11 @@ export class ExplorarAgrupacionesPage implements OnInit {
         }
     });
 
-  }
+  }*/
 
   siguientesServicios( event?, pull:boolean = false ) {
 
-    this.serCtrl.getServiciosByParams( this.artevalue, this.actividad, pull )
+    this.servicioService.getServiciosByParams( this.arteValue, this.actividadValue, pull )
       .subscribe( (resp:any) => {
         console.log( resp );
         this.servicios.push( ...resp.servicios );
@@ -92,5 +100,42 @@ export class ExplorarAgrupacionesPage implements OnInit {
     })
   }
 
+  cambiarArte($event){
+    console.log($event.target.value)
+    this.arteValue= $event.target.value
+    this.getActividades($event.target.value);
+  }
 
+  getActividades(arte){
+    this.actividadService.getActividadesByParams("",  arte, "ACTIVO").subscribe((data:any)=> {
+      if(data){
+        console.log("xd", data)
+   
+        this.catalogoActividades = data.actividades;
+        console.log("actividades",this.catalogoActividades)
+      }
+    })
+  }
+  getArtes(){
+    this.actividadService.getArtes().subscribe((data:any)=> {
+      if(data){
+        console.log("artes", data)
+   
+        this.catalogoArtes = data.artesunique;
+        console.log("artes",this.catalogoArtes)
+      }
+    })
+  }
+
+  actividadChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    this.actividadValue  = event.value._id;
+    console.log('port:', event.value._id);
+  }
+
+  buscar(){
+    this.siguientesServicios();
+  }
 }

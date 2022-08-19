@@ -12,7 +12,31 @@
 </ion-header>
 
 <ion-content color="light">
-
+  <ion-item>
+    <ion-label position="stacked">ARTE</ion-label>
+    <ion-select [(ngModel)]="arteValue" placeholder ="Artes" (ionChange)="cambiarArte($event)" >
+      <ion-select-option  *ngFor="let arte of catalogoArtes" [value]="arte" >
+        {{arte}}
+      </ion-select-option>
+     
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">ACTIVIDAD</ion-label>
+    <ionic-selectable
+ 
+  [(ngModel)]="actividadValue"
+  [items]="catalogoActividades"
+  itemValueField="_id"
+  itemTextField="nombre"
+  #input 
+  [canSearch]="true"
+  (onChange)="actividadChange($event)"
+  >
+ 
+</ionic-selectable>
+<ion-button (click)="buscar()" > Buscar</ion-button>
+  </ion-item>
   <div class="centrado">
     <ion-button (click)="mostrarContratos()" shape="round"  color="warning">
       CONTRATOS
@@ -34,7 +58,7 @@
   <!-- Infinite Scroll de agrupaciones -->
   <ion-infinite-scroll  [disabled] = "!habilitado"
                         threshold="150px" 
-                        (ionInfinite)="siguientes($event)">
+                        (ionInfinite)="siguientesServicios($event)">
     <ion-infinite-scroll-content>
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

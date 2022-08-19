@@ -12,7 +12,7 @@ export class DataService {
   constructor() { }
 
   changeMessage(message: any){
-    console.log("entro al servicio", message)
+    console.log("Envia el mensaje las plenas", message)
     this.messageSource.next(message);
     
   }

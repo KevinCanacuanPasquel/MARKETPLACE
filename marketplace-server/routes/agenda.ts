@@ -99,7 +99,7 @@ agendaRoutes.get('/agendaByAgrupacion',  async (req:any, res:Response) => {
 
     
     const listIdServicios =  servicios.map(x=>  { return x._id} )
-    const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('usuario')                      
+    const agenda =  await Agenda.find({servicio: {$in: listIdServicios}}).populate('servicio').populate('agrupacion').populate('usuario')                      
     .exec();
 
    

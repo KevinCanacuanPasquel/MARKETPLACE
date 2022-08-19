@@ -13,32 +13,55 @@
 
 <ion-content>
 
-  <div class="centrado">
+  <div>
           <ion-card>
-            <ion-slides pager="true">
-              <ion-slide class="image-slide">
-                <img src="/assets/avatars/av-1.png" />
+
+            <ion-card-title>
+             
+              <ion-card-title class="centrado">{{servicio.nombre}}</ion-card-title>
+            </ion-card-title>
+          
+            <ion-slides pager="true"  *ngIf="servicio && servicio.agrupacion && servicio.agrupacion.fotos">
+              <ion-slide  *ngFor="let item of servicio.fotos" class="image-slide">
+                <img *ngIf="item.fileBase64" height="300px" width="300px" src="{{'data:image/png;base64,' + item.fileBase64}}" class="img-responsive">
               </ion-slide>
-  
-              <ion-slide class="image-slide" >
-                <h1>Slide 2</h1>
-              </ion-slide>
-              
+              <ion-label class="centrado">{{servicio.agrupacion.nombre}}</ion-label>
             </ion-slides>
+         
+       
           </ion-card>
   
-          <ion-card-header>
-            <ion-card-subtitle class="centrado">{{servicio.agrupacion.nombre}}</ion-card-subtitle>
-            <ion-card-title class="centrado">{{servicio.nombre}}</ion-card-title>
-          </ion-card-header>
+         
   
           <ion-card-content class="centrado">
+            <ion-label position="up"> </ion-label>
             {{servicio.descripcion}}
           </ion-card-content>
 
-          <ion-card-content class="centrado color2">
-            {{servicio.valorEstimado}}
+          
+       
+          <ion-card-content class="centrado">
+           <ion-item lines="none">
+            <ion-label  class="centrado"  text-warp >
+              <strong>  $ {{ servicio.valorEstimado  | number : '1.2-2'}}</strong>
+            </ion-label>
+           </ion-item> 
+          <ion-button (click)="visualizarMas()">{{labelBotonVerMas}} </ion-button>
           </ion-card-content>
+
+
+    <div class ="Agrupacion"  *ngIf="verMasButton | async">
+    <ion-card-subtitle class="centrado">
+      Información de {{servicio.agrupacion.nombre}}
+    </ion-card-subtitle>
+    <ion-slides pager="true"  *ngIf="servicio && servicio.agrupacion && servicio.agrupacion.fotos">
+    <ion-slide  *ngFor="let item of servicio.agrupacion.fotos" class="image-slide">
+      <img *ngIf="item.fileBase64" height="300px" width="300px" src="{{'data:image/png;base64,' + item.fileBase64}}" class="img-responsive">
+    </ion-slide>
+   </ion-slides>
+    <ion-label class="centrado"> Descripcion</ion-label>
+    <p class="centrado">{{servicio.agrupacion.descripcion}} </p>
+  </div>
   </div>
   
 

@@ -1,7 +1,9 @@
 /** Angular */
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+  })
 export class TypesUtilsService {
 	/**
 	 * Convert number to string and addinng '0' before
@@ -125,5 +127,30 @@ export class TypesUtilsService {
 		const year = _date.getFullYear();
 		const date = _date.getDate();
 		return `${month}/${date}/${year}`;
+	}
+
+
+	formatDateToString(date : Date) {
+        let str : string;
+        if( date !=null ) {
+            let day = date.getDay().toString;
+            let month : any = date.getMonth()+1;
+            month = month.toString;
+            let year : any = date.getFullYear()+1900;
+            year = year.toString;
+            let hour = date.getHours.toString;
+            let minutes = date.getMinutes.toString;
+            let seconds = date.getSeconds.toString;
+            str =  day+'/'+month+"/"+year+' '+hour+':'+minutes+':'+seconds;
+            return str;
+        } else {
+            return null;
+        }
+    }
+
+	getHourAmPmFormat(date: Date){
+
+		return	date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+		
 	}
 }

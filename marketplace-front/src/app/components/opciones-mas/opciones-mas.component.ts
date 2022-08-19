@@ -16,9 +16,15 @@ export class OpcionesMasComponent implements OnInit {
 
   ngOnInit(   ) {}
 
-  pagoSuscripcion() {
+  explorarOfertar() {
+    this.popoverCtrl.dismiss();
+    this.navCtrl.navigateRoot( '/ofertar-explorar', { animated: true });
+    
+  }
 
-    this.navCtrl.navigateRoot( '/', { animated: true });
+  pagoSuscripcion() {
+    this.popoverCtrl.dismiss();
+    this.navCtrl.navigateRoot( '/suscripcion', { animated: true });
     
   }
 

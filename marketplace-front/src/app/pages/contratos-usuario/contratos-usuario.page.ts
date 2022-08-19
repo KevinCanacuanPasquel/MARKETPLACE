@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { StarsComponent } from 'src/app/components/stars/stars.component';
 import { AgendaService } from 'src/app/services/agenda.service';
 import { CalificacionService } from 'src/app/services/calificacion.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
+import { TypesUtilsService } from 'src/app/utils/types-utils.service';
 
 @Component({
   selector: 'app-contratos-usuario',
@@ -26,7 +28,8 @@ export class ContratosUsuarioPage implements OnInit {
   contratos = []
   enableCalificarButton;
   enableCalificar = new BehaviorSubject<boolean>(false);
-  constructor(private agendaService: AgendaService, private calificacionService: CalificacionService, private modalCtrl: ModalController) { }
+  constructor(private agendaService: AgendaService, private calificacionService: CalificacionService, private uiService: UiServiceService,
+     private modalCtrl: ModalController, private util: TypesUtilsService) { }
 
   ngOnInit() {
     this.idCliente = localStorage.getItem("id")
@@ -38,9 +41,14 @@ export class ContratosUsuarioPage implements OnInit {
     this.agendaService.getAgendaByCliente(this.idCliente).subscribe((data: any)=> {
       if(data.ok){
         console.log(data.agendas)
-
-        this.contratos = data.agendas
-        this.contratos.map(this.changeDataFormatsForAgenda)
+        if(data.agendas.length != 0){
+          this.contratos = data.agendas
+    //      this.contratos.map(this.changeDataFormatsForAgenda)
+        }
+        else{
+          this.uiService.alertaActualizacionUsuario("no existen eventos")
+        }
+       
       console.log( this.contratos)
       }
     })
@@ -87,11 +95,47 @@ export class ContratosUsuarioPage implements OnInit {
 
 
   changeDataFormatsForAgenda(item){
-    item.fechaAgenda = item.fechaAgenda.split("T")[0]
-    item.horaInicio = item.horaInicio.split("T")[1]
-    item.horaFin = item.horaFin.split("T")[1]
+    console.log("la hora de inicio",item.horaInicio)
+    let fechaSpliteada =item.horaInicio.split("T")
+    item.fechaAgenda = fechaSpliteada[0];
+ 
+    item.horaInicio = new Date(item.horaInicio).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+
+   item.horaFin =  new Date(item.horaFin).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
 
     return item;  
 
   }
+
+  transformHourToAm(date){
+   return this.util.getHourAmPmFormat(date)
+  }
+
+   
+	formatDateToString(date ) {
+    let str : string;
+    new Date(date)
+    if( date !=null ) {
+        let day = date.getDay().toString;
+        let month : any = date.getMonth()+1;
+        month = month.toString;
+        let year : any = date.getFullYear()+1900;
+        year = year.toString;
+        let hour = date.getHours.toString;
+        let minutes = date.getMinutes.toString;
+        let seconds = date.getSeconds.toString;
+        str =  day+'/'+month+"/"+year+' '+hour+':'+minutes+':'+seconds;
+        return str;
+    } else {
+        return null;
+    }
+}
+
+
+getHourAmPmFormat(date: Date){
+
+  return	date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  
+}
+  
 }

@@ -194,7 +194,14 @@ export class AgendaPage implements OnInit {
         'cliente': localStorage.getItem('id')
       }
     });
+    modal.onDidDismiss()
+    .then(() => {
+  
+      this.getAgendaByServicio();
     
+  
+      // Here's your selected user!
+  });
     return await modal.present();
     
   }

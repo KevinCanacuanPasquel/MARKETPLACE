@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { RegistrarEventoComponent } from 'src/app/components/registrar-evento/registrar-evento.component';
 import { AgrupacionesService } from 'src/app/services/agrupaciones.service';
 import { ServicioService } from 'src/app/services/servicio.service';
@@ -18,10 +19,11 @@ export class DetalleAgrupacionPage implements OnInit {
   img1 = '/assets/perro-1.jpg';
   img2 = '/assets/perro-2.jpg';
   img3 = '/assets/perro-3.jpg';
-
+  labelBotonVerMas= "Ver informacion de la agrupacion"
   servicioId 
   item
-
+  verMasButton;
+  verMas = new BehaviorSubject<boolean>(false);
   servicio = {
     id:'',
     fotos: [],
@@ -51,6 +53,8 @@ export class DetalleAgrupacionPage implements OnInit {
                 private uiService: UiServiceService,
                 private popoverCtrl: PopoverController, private servicioService : ServicioService,
                 private router : Router, public dialog: MatDialog) {
+                  this.verMasButton   = this.verMas.asObservable();
+                  this.verMas.next(false);
 
                   if (this.router.getCurrentNavigation().extras.state) {
 
@@ -66,8 +70,8 @@ export class DetalleAgrupacionPage implements OnInit {
                   }
                  }
 
-  ngOnInit() {
-    this.getServicio()
+  async ngOnInit() {
+   await this.getServicio()
   }
 
   irAgenda(){
@@ -75,7 +79,7 @@ export class DetalleAgrupacionPage implements OnInit {
  
   }
 
-  getServicio(){
+   getServicio(){
     console.log("el id para llamar" ,this.servicio)
     this.servicioService.getServiciosById(this.servicioId).subscribe((data:any)=>{
       console.log(data)
@@ -88,5 +92,18 @@ export class DetalleAgrupacionPage implements OnInit {
     })
   }
 
+  visualizarMas(){
+    console.log(this.verMas.value)
+    if(this.verMas.value){
+      this.verMas.next(false);
+      this.labelBotonVerMas="Ver informacion de la agrupacion"
+      
+    }else{
+      console.log("entra aca")
+      this.labelBotonVerMas="Ocultar informacion de la agrupacion"
+      this.verMas.next(true);
+    }
+  
+  }
   
 }

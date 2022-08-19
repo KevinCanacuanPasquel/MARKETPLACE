@@ -6,6 +6,7 @@ import { UiServiceService } from '../../services/ui-service.service';
 import { DataUpload, Usuario } from '../../interfaces/interfaces';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -17,18 +18,18 @@ export class LoginPage implements OnInit {
     
 
   loginUser = {
-    correo: 'kevin@gmail.com',
-    contrasena: '1234'
+    correo: '',
+    contrasena: ''
   };
 
   srcImagen 
   registroUsuario: Usuario = {
-    correo: 'diego',
-    contrasena: '123456',
-    repContrasena: '123456',
-    nombres: 'Diego',
-    apellidos: 'Serrano',
-    fecha_nacimiento: '2020-01-01',
+    correo: '',
+    contrasena: '',
+    repContrasena: '',
+    nombres: '',
+    apellidos: '',
+    fecha_nacimiento: '',
     foto: null
   };
 
@@ -59,7 +60,7 @@ export class LoginPage implements OnInit {
     }
 
     console.log( flogin.valid );
-    console.log(  this.loginUser );
+  
 
   }
 
@@ -67,7 +68,8 @@ export class LoginPage implements OnInit {
   async registro ( fRegistro: NgForm ) {
 
     if( fRegistro.invalid || this.registroUsuario.foto==null ) {
-      return;
+      this.uiService.alertaActualizacionUsuario("Llenar los datos correctamente, recordar que la foto es obligatoria. ")
+      
     }
 
     const valido = await this.UsuarioService.registro( this.registroUsuario );
@@ -75,6 +77,7 @@ export class LoginPage implements OnInit {
     if( valido ) {
       //Ingresar a la APP
       this.navCtrl.navigateRoot( '/ofertar-explorar', { animated: true });
+      
     } else {
       //Mostrar alerta de credenciales equivocadas
       this.uiService.alertaInformativa( 'Ese correo electronico ya existe' );

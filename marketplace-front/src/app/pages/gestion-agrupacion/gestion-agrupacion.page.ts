@@ -30,7 +30,7 @@ export class GestionAgrupacionPage implements OnInit {
  
   ngOnInit() {
      
-     
+    this.usuario._id = localStorage.getItem("id")
      console.log("el usuario", this.usuario)
      this.getAgrupaciones();
     
@@ -50,11 +50,16 @@ export class GestionAgrupacionPage implements OnInit {
   }
 
   async getAgrupaciones(){
-    await  this.getDatosUsuario();
+   
     console.log(this.usuario._id)
     this.agrupacionService.getAgrupacionesByUsuario(this.usuario._id).subscribe((data:any)=>{
       console.log("agrupaciones" ,data.agrupaciones);
-      this.catalogoAgrupaciones = data.agrupaciones
+      if(data.agrupaciones.length==0 ){
+        this.uiService.alertaInformativa('Para ofertar servicios. Comienza creando tu agrupacion')
+      }else{
+        this.catalogoAgrupaciones = data.agrupaciones
+      }
+      
     })
   }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { GoogleMapsComponent } from 'src/app/components/google-maps/google-maps.component';
 import { AgendaService } from 'src/app/services/agenda.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 
 @Component({
   selector: 'app-contratos-agrupacion',
@@ -20,7 +21,7 @@ export class ContratosAgrupacionPage implements OnInit {
   listAgenda = []
   selectedDate = new Date();
   agrupacionId 
-  constructor(private router: Router, private agendaService: AgendaService, private modalCtrl: ModalController ) {
+  constructor(private router: Router, private agendaService: AgendaService, private modalCtrl: ModalController, private uiService: UiServiceService ) {
   
     if (this.router.getCurrentNavigation().extras.state) {
 
@@ -99,8 +100,16 @@ export class ContratosAgrupacionPage implements OnInit {
     this.agendaService.getAgendaByAgrupacion(this.agrupacionId).subscribe((data:any)=>{
       
       if(data.ok){
-        this.listAgenda = data.agenda
+        if(data.agenda.length != 0){
+          this.listAgenda = data.agenda
+       //   this.listAgenda.map(this.changeDataFormatsForAgenda)
+        }else{
+          this.uiService.alertaActualizacionUsuario("No tiene eventos realizados")
+        }
+      }else{
+        this.uiService.alertaActualizacionUsuario("Error al cargar eventos realizados")
       }
+     
      
     })
   }
@@ -136,20 +145,57 @@ export class ContratosAgrupacionPage implements OnInit {
     return await modal.present();
   }
   
-  aceptarEvento(){
+  aceptarEvento(evento){
+    evento.estado= 'CONFIRMADO'
+    this.agendaService.actualizarAgenda(evento).subscribe((data:any)=>{
+      if (data.ok){
+        this.uiService.alertaMensajeExitoso("Se ha confirmado el evento.")
+      }else{
+        this.uiService.alertaActualizacionUsuario("error al confirmar evento")
+      }
 
+    
+    })
   }
-  rechazarEvento(){
 
+  rechazarEvento(evento){
+    evento.estado= 'RECHAZADO'
+    this.agendaService.actualizarAgenda(evento).subscribe((data:any)=>{
+      if (data.ok){
+        this.uiService.alertaMensajeExitoso("Se ha rechazado el evento.")
+      }
+    })
   }
-  finalizarEvento(){
+  finalizarEvento(evento){
+    evento.estado= 'FINALIZADO'
+    this.agendaService.actualizarAgenda(evento).subscribe((data:any)=>{
+      if (data.ok){
+        this.uiService.alertaMensajeExitoso("Se ha dado por finalizado.")
+      }
+    })
 
   }
   validarSiYaFinalizo(fechaFin){
+    console.log(fechaFin)
+    
     if(new  Date(fechaFin)<= new Date()){
       return true 
     }
   }
+/*
 
+  changeDataFormatsForAgenda(item){
+    console.log("la hora de inicio",item.horaInicio)
+    let fechaSpliteada =item.horaInicio.split("T")
+    item.fechaAgenda = fechaSpliteada[0];
+ 
+    item.horaInicio = new Date(item.horaInicio).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+
+   item.horaFin =  new Date(item.horaFin).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+
+    return item;  
+
+  }
+*/
 
 }

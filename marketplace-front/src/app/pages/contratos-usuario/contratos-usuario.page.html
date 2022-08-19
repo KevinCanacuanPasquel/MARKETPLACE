@@ -12,23 +12,66 @@
 </ion-header>
 
 <ion-content>
- 
-    <ion-card *ngFor="let contrato of contratos">
+  <ion-card *ngFor="let item of contratos">
+
+     <ion-row>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Evento</ion-label>
+         <p class="text"> {{item.nombre}}</p>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Agrupacion</ion-label>
+         <p class="text">{{ item.servicio.agrupacion.nombre }} </p>
+        </ion-item>
+      </ion-col>
+
+
+     </ion-row>
+     <ion-row>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Estado</ion-label>
+         <p class="text"> {{item.estado}}</p>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Fecha</ion-label>
+         <p class="text"> {{item.fechaAgenda | date: 'dd-MM-yyyy'}}</p>
+        </ion-item>
+      </ion-col>
+     
+
+     </ion-row>
 <ion-row>
-  <h1>{{contrato.nombre}}</h1>
-  <h2>{{contrato.fechaAgenda}}</h2>
-  <h3>hora Inicio: {{contrato.horaInicio}}</h3>
-  <h3>hora Fin: {{contrato.horaInicio}}</h3>
-  <ion-text color="tertiary">
-    <h4>{{contrato.estado}}</h4>
-  </ion-text>
+  <ion-col size="6"> 
+    <ion-item lines="none">
+      <ion-label position="stacked">Inicio</ion-label>
+     <p class="text">{{item.horaInicio  | date: 'shortTime'}}</p>
+    </ion-item>
+  </ion-col>
+
+  <ion-col size="6"> 
+    <ion-item lines="none">
+      <ion-label position="stacked">Fin</ion-label>
+     <p class="text">  {{item.horaFin | date: 'shortTime'}}</p>
+    </ion-item>
+  </ion-col>
 </ion-row>
-        
- 
-      <ion-button *ngIf="contrato.estado === 'FINALIZADO'" shape="round" color="warning" (click)="calificar(contrato)">CALIFICAR</ion-button>
-    </ion-card>
+
+
+<ion-row>
+  <ion-item class="centrado">  
+    <ion-button *ngIf="item.estado === 'FINALIZADO'" shape="round" color="warning" (click)="calificar(item)">CALIFICAR</ion-button>
+  </ion-item>
+</ion-row>  
+  </ion-card>
   
 </ion-content>
+        
 
 <ion-footer>
 

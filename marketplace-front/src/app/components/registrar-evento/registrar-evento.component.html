@@ -5,28 +5,28 @@
         <ion-icon name="close"></ion-icon>
       </button>
 		</ion-buttons>
-		<ion-title>Event Details</ion-title>
+		<ion-title>Detales del Evento</ion-title>
 
 </ion-header>
 
 <ion-content>
 	
 		<ion-item>
-			<ion-input type="text" placeholder="Title" [(ngModel)]="agenda.nombre"></ion-input>
+			<ion-input type="text" placeholder="Nombre del evento" [(ngModel)]="agenda.nombre"></ion-input>
 		</ion-item>
 
 		<ion-item>
-			<ion-textarea placeholder="Notes" [(ngModel)]="agenda.descripcion" rows="3"></ion-textarea>
+			<ion-textarea placeholder="Descripcion del evento para el artista." [(ngModel)]="agenda.descripcion" rows="3"></ion-textarea>
 		</ion-item>
 
 		 <ion-item>
-			<ion-label>Start</ion-label>
+			<ion-label>Hora Inicio</ion-label>
 			<ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A"  [(ngModel)]="agenda.horaInicio"></ion-datetime> 
    
 		</ion-item>
 
 		<ion-item>
-			<ion-label>End</ion-label>
+			<ion-label>Hora Final</ion-label>
 			<ion-datetime displayFormat="h:mm A"  pickerFormat="h:mm A"  [(ngModel)]="agenda.horaFin"></ion-datetime>
 		</ion-item> 
 <!-- 
@@ -58,7 +58,7 @@
 
 
 	<ion-row>
-		<ion-button (click)="registrarEvento()" expand="block" fill="clear" shape="round"> 
+		<ion-button  (click)="registrarEvento()" expand="block" fill="clear" shape="round"> 
 			Registrar
 		</ion-button> 
 </ion-row>

@@ -56,4 +56,11 @@ export class ActividadService {
     let options = { headers: this.headers};
     return this.http.put(URL + '/actividad/actualizarActividad', actividad, options) ;
   }
+
+  getArtes(){
+   
+    let options = { headers: this.headers};
+  
+    return this.http.get<RespuestaActividades>( URL+ '/actividad/getArtes',options );
+  }
 }

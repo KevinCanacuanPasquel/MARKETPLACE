@@ -7,6 +7,7 @@ import { AgendaService } from 'src/app/services/agenda.service';
 
 
 import { DataService } from 'src/app/services/data.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 import { GoogleMapsComponent } from '../google-maps/google-maps.component';
 
 @Component({
@@ -52,7 +53,7 @@ export class RegistrarEventoComponent implements OnInit {
   constructor(
     public navCtrl: NavController, private modalCtrl:  ModalController,
     private dataService : DataService,
-    private agendaService: AgendaService,
+    private agendaService: AgendaService, private uiService: UiServiceService
 
    
    ) {
@@ -148,19 +149,26 @@ openDialog(): void {
 */
 
 registrarEvento(){
-  console.log(this.agenda)
+
  var  fechaAgendaOnlyDate = this.fecha.toISOString().split("T")[0]
   var tiempitoInicio = this.agenda.horaInicio.split("T")[1]
   var tiempitoFin = this.agenda.horaFin.split("T")[1]
  this.agenda.horaInicio =  new Date(fechaAgendaOnlyDate.concat("T").concat(tiempitoInicio)).toISOString()
  this.agenda.horaFin =  new Date(fechaAgendaOnlyDate.concat("T").concat(tiempitoFin)).toISOString()
+  this.agenda.fechaAgenda = fechaAgendaOnlyDate
 
-
+  console.log("la agenda final final",this.agenda)
+  if(this.agenda.horaInicio< this.agenda.horaFin){
+    console.log("entra aca")
+  }
   this.agendaService.crearAgenda(this.agenda).subscribe((data:any)=>{
     if(data.ok){
-      
+        this.uiService.alertaMensajeExitoso("Se ha registrado el evento. Espera a que el artista confirme ")
         this.modalCtrl.dismiss(data.agenda);
       
+    }
+    else{
+      this.uiService.alertaActualizacionUsuario("error al registrar el evento")
     }
   })
 }

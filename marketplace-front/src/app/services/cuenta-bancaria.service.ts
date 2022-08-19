@@ -15,9 +15,9 @@ export class CuentaBancariaService {
      }
 crearCuentaBancaria(cuentaBancaria) {
   
-    this.headers = new HttpHeaders({
+  /*  this.headers = new HttpHeaders({
     'x-token': this.usuarioService?this.usuarioService.token:'' 
-  })
+  })*/
     let options = { headers: this.headers};
     return this.http.post(URL + '/cuenta_bancaria/crearCuentaBancaria', cuentaBancaria, options) ;
   }

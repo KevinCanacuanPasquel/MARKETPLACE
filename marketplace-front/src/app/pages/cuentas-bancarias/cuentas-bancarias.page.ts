@@ -10,11 +10,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class CuentasBancariasPage implements OnInit {
 
-  usuario;
+  idUsuario;
   cuentasBancarias
   constructor( private navCtrl: NavController, private usuarioService: UsuarioService, private cuentaBancariaService: CuentaBancariaService) { }
 
   ngOnInit() {
+    this.idUsuario = localStorage.getItem("id")
     this.getCuentasBancarias();
   }
 
@@ -47,23 +48,23 @@ activarCuentaBancaria(row){
   })
 }
 
-  async getCuentasBancarias(){
-    await  this.getDatosUsuario();
-    console.log(this.usuario._id)
-    this.cuentaBancariaService.getCuentaBancariaByUsuario(this.usuario._id).subscribe((data:any)=>{
+   getCuentasBancarias(){
+   
+    console.log(this.idUsuario)
+    this.cuentaBancariaService.getCuentaBancariaByUsuario(this.idUsuario).subscribe((data:any)=>{
       console.log("cuentasBancarias" ,data.cuentaBancaria);
       this.cuentasBancarias = data.cuentaBancaria
     })
   }
 
-
+/*
   getDatosUsuario(){
     this.usuarioService.getUsuario().then(p=>{
       console.log("p", p)
      this.usuario= p;
    });
   }
-
+*/
  
 }
 

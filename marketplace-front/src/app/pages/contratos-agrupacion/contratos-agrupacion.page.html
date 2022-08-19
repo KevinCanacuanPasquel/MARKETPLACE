@@ -13,38 +13,71 @@
 
 <ion-content>
   <ion-card *ngFor="let item of listAgenda">
-    <ion-card-content>
-      <ion-item> 
-        <ion-label> {{item.nombre}}</ion-label>
-        <ion-label> {{item.fechaAgenda}}</ion-label>
-        <ion-label> {{item.horaInicio}}</ion-label>
-        <ion-label> {{item.horaFin}}</ion-label>
-        <ion-label> {{item.estado}}</ion-label>
-        <ion-button (click)="verUbicacion(item)"> Ver ubicacion</ion-button>
-      </ion-item> 
-      <div class="centrado">  
-        <ion-button shape="round" color="success" *ngIf="item.estado==='PENDIENTE'" (click)="aceptarEvento()">ACEPTAR</ion-button>
-        <ion-button shape="round" color="danger"   *ngIf="item.estado==='PENDIENTE'" (click)="rechazarEvento()">RECHAZAR</ion-button>
-        <ion-button shape="round" color="warning" *ngIf="validarSiYaFinalizo(item.horaFin) " (click)="finalizarEvento()">FINALIZAR</ion-button>
-      </div>
-    </ion-card-content>
-  
-  </ion-card>
-<!-- 
-  <div><calendar [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        (onCurrentDateChanged)="onCurrentDateChanged($event)"
-        (onRangeChanged)="reloadSource(startTime, endTime)"
-        (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)"
-        [step]="calendar.step">
-        
-    </calendar></div> -->
 
- 
+     <ion-row>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Evento</ion-label>
+         <p class="text"> {{item.nombre}}</p>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Cliente</ion-label>
+         <p class="text">{{ item.cliente.nombres }} {{item.cliente.apellidos}}</p>
+        </ion-item>
+      </ion-col>
+
      
+
+     </ion-row>
+     <ion-row>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Estado</ion-label>
+         <p class="text"> {{item.estado}}</p>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6"> 
+        <ion-item lines="none">
+          <ion-label position="stacked">Fecha</ion-label>
+         <p class="text"> {{item.fechaAgenda | date: 'dd-MM-yyyy'}}</p>
+        </ion-item>
+      </ion-col>
+     
+
+     </ion-row>
+<ion-row>
+  <ion-col size="6"> 
+    <ion-item lines="none">
+      <ion-label position="stacked">Inicio</ion-label>
+     <p class="text">{{item.horaInicio  | date: 'shortTime'}}</p>
+    </ion-item>
+  </ion-col>
+
+  <ion-col size="6"> 
+    <ion-item lines="none">
+      <ion-label position="stacked">Fin</ion-label>
+     <p class="text">  {{item.horaFin | date: 'shortTime'}}</p>
+    </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row >
+  <ion-col size ="12" >
+    <ion-item lines="none"  >
+      <ion-button class="centrado" (click)="verUbicacion(item)">Ver ubicacion <ion-icon slot="start" name="locate-outline"></ion-icon></ion-button>
+    </ion-item>
+  </ion-col>
+ 
+</ion-row>
+<ion-row> 
+    <ion-button class="centrado" shape="round" color="success" *ngIf="item.estado==='PENDIENTE'" (click)="aceptarEvento(item)">ACEPTAR</ion-button>
+    <ion-button class="centrado" shape="round" color="danger"   *ngIf="item.estado==='PENDIENTE'" (click)="rechazarEvento(item)">RECHAZAR</ion-button>
+    <ion-button class="centrado" shape="round" color="warning" *ngIf="validarSiYaFinalizo(item.horaFin) && item.estado==='CONFIRMADO' " (click)="finalizarEvento(item)">FINALIZAR</ion-button>
+  
+</ion-row>  
+  </ion-card>
+  
 </ion-content>
 
 <ion-footer>

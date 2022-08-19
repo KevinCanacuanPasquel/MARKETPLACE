@@ -12,7 +12,7 @@
       </ion-button>
       <ion-button *ngIf="disableEditarButton | async" (click)="actualizarServicio()"
       [disabled] = "servicio.nombre.length < 1"
-      color="primary">EDITAR</ion-button>
+      color="primary">GUARDAR</ion-button>
     </ion-buttons>
 
     <!--  -->
@@ -99,20 +99,14 @@
 
   <!-- FOTOS -->
   <ion-row>
-    <ion-col size="6">
+    <ion-col size="12">
       <ion-button expand="full"
                   shape="round" (click)="addNewToGallery()">
         <ion-icon slot="start" name="camera"></ion-icon>
         Cámara
       </ion-button>
     </ion-col>
-    <ion-col size="6">
-      <ion-button expand="full"
-                  shape="round"  (click)="openDialog()">
-                  <ion-icon name="add-circle"></ion-icon>
-        Subir fotos
-      </ion-button>
-    </ion-col>
+   
   </ion-row>
 
 

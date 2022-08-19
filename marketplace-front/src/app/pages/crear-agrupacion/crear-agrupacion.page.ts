@@ -36,12 +36,14 @@ export class CrearAgrupaciones {
     numintegrantes: 1,
     tiempoexistente: '',
     estasuscrito: 1,
-    estado: "ACTIVO"
-    
+    estado: "ACTIVO",
+    usuario: ''
   };
   item
   constructor( private agrupacionService: AgrupacionesService, private router: Router, private uiService: UiServiceService , public dialog: MatDialog, private alertCtrl: AlertController  ) {
  
+    this.agrupacion.usuario  = localStorage.getItem('id')
+    console.log( this.agrupacion.usuario)
     this.disableEditarButton   = this.disableEditar.asObservable();
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
@@ -58,7 +60,8 @@ export class CrearAgrupaciones {
       this.agrupacion.nombre = this.item.nombre
       this.agrupacion.descripcion = this.item.descripcion
       this.agrupacion.numintegrantes = this.item.numintegrantes
-      
+     
+     
       if(this.item.fotos.length!= 0){
       this.agrupacion.fotos = this.item.fotos
       }
@@ -76,14 +79,20 @@ export class CrearAgrupaciones {
     if(this.filesToLoad.length !=0){
       this.agrupacion.fotos = this.filesToLoad
     }
-    console.log( this.agrupacion );
+
+    if(this.agrupacion.fotos.length ==0){
+      this.uiService.alertaActualizacionUsuario("Favor registrar mínimo una foto")
+      return;
+    }
+
     this.agrupacionService.crearAgrupacion( this.agrupacion ).subscribe((data:any)=>{
       console.log(data.ok)
       if(data.ok){
-        this.router.navigate(['/gestion-agrupacion' ]);
         this.disableCrear.next(false);
+        this.router.navigate(['/gestion-agrupacion' ]);
+     
       }else{
-        this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion ', );
+        this.uiService.alertaActualizacionUsuario(' Error al crear agrupacion '+ data.err );
       }
 
     },error =>{
@@ -98,8 +107,10 @@ export class CrearAgrupaciones {
     this.agrupacionService.actualizarAgrupacion( this.agrupacion ).subscribe((data:any)=>{
       console.log(data.ok)
       if(data.ok){
-        this.router.navigate(['/gestion-agrupacion' ]);
+        this.uiService.alertaMensajeExitoso("Se ha registrado agrupción exitosamente")
         this.disableEditar.next(false);
+        this.router.navigate(['/gestion-agrupacion' ]);
+    
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al actualizar agrupacion ');
       }
@@ -109,26 +120,6 @@ export class CrearAgrupaciones {
     });
 
   }
-
-    openDialog(): void {
-      const dialogRef = this.dialog.open(SubirArchivoComponent, {
-        width: '250px',
-      
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log("eel resulatdo", result)
-        result.forEach(element => {
-          this.agrupacion.fotos.push(element)
-        });
-
-        console.log("la agrupacion",  this.agrupacion.fotos)
-      });
-    }
-  
-  
-
 
   
   verImagenes(){

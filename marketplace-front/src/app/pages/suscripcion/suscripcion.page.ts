@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { BehaviorSubject } from 'rxjs';
 import { DataUpload, Usuario } from 'src/app/interfaces/interfaces';
@@ -33,7 +34,7 @@ export class SuscripcionPage implements OnInit {
     documento: {},
   }
 
-  constructor(private usuarioService: UsuarioService, private agrupacionService: AgrupacionesService, private suscripcionService: SuscripcionService) {
+  constructor(private usuarioService: UsuarioService, private agrupacionService: AgrupacionesService, private suscripcionService: SuscripcionService, private router: Router) {
     this.disableCrearButton   = this.disableCrear.asObservable();
     this.disableCrear.next(true);
    }
@@ -111,6 +112,7 @@ else if (this.duracionValue.tiempo === "12 meses"){
     this.suscripcionService.crearSuscripcion(this.suscripcion).subscribe((data:any)=>{
       if(data.ok){
         this.disableCrear.next(false);
+        this.router.navigate(['/ofertar-explorar' ]);
       }
     })
 

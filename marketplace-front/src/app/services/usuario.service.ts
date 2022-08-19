@@ -29,12 +29,19 @@ export class UsuarioService {
     return new Promise ( resolve => {
 
       this.http.post( `${ URL }/user/login`, data ).
-        subscribe( resp => {
+        subscribe( (resp:any) => {
           console.log( resp );
 
           if ( resp['ok'] ) {
             this.storage.create();
             this.guardarToken( resp['token'] );
+            console.log("el usuario al login", resp)
+            this.getUsuarioByToken(resp.token).subscribe((data:any)=>{
+              console.log("que devuelve", data)
+             localStorage.setItem("id", data.usuario._id)
+            //  console.log(localStorage.getItem("id"))
+            })
+            
             resolve(true);
           } else {
             this.token = null;
@@ -78,12 +85,19 @@ export class UsuarioService {
     return new Promise( resolve => {
 
       this.http.post( `${ URL }/user/crearUsuario`, Usuario )
-        .subscribe( resp => {
+        .subscribe(( resp : any)=> {
           console.log(resp);
           
           if ( resp['ok'] ) {
             this.storage.create();
             this.guardarToken( resp['token'] );
+            console.log("el usuario al crear", resp)
+            this.getUsuarioByToken(resp.token).subscribe((data:any)=>{
+       //       console.log("que devuelve", data.usuario.__id)
+             localStorage.setItem("id", data.usuario.__id)
+            //  console.log(localStorage.getItem("id"))
+            })
+            
             resolve(true);
           } else {
             this.token = null;
@@ -137,11 +151,11 @@ console.log("entra a validar");
 
 
   async getUsuario() {
-    console.log("entra aqui",this.usuario,!this.usuario._id)
+    console.log("entra aqui",this.usuario)
     if ( !this.usuario._id ) {
       await this.validaToken();
     }
-    
+
     return { ...this.usuario };
 
   }
@@ -189,5 +203,22 @@ getUsuarios(){
   let options = { headers: this.headers };
 
   return this.http.get( URL+ '/user/usuarios', options );
+}
+
+getUsuarioByParams(userId){
+  let params = new HttpParams();
+  params = params.set('userId', userId );
+  let options = { headers: this.headers, params: params };
+
+  return this.http.get<RespuestaUsuario>( URL+ '/user/getUsuarioById',options );
+}
+
+
+getUsuarioByToken(token){
+  let params = new HttpParams();
+  params = params.set('token', token );
+  let options = { headers: this.headers, params: params };
+
+  return this.http.get<RespuestaUsuario>( URL+ '/user/idbyToken',options );
 }
 }

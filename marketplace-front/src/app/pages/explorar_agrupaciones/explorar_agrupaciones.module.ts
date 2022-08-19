@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 
 import { ExplorarAgrupacionesRoutingModule } from './explorar_agrupaciones-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     ExploreContainerComponentModule,
     ExplorarAgrupacionesRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    IonicSelectableModule
   ],
   declarations: [ExplorarAgrupacionesPage]
 })

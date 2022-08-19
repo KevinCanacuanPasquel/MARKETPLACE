@@ -75,7 +75,8 @@ export class CrearServicioPage {
   disableCrear = new BehaviorSubject<boolean>(false);
 
 //// 
-catalogoArtes =["escenica", "musica", "plastica"]
+catalogoArtes 
+
 catalogoActividades: Actividades[] ;
 arteValue;
 actividadValue
@@ -139,7 +140,9 @@ agrupacionItem;
                }
 
   ngOnInit() {
+    this.getArtes("");
     this.getActividades("");
+  
   }
 
   
@@ -151,7 +154,7 @@ agrupacionItem;
   
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed');
-        console.log("eel resulatdo", result)
+        console.log("el resulatdo", result)
         result.forEach(element => {
           this.servicio.fotos.push(element)
         });
@@ -203,6 +206,16 @@ agrupacionItem;
       }
     })
   }
+  getArtes(arte){
+    this.actividadService.getArtes().subscribe((data:any)=> {
+      if(data){
+        console.log("artes", data)
+   
+        this.catalogoArtes = data.artesunique;
+        console.log("artes",this.catalogoArtes)
+      }
+    })
+  }
 
   actividadChange(event: {
     component: IonicSelectableComponent,
@@ -222,17 +235,25 @@ agrupacionItem;
 
   crearServicio(){
     console.log("servicio", this.servicio)
+    if(this.servicio.fotos.length == 0){
+      this.uiService.alertaActualizacionUsuario("Favor registrar mínimo una foto")
+      return;
+    }
     this.servicioServicio.crearServicio(this.servicio).subscribe((data:any)=>{
       console.log(data)
       if(data.ok){
         console.log("es el id que se manda", this.servicio.agrupacion)
-        this.navCtrl.navigateRoot( '/gestion-servicios', { state: { idAgrupacion: this.servicio.agrupacion }});
         this.disableCrear.next(false);
+        this.navCtrl.navigateRoot( '/gestion-servicios', { state: { idAgrupacion: this.servicio.agrupacion }});
+        this.uiService.alertaMensajeExitoso("Se registro servicio correctamente")
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');
       }
      
-    })
+    }),
+    error =>{
+      this.uiService.alertaActualizacionUsuario(error + " Error registrando el servicio")
+    }
   }
 
   actualizarServicio(){
@@ -240,8 +261,9 @@ agrupacionItem;
     this.servicioServicio.actualizarServicio( this.servicio ).subscribe((data:any)=>{
       console.log("el servicio actualizado", data)
       if(data.ok){
+        this.uiService.alertaMensajeExitoso("Se ha actualizado el servicio exitosamente")
         this.navCtrl.navigateRoot( '/gestion-servicios', { state: { idAgrupacion: this.servicio.agrupacion }});
-       
+        
         this.disableEditar.next(false);
       }else{
         this.uiService.alertaActualizacionUsuario(' Error al actualizar servicio ');

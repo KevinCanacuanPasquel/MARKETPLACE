@@ -48,4 +48,11 @@ export class AgendaService {
   
     return this.http.get( URL+ '/agenda/agendaByAgrupacion',options );
   }
+
+
+  actualizarAgenda( agenda ) {
+    
+    let options = { headers: this.headers};
+    return this.http.put(URL + '/agenda/actualizarAgenda', agenda, options) ;
+  }
 }
