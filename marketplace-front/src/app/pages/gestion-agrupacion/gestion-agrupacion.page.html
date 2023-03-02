@@ -8,7 +8,7 @@
   
 
        
-        <ion-select [(ngModel)]="agrupacionValue" placeholder ="Mis agrupaciones" >
+        <ion-select [(ngModel)]="agrupacionValue" placeholder ="Mis Agrupaciones" >
           <ion-select-option  *ngFor="let agrupacion of catalogoAgrupaciones" [value]="agrupacion" >
             {{agrupacion.nombre}}
           </ion-select-option>
@@ -32,18 +32,18 @@
      
       
         <div class="centrado">
-          <ion-button (click)="gestionServiciosAgrupacion()" color="warning" shape="round">Gestion de Servicios de Agrupacion </ion-button>
+          <ion-button (click)="gestionServiciosAgrupacion()" color="warning" shape="round">Gestion de Servicios de Agrupación </ion-button>
         </div>
     
   
       
         <div class="centrado">
-          <ion-button (click)="contratosAgrupacion()" color="light" shape="round">Contratos de Agrupacion </ion-button>
+          <ion-button (click)="contratosAgrupacion()" color="light" shape="round">Contratos de Agrupación </ion-button>
         </div>
 
 
         <div class="centrado">
-          <ion-button (click)="crearAgrupacion()" color="success" shape="round">Crear Agrupacion </ion-button>
+          <ion-button (click)="crearAgrupacion()" color="success" shape="round">Crear Agrupación </ion-button>
         </div>
         
      

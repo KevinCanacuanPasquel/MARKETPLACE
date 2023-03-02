@@ -22,7 +22,7 @@ export class CrearAgrupaciones {
   filesToLoad:Array<DataUpload>=[];
   images=[];
   image:DataUpload;
-  titulo = "Nueva Agrupacion";
+  titulo = "Nueva Agrupación";
   srcJoya;
   disableEditarButton;
   disableEditar = new BehaviorSubject<boolean>(false);
